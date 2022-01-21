@@ -1,13 +1,11 @@
 import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import Link from 'next/link';
 import Head from 'next/head';
-import router from '../lib/router';
 import { useContext } from 'react';
-import { fetcher, useUser } from '../lib/hook';
-import useSWR from 'swr';
+import { UserContext } from '../providers/userContextProvider';
 
 const Home: NextPage = () => {
-  const [user] = useUser();
+  const {user} = useContext(UserContext);
 
   if (!user) return <div>
 				Welcome!<br />
