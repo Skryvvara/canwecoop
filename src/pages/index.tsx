@@ -2,8 +2,18 @@ import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from '
 import Link from 'next/link';
 import Head from 'next/head';
 import router from '../lib/router';
+import { useContext } from 'react';
+import { fetcher, useUser } from '../lib/hook';
+import useSWR from 'swr';
 
-const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({user}) => {
+const Home: NextPage = () => {
+  const [user] = useUser();
+
+  if (!user) return <div>
+				Welcome!<br />
+				<Link href="/api/auth/login">Login</Link>
+			</div>;
+
   return(
     <>
       <Head>
@@ -11,28 +21,15 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         <meta name="description" content="Next Page" />
       </Head>
 
-      {user 
-			? <div>
-				Welcome back!<br />
+      <div>
+        Welcome back!<br />
         <img src={user.photos[2].value} alt="pb" height="64" width={64} style={{borderRadius: 50+'%'}}/>
-				From logging in, your SteamID is {user.displayName}.<br />
-				You can call other APIs to get more information within `getServerSideProps` or within `lib/passport.ts`.<br />
-				<Link href="/api/auth/logout">Logout</Link>
-			</div>
-
-			: <div>
-				Welcome!<br />
-				<Link href="/api/auth/login">Login</Link>
-			</div>
-		}
+        From logging in, your SteamID is {user.displayName}.<br />
+        You can call other APIs to get more information within `getServerSideProps` or within `lib/passport.ts`.<br />
+        <Link href="/api/auth/logout">Logout</Link>
+      </div>
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async({req, res}: any) => {
-  await router.run(req, res);
-  console.log(req.user);
-  return { props: { user: req.user || null } };
 };
 
 export default Home;
