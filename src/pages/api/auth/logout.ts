@@ -1,14 +1,14 @@
 import router from '../../../lib/router';
 
-interface AuthLogoutRequest extends Request {
+interface IAuthLogoutRequest extends Request {
     logout: () => any;
 }
 
-interface AuthLogoutResponse extends Response {
+interface IAuthLogoutResponse extends Response {
     redirect: (path: string) => any;
 }
 
 const path = '/api/auth/logout';
 
 export default router
-    .get(path, (req: AuthLogoutRequest, res: AuthLogoutResponse) => { req.logout(); res.redirect('/'); });
+    .get(path, (req: IAuthLogoutRequest, res: IAuthLogoutResponse) => { req.logout(); res.redirect('/'); });
