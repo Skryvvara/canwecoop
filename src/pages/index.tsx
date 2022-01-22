@@ -21,7 +21,7 @@ const Home: NextPage = () => {
 
       <div>
         Welcome back!<br />
-        <img src={user.photos[2].value} alt="pb" height="64" width={64} style={{borderRadius: 50+'%'}}/>
+        <img src={user.avatarfull} alt="pb" height="64" width={64} style={{borderRadius: 50+'%'}}/>
         From logging in, your SteamID is {user.displayName}.<br />
         You can call other APIs to get more information within `getServerSideProps` or within `lib/passport.ts`.<br />
         <Link href="/api/auth/logout">Logout</Link>
