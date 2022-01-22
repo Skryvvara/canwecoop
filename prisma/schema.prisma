@@ -16,3 +16,12 @@ model Session {
   data      String
   expiresAt   DateTime
 }
+
+model User {
+  id String @id
+  displayName String
+  avatar String
+  avatarmedium String
+  avatarfull String
+  profileurl String
+}
