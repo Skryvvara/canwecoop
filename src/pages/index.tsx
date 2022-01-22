@@ -2,7 +2,7 @@ import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from '
 import Link from 'next/link';
 import Head from 'next/head';
 import { useContext } from 'react';
-import { UserContext } from '../providers/userContextProvider';
+import { UserContext } from 'providers/userContextProvider';
 
 const Home: NextPage = () => {
   const {user} = useContext(UserContext);

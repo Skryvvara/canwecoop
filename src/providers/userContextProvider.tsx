@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { createContext } from 'react';
-import { useUser } from '../lib/hook';
+import { useUser } from 'lib/hook';
 
 export const UserContext = createContext<any>(null);
 
