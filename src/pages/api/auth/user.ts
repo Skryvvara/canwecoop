@@ -1,12 +1,6 @@
-import { NextApiResponse } from 'next';
-import { convertToUser, router } from '@/lib/.';
-import { ExtendedNextApiRequest } from '@/types/.';
+import { NextApiRequest, NextApiResponse } from 'next';
+import router from '../../../lib/router';
 
-export default router.get((req: ExtendedNextApiRequest, res: NextApiResponse) => {
-  try {
-    const user = convertToUser(req.user);
-    res.json({ user: req.user });
-  } catch(error: any) {
-    res.json({ user: undefined });
-  }
+export default router.get((req: any, res: any) => {
+  res.json({ user: req.user });
 });
