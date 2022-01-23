@@ -24,8 +24,8 @@ const Home: NextPage = () => {
   return(
     <>
       <Head>
-        <title>Next Page</title>
-        <meta name="description" content="Next Page" />
+        <title>HOME | CANWECOOP</title>
+        <meta name="description" content="CANWECOOP WIP stay tuned for updates!" />
       </Head>
 
       <div>
