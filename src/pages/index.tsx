@@ -37,13 +37,14 @@ const Home: NextPage = () => {
         <p>Welcome to CANWECOOP</p>
         <Link href="/api/auth/logout">Logout</Link>
 
-        <input type="text" onChange={(e) => setFiltered(games?.filter((g) => g.name.toLowerCase().includes(e.target.value.toLowerCase()))) } />
-
-        <ul className='gameGrid'>
-          { filtered?.map((game) => 
-            <GameCard game={game} key={game.id} />
-          ) }
-        </ul>
+        <div className="games">
+          <input placeholder='Search' className='search' type="text" onChange={(e) => setFiltered(games?.filter((g) => g.name.toLowerCase().includes(e.target.value.toLowerCase()))) } />
+          <ul className='gameGrid'>
+            { filtered?.map((game) => 
+              <GameCard game={game} key={game.id} />
+            ) }
+          </ul>
+        </div>
       </div>
     </>
   );
