@@ -8,6 +8,8 @@
 # testing
 /coverage
 
+/postgres-data/
+
 # next.js
 /.next/
 /out/
@@ -18,9 +20,6 @@
 # misc
 .DS_Store
 *.pem
-
-# prisma
-/prisma/migrations/
 
 # debug
 npm-debug.log*

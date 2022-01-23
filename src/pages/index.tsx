@@ -4,8 +4,8 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useContext, useState } from 'react';
 import { UserContext } from 'providers/userContextProvider';
-import { useTheme } from 'next-themes';
 import { trpc } from 'lib/trpc';
+import { GameCard } from 'components/gameCard';
 
 const Home: NextPage = () => {
   const { user } = useContext(UserContext);
@@ -46,24 +46,5 @@ const Home: NextPage = () => {
     </>
   );
 };
-
-import { FunctionComponent } from 'react';
-import { Game } from '@prisma/client';
-
-export const GameCard: FunctionComponent<{ game: Game }> = ({game}) => {
-
-  return(
-    <>
-      <li>
-        <Image src={game.header_image} alt={game.name} width={460} height={215} />
-        <div className='cardBody'>
-          <h2>{game.name}</h2>
-          <p>{game.short_description}</p>
-        </div>
-      </li>
-    </>
-  );
-};
-
 
 export default Home;
