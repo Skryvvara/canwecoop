@@ -22,7 +22,7 @@ jobs:
         run: npx prisma generate
 
       - name: (YARN) build
-        run: yarn m:build
+        run: yarn build
 
       - name: Tar files
         run: tar -czf dist.tar.gz node_modules package.json .next prisma docker-compose.yml next.config.js yarn.lock
