@@ -12,7 +12,7 @@ passport.deserializeUser(function(obj: any, done) {
 	done(null, obj);
 });
 
-const url = Config.Domain
+const url = (Config.Domain)
       ? `${Config.Domain}`
       : 'http://localhost:3000';
 

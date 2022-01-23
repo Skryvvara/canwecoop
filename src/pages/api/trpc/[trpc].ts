@@ -154,7 +154,6 @@ const appRouter = trpc.router()
         } catch(error: any) {
           console.error(error.message);
           if (error.message != 'No app found') {
-            writeFileSync(`./outerr/${globalGame.steam_appid}`, JSON.stringify(globalGame), {encoding: 'utf-8'} );
           } else {
             badIDs.push(globalGame.steam_appid);
           }
