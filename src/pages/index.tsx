@@ -29,7 +29,7 @@ const Home: NextPage = () => {
       </Head>
 
       <div>
-        <h1>Welcome back!</h1>
+        <h1>Welcome back! We have {games?.length} Games!</h1>
         <div>
           <Image src={user.avatarfull} alt='' height={48} width={48} className='profile' />
           <a target="_blank" rel="noreferrer" href={user.profileurl}>{user.displayName}</a>

@@ -5,7 +5,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "sync": "cd service && yarn start",
+    "install": "npx prisma generate && cd service && yarn install"
   },
   "dependencies": {
     "@prisma/client": "^3.8.1",

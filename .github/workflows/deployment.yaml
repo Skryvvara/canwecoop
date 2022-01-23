@@ -25,7 +25,7 @@ jobs:
         run: yarn build
 
       - name: Tar files
-        run: tar -czf dist.tar.gz node_modules package.json .next prisma docker-compose.yml next.config.js yarn.lock
+        run: tar -czf dist.tar.gz node_modules package.json public service .next prisma docker-compose.yml next.config.js yarn.lock
 
       - name: Copy dist.tar.gz to server via scp
         uses: garygrossgarten/github-action-scp@release
@@ -48,7 +48,7 @@ jobs:
           script: |
             cd ${{ secrets.DEPLOY_PATH }}
             docker-compose down
-            rm -rf node_modules package.json .next prisma docker-compose.yml next.config.js yarn.lock
+            rm -rf node_modules package.json public service .next prisma docker-compose.yml next.config.js yarn.lock
             tar -xf dist.tar.gz
             rm dist.tar.gz
       
