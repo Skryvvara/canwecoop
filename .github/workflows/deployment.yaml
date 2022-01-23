@@ -47,6 +47,7 @@ jobs:
           port: 22
           script: |
             cd ${{ secrets.DEPLOY_PATH }}
+            docker-compose down
             rm -rf node_modules package.json .next prisma docker-compose.yml next.config.js yarn.lock
             tar -xf dist.tar.gz
             rm dist.tar.gz
@@ -61,6 +62,5 @@ jobs:
           port: 22
           script: |
             cd ${{ secrets.DEPLOY_PATH }}
-            docker-compose down
             docker-compose up -d
             npx prisma migrate deploy
