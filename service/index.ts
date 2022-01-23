@@ -1,5 +1,10 @@
-import { PrismaClient, Game, Category, Genre, prisma } from '../node_modules/@prisma/client';
-import { steam } from '../src/lib/steam';
+import dotenv from 'dotenv';
+dotenv.config({
+  path: '../.env'
+});
+import { PrismaClient, Game, Category, Genre } from '../node_modules/@prisma/client';
+import SteamAPI from 'steamapi';
+const steam = new SteamAPI(process.env.STEAM_API_KEY!);
 const db = new PrismaClient();
 
 async function syncGames() {
