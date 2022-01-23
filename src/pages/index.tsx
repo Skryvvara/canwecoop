@@ -9,7 +9,9 @@ import { GameCard } from 'components/gameCard';
 
 const Home: NextPage = () => {
   const { user } = useContext(UserContext);
-  const games = trpc.useQuery(['allGames']).data?.games;
+  const games = trpc.useQuery(['allGames'], {
+    refetchOnWindowFocus: false
+  }).data?.games;
   const [ filtered, setFiltered ] = useState(games);
 
   if (!user) return (

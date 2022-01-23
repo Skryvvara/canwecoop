@@ -30,7 +30,7 @@ export default withTRPC<AppRouter>({
      : 'http://localhost:3035/api/trpc';
 
     return {
-      url,
+      url: url,
       /**
        * @link https://react-query.tanstack.com/reference/QueryClient
        */
