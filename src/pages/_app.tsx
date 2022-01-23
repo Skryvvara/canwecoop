@@ -5,7 +5,8 @@ import { ThemeProvider } from 'next-themes';
 import MainLayout from 'components/layouts/mainLayout';
 import { withTRPC } from '@trpc/next';
 import { AppRouter } from './api/trpc/[trpc]';
-import { Config } from 'lib/config';
+import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
+import { getBaseUrl } from 'lib/getBaseUrl';
 
 function App({ Component, pageProps}: AppProps) {
   return (
@@ -25,16 +26,12 @@ export default withTRPC<AppRouter>({
      * If you want to use SSR, you need to use the server's full URL
      * @link https://trpc.io/docs/ssr
      */
-     const url = process.env.DOMAIN
-     ? `${process.env.DOMAIN}/api/trpc`
-     : 'http://localhost:3035/api/trpc';
-
     return {
-      url: url,
-      /**
-       * @link https://react-query.tanstack.com/reference/QueryClient
-       */
-      // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
+      links: [
+        httpBatchLink({
+          url: `${getBaseUrl()}/api/trpc`,
+        }),
+      ]
     };
   },
   /**

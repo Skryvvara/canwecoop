@@ -3,6 +3,7 @@ import { Strategy as SteamStrategy } from 'passport-steam';
 import { Config } from './config';
 import { convertToUser } from './convertToUser';
 import prisma from './prisma';
+import { getBaseUrl } from './getBaseUrl';
 
 passport.serializeUser(function(user, done) {
 	done(null, user);
@@ -12,9 +13,7 @@ passport.deserializeUser(function(obj: any, done) {
 	done(null, obj);
 });
 
-const url = (Config.Domain)
-      ? `${Config.Domain}`
-      : 'http://localhost:3000';
+const url = getBaseUrl();
 
 passport.use(new SteamStrategy({
 	returnURL: `${url}/api/auth/return`,
