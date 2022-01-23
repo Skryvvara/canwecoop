@@ -4,7 +4,7 @@ import passport from './passport';
 import session from 'express-session';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import prisma from './prisma';
-import { Config } from '.';
+import { Config } from './config';
 
 const router = nextConnect<NextApiRequest, NextApiResponse>();
 

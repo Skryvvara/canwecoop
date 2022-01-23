@@ -25,3 +25,38 @@ model User {
   avatarfull String
   profileurl String
 }
+
+model Game {
+  id String @id
+  name String
+  is_free Boolean
+  short_description String
+  header_image String
+  website String
+  developers String[]
+  publishers String[]
+  windows Boolean
+  mac Boolean
+  linux Boolean
+  metacriticScore Int
+  metacriticUrl String
+  categories Category[]
+  genres Genre[]
+  background String
+}
+
+model Category {
+  id String @id
+  description String
+  games Game[]
+}
+
+model Genre {
+  id String @id
+  description String
+  games Game[]
+}
+
+model BadId {
+  id String @id
+}

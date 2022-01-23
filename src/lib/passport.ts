@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as SteamStrategy } from 'passport-steam';
-import { Config } from '.';
+import { Config } from './config';
 import { convertToUser } from './convertToUser';
 import prisma from './prisma';
 

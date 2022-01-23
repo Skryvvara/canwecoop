@@ -10,17 +10,26 @@
   "dependencies": {
     "@prisma/client": "^3.8.1",
     "@quixo3/prisma-session-store": "^3.1.2",
+    "@trpc/client": "^9.17.0",
+    "@trpc/next": "^9.17.0",
+    "@trpc/react": "^9.17.0",
+    "@trpc/server": "^9.17.0",
     "express-session": "^1.17.2",
     "next": "12.0.8",
     "next-connect": "^0.11.0",
     "next-themes": "^0.0.15",
-    "node-fetch": "^3.2.0",
+    "node-ts-cache": "^4.4.0",
+    "node-ts-cache-storage-memory": "^4.4.0",
     "passport": "^0.5.2",
     "passport-steam": "^1.0.17",
     "prisma": "^3.8.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "swr": "^1.1.2"
+    "react-query": "^3.34.11",
+    "sharp": "^0.29.3",
+    "steamapi": "^2.2.0",
+    "swr": "^1.1.2",
+    "zod": "^3.11.6"
   },
   "devDependencies": {
     "@types/express-session": "^1.17.4",
@@ -28,6 +37,7 @@
     "@types/passport": "^1.0.7",
     "@types/passport-steam": "^1.0.1",
     "@types/react": "17.0.38",
+    "@types/steamapi": "^2.2.2",
     "eslint": "8.7.0",
     "eslint-config-next": "12.0.8",
     "typescript": "4.5.5"

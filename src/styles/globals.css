@@ -32,3 +32,35 @@ a {
 .profile {
   border-radius: 50%;
 }
+
+.gameGrid {
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.gameGrid li {
+  border-radius: 4px;
+  list-style: none;
+  border: 1px solid dimgray;
+  display: flex;
+  flex-direction: column;
+}
+
+.gameGrid img {
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.cardBody {
+  padding: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  .gameGrid {
+    grid-template-columns: 1fr;
+  }
+}
