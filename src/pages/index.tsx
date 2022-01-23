@@ -6,19 +6,17 @@ import { useContext, useState } from 'react';
 import { UserContext } from 'providers/userContextProvider';
 import { trpc } from 'lib/trpc';
 import { GameCard } from 'components/gameCard';
+import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const { name } = router.query ?? undefined;
   const { user } = useContext(UserContext);
-  const games = trpc.useQuery(['allGames'], {
-    refetchOnWindowFocus: false
-  }).data?.games;
-  const [ filtered, setFiltered ] = useState(games);
-
-  if (!user) return (
-    <div>
-      <p>Welcome</p>
-      <Link href="/api/auth/login">Login</Link>
-    </div>
+  const games = trpc.useInfiniteQuery(
+    ['allGames', { limit: 48, name: name?.toString() }], {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+      refetchOnWindowFocus: false
+    }
   );
 
   return(
@@ -28,23 +26,36 @@ const Home: NextPage = () => {
         <meta name="description" content="CANWECOOP WIP stay tuned for updates!" />
       </Head>
 
-      <div>
-        <h1>Welcome back! We have {games?.length} Games!</h1>
-        <div>
-          <Image src={user.avatarfull} alt='' height={48} width={48} className='profile' />
-          <a target="_blank" rel="noreferrer" href={user.profileurl}>{user.displayName}</a>
-        </div>
-        <p>Welcome to CANWECOOP</p>
-        <Link href="/api/auth/logout">Logout</Link>
+      { (user)
+        ? <>
+          <h1>Welcome back!</h1>
+          <div>
+            <Image src={user.avatarfull} alt='' height={48} width={48} className='profile' />
+            <a target="_blank" rel="noreferrer" href={user.profileurl}>{user.displayName}</a>
+          </div>
+          <p>Welcome to CANWECOOP</p>
+          <Link href="/api/auth/logout">Logout</Link>
+        </>
+        : <>
+          <div>
+            <p>Welcome</p>
+            <Link href="/api/auth/login">Login</Link>
+          </div>
+        </>
+      }
 
-        <div className="games">
-          <input placeholder='Search' className='search' type="text" onChange={(e) => setFiltered(games?.filter((g) => g.name.toLowerCase().includes(e.target.value.toLowerCase()))) } />
-          <ul className='gameGrid'>
-            { filtered?.map((game) => 
-              <GameCard game={game} key={game.id} />
-            ) }
-          </ul>
-        </div>
+      <div className="games">
+        <input type="text" placeholder='search' className='search' onChange={(e) => router.push('/?name='+e.target.value)}/>
+        <ul className='gameGrid'>
+          {
+            games.data?.pages.map((page) => (
+              page.games.map((game) => (
+                <GameCard key={game.id} game={game} />
+              ))
+            ))
+          }
+        </ul>
+        { games.hasNextPage ? <button className='loadMore' onClick={() => games.fetchNextPage()}>Load more</button> : <></> }
       </div>
     </>
   );

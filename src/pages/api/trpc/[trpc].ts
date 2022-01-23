@@ -7,26 +7,41 @@ import prisma from 'lib/prisma';
 
 const gameCache = new CacheContainer(new MemoryStorage());
 
-abstract class Fetcher {
-  @Cache(gameCache, { ttl: 60 * 10, isLazy: false})
-  public static async allGames() {
+const appRouter = router()
+.query('allGames', {
+  input: z.object({
+    limit: z.number().min(1).max(100).nullish(),
+    cursor: z.string().nullish(),
+    name: z.string().nullish()
+  }),
+  async resolve({ input }) {
+    const limit = input.limit ?? 50;
+    const { cursor } = input;
+    const name = input.name != null ? input.name : undefined;
     const games = await prisma.game.findMany({
+      where: {
+        name: { contains: name, mode: 'insensitive' }
+      },
+      take: limit + 1,
+      cursor: cursor ? { id: cursor } : undefined,
       include: {
         categories: true,
         genres: true
+      },
+      orderBy: {
+        id: 'asc'
       }
     });
-    return games;
-  }
-}
 
-const appRouter = router()
-.query('allGames', {
-  async resolve() {
-    const games = await Fetcher.allGames();
+    let nextCursor: typeof cursor | null = null;
+    if (games.length > limit) {
+      const nextGame = games.pop();
+      nextCursor = nextGame!.id;
+    }
 
     return {
-      games: games
+      games,
+      nextCursor
     };
   }
 });

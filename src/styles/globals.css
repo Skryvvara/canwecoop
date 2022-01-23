@@ -75,6 +75,22 @@ a {
   border: 1px solid dimgray;
 }
 
+.loadMore {
+  appearance: none;
+
+  text-transform: uppercase;
+  font-weight: bold;
+
+  border-radius: 4px;
+  cursor: pointer;
+
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background-color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
 @media only screen and (max-width: 900px) {
   .gameGrid {
     grid-template-columns: 1fr 1fr;
