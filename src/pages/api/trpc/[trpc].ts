@@ -41,7 +41,7 @@ const appRouter = trpc.router()
   }),
   async resolve({ input }) {
     const { key } = input; 
-    if (key != Config.ApiSecret) return;
+    if (key != process.env.API_SECRET) return;
 
     const badIDs = await prisma.badId.findMany();
 
@@ -62,7 +62,7 @@ const appRouter = trpc.router()
     for (const chunk of chunked) {
       await Promise.all(chunk.map(async(game) => {
         try {
-          if (badIDs.findIndex((predicate) => predicate.id == String(game)) == -1) return;
+          if (badIDs.findIndex((predicate) => predicate.id == String(game)) != -1) return;
 
           const detailsData: any = await steam.getGameDetails(String(game));
           globalGame = detailsData;
