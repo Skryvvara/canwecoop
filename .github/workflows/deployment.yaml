@@ -62,5 +62,5 @@ jobs:
           script: |
             cd ${{ secrets.DEPLOY_PATH }}
             docker-compose down
-            npx prisma migrate deploy
             docker-compose up -d
+            npx prisma migrate deploy
