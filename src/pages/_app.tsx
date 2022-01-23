@@ -5,6 +5,7 @@ import { ThemeProvider } from 'next-themes';
 import MainLayout from 'components/layouts/mainLayout';
 import { withTRPC } from '@trpc/next';
 import { AppRouter } from './api/trpc/[trpc]';
+import { Config } from 'lib/config';
 
 function App({ Component, pageProps}: AppProps) {
   return (
@@ -24,8 +25,8 @@ export default withTRPC<AppRouter>({
      * If you want to use SSR, you need to use the server's full URL
      * @link https://trpc.io/docs/ssr
      */
-    const url = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}/api/trpc`
+    const url = Config.Domain
+      ? `${Config.Domain}/api/trpc`
       : 'http://localhost:3000/api/trpc';
 
     return {

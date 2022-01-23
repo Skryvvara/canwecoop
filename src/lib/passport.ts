@@ -12,9 +12,13 @@ passport.deserializeUser(function(obj: any, done) {
 	done(null, obj);
 });
 
+const url = Config.Domain
+      ? `${Config.Domain}`
+      : 'http://localhost:3000';
+
 passport.use(new SteamStrategy({
-	returnURL: 'http://localhost:3000/api/auth/return',
-	realm: 'http://localhost:3000',
+	returnURL: `${url}/api/auth/return`,
+	realm: url,
 	apiKey: Config.SteamApiKey
 }, async(_: any, profile: any, done: any) => {
 	let userData = convertToUser(profile);
