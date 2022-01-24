@@ -122,14 +122,6 @@ a {
   margin-left: 5px;
 }
 
-.gameGrid {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-  list-style: none;
-}
-
 .search {
   background: var(--bg-color);
   border-radius: 0.25rem;
