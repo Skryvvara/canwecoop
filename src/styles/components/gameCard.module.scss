@@ -1,0 +1,52 @@
+.gameCard {
+  border-radius: 0.25rem;
+  background: var(--bg-color-secondary);
+  box-shadow: 0 4px 10px 0 var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  transform-style: flat;
+  backface-visibility: hidden;
+
+  img {
+    backface-visibility: hidden;
+    border-radius: 0.25rem 0.25rem 0 0;
+    vertical-align: middle;
+    overflow: hidden;
+    transition: 200ms transform ease-in-out;
+  }
+
+  .cardBody {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h2 { font-size: 1.25rem; }
+
+  p {
+    flex-basis: 1;
+    font-size: 0.9rem;
+    color: var(--fg-color-secondary);
+  
+    overflow:hidden;
+    max-height: 4rem;
+    -webkit-box-orient: vertical;
+    display: block;
+    display: -webkit-box;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+  }
+
+  &:hover {
+    img {
+      transform: scale(1.025);
+    }
+  }
+} 
+
+.cardBody {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}

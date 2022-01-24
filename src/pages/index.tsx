@@ -16,7 +16,7 @@ const Home: NextPage = () => {
     ['allGames', { limit: 48, name: name?.toString() }], {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchOnWindowFocus: false
-    }
+    },
   );
 
   return(
@@ -26,28 +26,10 @@ const Home: NextPage = () => {
         <meta name="description" content="CANWECOOP WIP stay tuned for updates!" />
       </Head>
 
-      { (user)
-        ? <>
-          <h1>Welcome back!</h1>
-          <div>
-            <Image src={user.avatarfull} alt='' height={48} width={48} className='profile' />
-            <a target="_blank" rel="noreferrer" href={user.profileurl}>{user.displayName}</a>
-          </div>
-          <p>Welcome to CANWECOOP</p>
-          <Link href="/api/auth/logout">Logout</Link>
-        </>
-        : <>
-          <div>
-            <p>Welcome</p>
-            <Link href="/api/auth/login">Login</Link>
-          </div>
-        </>
-      }
-
-      <div className="games">
+      <div className="container">
         <input type="text" placeholder='search' className='search' onChange={(e) => router.push('/?name='+e.target.value)}/>
         <ul className='gameGrid'>
-          {
+          { 
             games.data?.pages.map((page) => (
               page.games.map((game) => (
                 <GameCard key={game.id} game={game} />

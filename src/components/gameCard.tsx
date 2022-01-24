@@ -1,3 +1,4 @@
+import styles from 'styles/components/gameCard.module.scss';
 import { FunctionComponent } from 'react';
 import { Category, Game, Genre } from '@prisma/client';
 import Image from 'next/image';
@@ -9,9 +10,9 @@ interface Props {
 export const GameCard: FunctionComponent<Props> = ({ game }) => {
 
   return(
-    <li>
+    <li className={styles.gameCard}>
         <Image src={game.header_image} alt={game.name} width={460} height={215} />
-        <div className='cardBody'>
+        <div className={styles.cardBody}>
           <h2>{game.name}</h2>
           <p>{game.short_description}</p>
 
