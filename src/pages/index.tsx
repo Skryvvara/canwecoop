@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 const Home: NextPage = () => {
   const router = useRouter();
   const { name } = router.query ?? undefined;
-  const { user } = useContext(UserContext);
   const games = trpc.useInfiniteQuery(
     ['allGames', { limit: 48, name: name?.toString() }], {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -22,12 +21,12 @@ const Home: NextPage = () => {
   return(
     <>
       <Head>
-        <title>HOME | CANWECOOP</title>
-        <meta name="description" content="CANWECOOP WIP stay tuned for updates!" />
+        <title>Home | CanWeCoop</title>
+        <meta name="description" content="CanWeCoop WIP stay tuned for updates!" />
       </Head>
 
       <div className="container">
-        <input type="text" placeholder='search' className='search' onChange={(e) => router.push('/?name='+e.target.value)}/>
+        <input type="text" placeholder='search' className='search' value={name} onChange={(e) => router.push('/?name='+e.target.value)}/>
         <ul className='gameGrid'>
           { 
             games.data?.pages.map((page) => (
