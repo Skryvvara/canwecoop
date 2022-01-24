@@ -15,7 +15,7 @@ export const PageHeader: FunctionComponent = () => {
         <div className={styles.logo}>
           <a href="https://canwecoop.darkyne.com">CanWeCoop</a>
           <select 
-            defaultValue={theme} 
+            value={theme} 
             name="theme2" 
             id="theme2"
             onChange={(e) => setTheme(e.target.value)}>
