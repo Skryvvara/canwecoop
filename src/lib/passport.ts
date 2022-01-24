@@ -1,9 +1,9 @@
 import passport from 'passport';
 import { Strategy as SteamStrategy } from 'passport-steam';
 import { Config } from './config';
-import { convertToUser } from './convertToUser';
 import prisma from './prisma';
 import { getBaseUrl } from './getBaseUrl';
+import { User } from '@prisma/client';
 
 passport.serializeUser(function(user, done) {
 	done(null, user);
@@ -20,25 +20,44 @@ passport.use(new SteamStrategy({
 	realm: url,
 	apiKey: Config.SteamApiKey
 }, async(_: any, profile: any, done: any) => {
-	let userData = convertToUser(profile);
+	let userData = {
+		id: profile.id,
+		displayName: profile.displayName,
+		avatar: profile._json.avatar,
+		avatarmedium: profile._json.avatarmedium,
+		avatarfull: profile._json.avatarfull,
+		profileurl: profile._json.profileurl,
+	};
+
 	let user = await prisma.user.findFirst({
-		where: {id: userData.id}
+		where: { id: userData.id }
 	});
 
-	if (!user) {
-		user = await prisma.user.create({ data: userData });
-	}
+	if (!user) user = await prisma.user.create({ 
+		data: userData, 
+		include: {
+			followers: true,
+			following: true
+		} 
+	});
 
 	if (!user) throw 'No user found and was unable to create user record';
 
-	if (user.displayName != userData.displayName) {
-		user = await prisma.user.update({
-			data: { displayName: userData.displayName },
-			where: { id: user.id }
-		});
-	}
+	user = await prisma.user.update({
+		data: { 
+			displayName: userData.displayName,
+			avatar: userData.avatar,
+			avatarmedium: userData.avatarmedium,
+			avatarfull: userData.avatarfull,
+			profileurl: userData.profileurl
+		},
+		where: { id: user.id },
+		include: {
+			followers: true,
+			following: true
+		}
+	});
 
-	// Fetch any more information to populate
 	return done(null, user);
 }));
 

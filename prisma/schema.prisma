@@ -14,47 +14,51 @@ model Session {
   id        String   @id
   sid       String   @unique
   data      String
-  expiresAt   DateTime
+  expiresAt DateTime
 }
 
 model User {
-  id String @id
-  displayName String
-  avatar String
+  id           String    @id
+  displayName  String
+  avatar       String
   avatarmedium String
-  avatarfull String
-  profileurl String
+  avatarfull   String
+  profileurl   String
+  createdAt    DateTime  @default(now())
+  lastLogin    DateTime? @updatedAt
+  following User[]   @relation("UserFollows", references: [id]) 
+  followers User[]   @relation("UserFollows", references: [id])
 }
 
 model Game {
-  id String @id
-  name String
-  is_free Boolean
+  id                String     @id
+  name              String
+  is_free           Boolean
   short_description String
-  header_image String
-  website String
-  developers String[]
-  publishers String[]
-  windows Boolean
-  mac Boolean
-  linux Boolean
-  metacriticScore Int
-  metacriticUrl String
-  categories Category[]
-  genres Genre[]
-  background String
+  header_image      String
+  website           String
+  developers        String[]
+  publishers        String[]
+  windows           Boolean
+  mac               Boolean
+  linux             Boolean
+  metacriticScore   Int
+  metacriticUrl     String
+  categories        Category[]
+  genres            Genre[]
+  background        String
 }
 
 model Category {
-  id String @id
+  id          String @id
   description String
-  games Game[]
+  games       Game[]
 }
 
 model Genre {
-  id String @id
+  id          String @id
   description String
-  games Game[]
+  games       Game[]
 }
 
 model BadId {

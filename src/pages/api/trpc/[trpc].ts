@@ -68,11 +68,9 @@ const appRouter = router()
     const name = input.name ?? undefined;
     const users = await prisma.user.findMany({
       where: {
-        OR: {
-          displayName: { contains: name, mode: 'insensitive' },
-          id: { contains: name, mode: 'insensitive' }
-        }
+        displayName: { contains: name, mode: 'insensitive' },
       },
+      include: { followers: true, following: true },
       take: limit + 1,
       cursor: cursor ? { id: cursor } : undefined,
       orderBy: { id: 'asc' }
@@ -103,6 +101,58 @@ const appRouter = router()
     return {
       user
     };
+  }
+})
+.mutation('addFriend', {
+  input:  z.object({
+    currentId: z.string(),
+    id: z.string()
+  }),
+  async resolve({ input }) {
+    const { currentId, id } = input;
+
+    const current = await prisma.user.update({
+      where: { id: id },
+      data: {
+        followers: {
+          connect: {
+            id: currentId
+          }
+        }
+      },
+      include: {
+        followers: true,
+        following: true
+      }
+    });
+
+    return current;
+  }
+})
+.mutation('removeFriend', {
+  input:  z.object({
+    currentId: z.string(),
+    id: z.string()
+  }),
+  async resolve({ input }) {
+    const { currentId, id } = input;
+
+    const current = await prisma.user.update({
+      where: { id: id },
+      data: {
+        followers: {
+          disconnect: {
+            id: currentId
+          }
+        }
+      },
+      include: {
+        followers: true,
+        following: true
+      }
+    });
+
+    return current;
   }
 });
 

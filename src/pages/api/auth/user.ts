@@ -1,6 +1,7 @@
 import { User } from '@prisma/client';
 import { NextApiResponse } from 'next';
-import router from '../../../lib/router';
+import prisma from 'lib/prisma';
+import router from 'lib/router';
 
 export interface IUserAuthRequest extends Request {
   user: User
@@ -8,6 +9,15 @@ export interface IUserAuthRequest extends Request {
 
 const path = '/api/auth/user';
 
-export default router.get(path, (req: IUserAuthRequest, res: NextApiResponse) => {
-  res.json({ user: req.user });
+export default router.get(path, async(req: IUserAuthRequest, res: NextApiResponse) => {
+  const userId = req.user.id;
+  const user = await prisma.user.findFirst({
+    where: { id: userId },
+    include: {
+      followers: true,
+      following: true
+    }
+  });
+
+  res.json({ user: user });
 });
