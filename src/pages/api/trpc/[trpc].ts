@@ -1,11 +1,7 @@
 import { router } from '@trpc/server';
 import { createNextApiHandler } from '@trpc/server/adapters/next';
 import { z } from 'zod';
-import { Cache, CacheContainer } from 'node-ts-cache';
-import { MemoryStorage } from 'node-ts-cache-storage-memory';
 import prisma from 'lib/prisma';
-
-const gameCache = new CacheContainer(new MemoryStorage());
 
 const appRouter = router()
 .query('allGames', {
@@ -17,7 +13,7 @@ const appRouter = router()
   async resolve({ input }) {
     const limit = input.limit ?? 50;
     const { cursor } = input;
-    const name = input.name != null ? input.name : undefined;
+    const name = input.name ?? undefined;
     const games = await prisma.game.findMany({
       where: {
         name: { contains: name, mode: 'insensitive' }
@@ -42,6 +38,70 @@ const appRouter = router()
     return {
       games,
       nextCursor
+    };
+  }
+})
+.query('game', {
+  input: z.object({
+    id: z.string()
+  }),
+  async resolve({ input }) {
+    const { id } = input;
+    const game = await prisma.game.findFirst({
+      where: { id: id }
+    });
+
+    return {
+      game
+    };
+  }
+})
+.query('allUsers', {
+  input: z.object({
+    limit: z.number().min(1).max(100).nullish(),
+    cursor: z.string().nullish(),
+    name: z.string().nullish()
+  }),
+  async resolve({ input }) {
+    const limit = input.limit ?? 50;
+    const { cursor } = input;
+    const name = input.name ?? undefined;
+    const users = await prisma.user.findMany({
+      where: {
+        OR: {
+          displayName: { contains: name, mode: 'insensitive' },
+          id: { contains: name, mode: 'insensitive' }
+        }
+      },
+      take: limit + 1,
+      cursor: cursor ? { id: cursor } : undefined,
+      orderBy: { id: 'asc' }
+    });
+
+    let nextCursor: typeof cursor | null = null;
+    if  (users.length > limit) {
+      const nextUser = users.pop();
+      nextCursor = nextUser!.id;
+    }
+
+    return {
+      users,
+      nextCursor
+    };
+  }
+})
+.query('user', {
+  input: z.object({
+    id: z.string()
+  }),
+  async resolve({ input }) {
+    const { id } = input;
+    const user = await prisma.user.findFirst({
+      where: { id: id }
+    });
+
+    return {
+      user
     };
   }
 });
