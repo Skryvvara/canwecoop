@@ -1,3 +1,4 @@
+import styles from 'styles/components/pageHeader.module.scss';
 import { FunctionComponent, useContext } from 'react';
 import { UserContext } from 'providers/userContextProvider';
 import Link from 'next/link';
@@ -9,9 +10,9 @@ export const PageHeader: FunctionComponent = () => {
   const { theme, setTheme } = useTheme();
 
   return(
-    <header className='mainHeader'>
-      <div className='container flex-row'>
-        <div className="logo">
+    <header className={styles.mainHeader}>
+      <div className={`container ${styles.flexRow}`}>
+        <div className={styles.logo}>
           <a href="https://canwecoop.darkyne.com">CanWeCoop</a>
           <select 
             defaultValue={theme} 
@@ -25,15 +26,15 @@ export const PageHeader: FunctionComponent = () => {
         </div>
         { (user)
           ? <>
-            <div className='user'>
+            <div className={styles.user}>
               <Link href="/api/auth/logout">Logout</Link>
-              <a className='userimg' target="_blank" rel="noreferrer" href={user.profileurl}>
-                <Image src={user.avatarfull} alt='' height={48} width={48} className='profile' />
+              <a className={styles.userimg} target="_blank" rel="noreferrer" href={user.profileurl}>
+                <Image src={user.avatarfull} alt='' height={48} width={48} className={styles.profile} />
               </a>              
             </div>
           </>
           : <>
-            <div className='User'>
+            <div className={styles.user}>
               <Link href="/api/auth/login">Login</Link>
             </div>
           </>

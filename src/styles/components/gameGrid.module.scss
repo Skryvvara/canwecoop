@@ -5,3 +5,15 @@
   gap: 15px;
   list-style: none;
 }
+
+@media only screen and (max-width: 900px) {
+  .gameGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .gameGrid {
+    grid-template-columns: 1fr;
+  }
+}

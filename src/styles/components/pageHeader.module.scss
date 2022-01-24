@@ -1,0 +1,49 @@
+.mainHeader {
+  height: 4rem;
+  flex: none;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-color);
+  z-index: 999;
+}
+
+.profile {
+  border-radius: 50%;
+}
+
+.games {
+  width: 100%;
+  max-width: 1440px;
+  margin: 10px auto;
+}
+
+.flexRow {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo a {
+  font-weight: bold;
+  letter-spacing: 0.05ch;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+}
+
+.userimg {
+  display: block;
+  margin-left: 5px;
+}
