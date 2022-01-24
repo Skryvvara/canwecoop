@@ -63,6 +63,16 @@ a {
   text-decoration: none;
 }
 
+.appLink {
+  color: #dc3545;
+  border-bottom: 1px solid transparent;
+  transition: 200ms border ease-in-out;
+
+  &:hover {
+    border-bottom: 1px solid #dc3545;
+  }
+}
+
 .container {
   width: 100%;
   max-width: 1440px;

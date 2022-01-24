@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import { trpc } from 'lib/trpc';
 import { useRouter } from 'next/router';
 import { GameGrid } from 'components/gameGrid';
@@ -27,13 +28,12 @@ const Home: NextPage = () => {
         <input type="text" placeholder='search' className='search' defaultValue={name} onChange={(e) => router.push('/?name='+e.target.value)}/>
         { 
           (games.data?.pages[0].games.length != 0)
-          ? (games.isPreviousData)
-            ? <GameGrid data={old} />
-            : <GameGrid data={games.data} />
+          ? <GameGrid data={games.data} />
           : <div>
-            <h2>Oh no! There are no games here :c</h2>
-            <p>Due to the ratelimit on steams API we can only show your games about 24 hours after your first login.</p>
-            <p>If a user that logged at least one day before you and has games in common you will see these games here already.</p>
+            <h2>Oh no! These aren&#39;t the games you&#39;re looking for.</h2>
+            <p>If you think one of your games is missing, read <Link href='/about'><a className='appLink'>about how CanWeCoop works</a></Link>.</p>
+            <p></p>
+            <p></p>
           </div>
         }
 
