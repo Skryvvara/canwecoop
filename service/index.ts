@@ -55,9 +55,9 @@ async function syncGames() {
         const dbGame: Game = {
           id: String(detailsData.steam_appid),
           name: String(detailsData.name)
-            .replace('\’', '\'')
-            .replace('®', '')
-            .replace('™', ''),
+            .replace(/\’/g, '\'')
+            .replace(/®/g, '')
+            .replace(/™/g, ''),
           is_free: detailsData.is_free,
           short_description: detailsData.short_description,
           header_image: detailsData.header_image,
