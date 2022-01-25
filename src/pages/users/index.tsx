@@ -29,6 +29,7 @@ const Users: NextPage = () => {
       utils.invalidateQueries('allUsers');
     }
   });
+  const userCount = trpc.useQuery(['userCount'], { refetchOnWindowFocus: false });
 
   return(
     <>
@@ -38,6 +39,7 @@ const Users: NextPage = () => {
       </Head>
 
       <div className="container">
+        <h1>We have a total of {userCount.data} users!</h1>
         <input type="text" placeholder='search' className='search' defaultValue={name} onChange={(e) => router.push('/users/?name='+e.target.value)}/>
         { 
           (users.data?.pages[0].users.length != 0)

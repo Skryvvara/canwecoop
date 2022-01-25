@@ -4,6 +4,18 @@ import { z } from 'zod';
 import prisma from 'lib/prisma';
 
 const appRouter = router()
+.query('gameCount', {
+  async resolve() {
+    const count = await prisma.game.count();
+    return count;
+  }
+})
+.query('userCount', {
+  async resolve() {
+    const count = await prisma.user.count();
+    return count;
+  }
+})
 .query('allGames', {
   input: z.object({
     limit: z.number().min(1).max(100).nullish(),

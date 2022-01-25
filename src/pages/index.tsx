@@ -15,7 +15,7 @@ const Home: NextPage = () => {
       keepPreviousData: true
     },
   );
-  const old = games.data;
+  const gameCount = trpc.useQuery(['gameCount'], { refetchOnWindowFocus: false });
 
   return(
     <>
@@ -25,6 +25,7 @@ const Home: NextPage = () => {
       </Head>
 
       <div className="container">
+        <h1>We have a total of {gameCount.data} games!</h1>
         <input type="text" placeholder='search' className='search' defaultValue={name} onChange={(e) => router.push('/?name='+e.target.value)}/>
         { 
           (games.data?.pages[0].games.length != 0)

@@ -47,6 +47,7 @@ model Game {
   categories        Category[]
   genres            Genre[]
   background        String
+  storeUrl          String
 }
 
 model Category {
