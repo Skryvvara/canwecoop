@@ -115,13 +115,14 @@ const appRouter = router()
     };
   }
 })
-.mutation('addFriend', {
+.mutation('follow', {
   input:  z.object({
     currentId: z.string(),
     id: z.string()
   }),
   async resolve({ input }) {
     const { currentId, id } = input;
+    if (!currentId || !id || currentId == id) throw 'Given ids were invalid';
 
     const current = await prisma.user.update({
       where: { id: id },
@@ -141,13 +142,14 @@ const appRouter = router()
     return current;
   }
 })
-.mutation('removeFriend', {
+.mutation('unfollow', {
   input:  z.object({
     currentId: z.string(),
     id: z.string()
   }),
   async resolve({ input }) {
     const { currentId, id } = input;
+    if (!currentId || !id || currentId == id) throw 'Given ids were invalid';
 
     const current = await prisma.user.update({
       where: { id: id },

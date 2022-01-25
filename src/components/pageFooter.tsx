@@ -5,7 +5,14 @@ export const PageFooter: FunctionComponent = () => {
 
   return(
     <footer className={styles.mainFooter}>
-      <a href="https://github.com/xdarkyne">GitHub</a>
+      <ul className={styles.linkList}>
+        <li>
+          <a className='appLink' href="https://github.com/xdarkyne">GitHub</a>
+        </li>
+        <li>
+          <a className='appLink' href="https://github.com/xdarkyne/canwecoop">Source</a>
+        </li>
+      </ul>
     </footer>
   );
 };

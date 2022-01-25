@@ -1,4 +1,3 @@
-import styles from 'styles/components/gameGrid.module.scss';
 import { Category, Game, Genre } from '@prisma/client';
 import { FunctionComponent } from 'react';
 import { InfiniteData } from 'react-query';
@@ -17,11 +16,11 @@ interface Props {
 export const GameGrid: FunctionComponent<Props> = ({ data }) => {
 
   return(
-    <ul className={styles.gameGrid}>
+    <ul data-box="grid">
       {
         data?.pages.map((page) => (
-          page.games.map((game) => (
-            <GameCard key={game.id} game={game} />
+          page.games.map((game, index) => (
+            <GameCard key={game.id} game={game} index={index} />
           ))
         ))
       }

@@ -16,9 +16,34 @@
   }
 
   .cardBody {
+    height: 100%;
     padding: 10px;
     display: flex;
     flex-direction: column;
+  }
+
+  .categoryBtn {
+    margin-top: auto;
+    position: relative;
+  
+    .categoryList {
+      background-color: var(--bg-color-secondary);
+      display: none;
+      border-radius: 4px;
+      padding: 5px;
+      position: absolute;
+      bottom: 0;
+      list-style: none;
+      gap: 5px;
+      box-shadow: 0 2px 5px 0 var(--shadow-color);
+      z-index: 10;
+    }
+  
+    &:hover, &:focus {
+      .categoryList {
+        display: grid;
+      }
+    }
   }
 
   h2 { font-size: 1.25rem; }
@@ -44,9 +69,3 @@
     }
   }
 } 
-
-.cardBody {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-}

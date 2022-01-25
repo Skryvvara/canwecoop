@@ -5,4 +5,13 @@
   margin-top: auto;
   flex: none;
   box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.6);
+
+  .linkList {
+    display: flex;
+    list-style: none;
+
+    li + li {
+      margin-left: 15px;
+    }
+  }
 }

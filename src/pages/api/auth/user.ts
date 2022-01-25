@@ -10,14 +10,20 @@ export interface IUserAuthRequest extends Request {
 const path = '/api/auth/user';
 
 export default router.get(path, async(req: IUserAuthRequest, res: NextApiResponse) => {
-  const userId = req.user.id;
-  const user = await prisma.user.findFirst({
-    where: { id: userId },
-    include: {
-      followers: true,
-      following: true
-    }
-  });
+  try {
+    if (!req.user) throw 'No user object on request';
 
-  res.json({ user: user });
+    const userId = req.user.id;
+    const user = await prisma.user.findFirst({
+      where: { id: userId },
+      include: {
+        followers: true,
+        following: true
+      }
+    });
+
+    res.json({ user: user });
+  } catch(error: any) {
+    res.json({ user: undefined });
+  }
 });
