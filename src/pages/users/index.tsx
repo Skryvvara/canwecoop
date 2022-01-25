@@ -59,7 +59,7 @@ const Users: NextPage = () => {
             ))
           ))
           : <div>
-            <h2>Oh no! These aren&#39;t the games you&#39;re looking for.</h2>
+            <h2>Oh no! These aren&#39;t the users you&#39;re looking for.</h2>
           </div>
         }
 
