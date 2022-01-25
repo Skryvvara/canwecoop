@@ -35,6 +35,9 @@ async function syncGames() {
         if (badIds.findIndex((predicate) => predicate.id == String(game)) != -1) return;
 
         const detailsData: any = await steam.getGameDetails(String(game));
+
+        if (detailsData.type != 'game') return;
+
         globalGame = detailsData;
 
         Log('info', `Processing game ${detailsData.name}`);
