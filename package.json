@@ -1,5 +1,9 @@
 {
   "name": "canwecoop",
+  "version": "0.6.1",
+  "author": "xDarkyne",
+  "homepage": "https://canwecoop",
+  "repository": "https://github.com/xdarkyne/canwecoop",
   "private": true,
   "scripts": {
     "dev": "next dev",
