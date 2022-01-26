@@ -10,20 +10,22 @@ interface Props {
         genres: Genre[];
     })[];
     nextCursor: string | null;
-}> | undefined
+  }> | undefined
 }
 
 export const GameGrid: FunctionComponent<Props> = ({ data }) => {
 
   return(
-    <ul data-box="grid">
-      {
-        data?.pages.map((page) => (
-          page.games.map((game, index) => (
-            <GameCard key={game.id} game={game} index={index} />
+    <div>
+      <ul data-box="grid">
+        {
+          data?.pages.map((page) => (
+            page.games.map((game, index) => (
+              <GameCard key={game.id} game={game} index={index} />
+            ))
           ))
-        ))
-      }
-    </ul>
+        }
+      </ul>
+    </div>
   );
 };

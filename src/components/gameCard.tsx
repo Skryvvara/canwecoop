@@ -12,7 +12,7 @@ export const GameCard: FunctionComponent<Props> = ({ game, index }) => {
 
   return(
     <li className={styles.gameCard}>
-        <div>
+        <div className={styles.imgBox}>
           <Image src={game.header_image} priority={(index && index <= 12) ? true : false} alt={game.name} width={460} height={215} />
         </div>
         <div className={styles.cardBody}>

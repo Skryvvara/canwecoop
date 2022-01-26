@@ -4,7 +4,7 @@ import { useUser } from 'lib/hook';
 import { User } from '@prisma/client';
 
 export interface IUserContext {
-  user?: User;
+  currentUser?: User;
   loading?: boolean;
 }
 
@@ -14,7 +14,7 @@ export const UserContextProvider: NextPage = ({children}) => {
   const [user] = useUser();
 
   return (
-    <UserContext.Provider value={{user: user}}>
+    <UserContext.Provider value={{currentUser: user}}>
       {children}
     </UserContext.Provider>
   );

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useTheme } from 'next-themes';
 
 export const PageHeader: FunctionComponent = () => {
-  const { user } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const { theme, setTheme } = useTheme();
 
   return(
@@ -24,12 +24,12 @@ export const PageHeader: FunctionComponent = () => {
             <option value="light">Light</option>
           </select>
         </div>
-        { (user)
+        { (currentUser)
           ? <>
             <div className={styles.user}>
               <Link href="/api/auth/logout">Logout</Link>
-              <a className={styles.userimg} target="_blank" rel="noreferrer" href={user.profileurl}>
-                <Image src={user.avatarfull} alt='' height={48} width={48} className={styles.profile} />
+              <a className={styles.userimg} target="_blank" rel="noreferrer" href={currentUser.profileurl}>
+                <Image src={currentUser.avatarfull} alt='' height={48} width={48} className={styles.profile} />
               </a>              
             </div>
           </>

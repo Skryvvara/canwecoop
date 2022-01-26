@@ -1,9 +1,9 @@
 import styles from 'styles/components/userCard.module.scss';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import Image from 'next/image';
 import { User } from '@prisma/client';
-import { useUser } from 'lib/hook';
 import { trpc } from 'lib/trpc';
+import { UserContext } from 'providers/userContextProvider';
 
 interface IProps {
   user: User & {
@@ -13,7 +13,7 @@ interface IProps {
 }
 
 export const UserCard: FunctionComponent<IProps> = ({ user }) => {
-  const [ currentUser ] = useUser();
+  const { currentUser } = useContext(UserContext);
   const utils = trpc.useContext();
   const follow = trpc.useMutation('follow', {
     onSuccess() { utils.invalidateQueries('allUsers'); }

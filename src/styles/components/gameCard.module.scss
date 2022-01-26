@@ -3,15 +3,13 @@
   background: var(--bg-color-secondary);
   box-shadow: 0 4px 10px 0 var(--shadow-color);
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   transform-style: flat;
   backface-visibility: hidden;
 
   img {
     backface-visibility: hidden;
-    border-radius: 0.25rem 0.25rem 0 0;
-    vertical-align: middle;
-    overflow: hidden;
     transition: 200ms transform ease-in-out;
   }
 
@@ -28,6 +26,7 @@
   
     .categoryList {
       background-color: var(--bg-color-secondary);
+      color: var(--fg-color-secondary);
       display: none;
       border-radius: 4px;
       padding: 5px;
@@ -46,10 +45,9 @@
     }
   }
 
-  h2 { font-size: 1.25rem; }
+  h2 { font-size: 1.15rem; }
 
   p {
-    flex-basis: 1;
     font-size: 0.9rem;
     color: var(--fg-color-secondary);
   
