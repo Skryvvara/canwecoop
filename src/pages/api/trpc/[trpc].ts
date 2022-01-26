@@ -20,15 +20,31 @@ const appRouter = router()
   input: z.object({
     limit: z.number().min(1).max(100).nullish(),
     cursor: z.string().nullish(),
-    name: z.string().nullish()
+    name: z.string().nullish(),
+    categories: z.string().array().nullish()
   }),
   async resolve({ input }) {
     const limit = input.limit ?? 50;
     const { cursor } = input;
-    const name = input.name ?? undefined;
+    let name = input.name ?? undefined;
+    let categories = input.categories ?? undefined;
+
+    if (categories && categories[0] == '') categories = undefined;
+    console.log(name, categories);
+
     const games = await prisma.game.findMany({
       where: {
-        name: { contains: name, mode: 'insensitive' }
+        AND: {
+          name: { contains: name, mode: 'insensitive' },
+          categories: {
+            some: {
+              description: {
+                in: categories,
+                mode: 'insensitive'
+              }
+            }
+          }
+        }
       },
       take: limit + 1,
       cursor: cursor ? { id: cursor } : undefined,

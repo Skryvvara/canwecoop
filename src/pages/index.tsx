@@ -8,8 +8,9 @@ import { GameGrid } from 'components/gameGrid';
 const Home: NextPage = () => {
   const router = useRouter();
   const { name } = router.query ?? undefined;
+  const categories = router.query.categories != null ? router.query.categories.toString().split(',') : undefined;
   const games = trpc.useInfiniteQuery(
-    ['allGames', { limit: 48, name: name?.toString() }], {
+    ['allGames', { limit: 48, name: name?.toString(), categories: categories }], {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchOnWindowFocus: false,
       keepPreviousData: true
@@ -26,7 +27,25 @@ const Home: NextPage = () => {
 
       <div className="container">
         <h1>We have a total of {gameCount.data} games!</h1>
-        <input type="text" placeholder='search' className='search' defaultValue={name} onChange={(e) => router.push((e.target.value) ? '/?name='+e.target.value : '')}/>
+        <input 
+          type="text" 
+          placeholder='search' 
+          className='search' 
+          defaultValue={name} 
+          onChange={({ target }) => router.push({
+            pathname: '/',
+            query: {
+              name: (target.value) ? target.value : undefined,
+              categories: categories
+            }
+          })}
+          />
+          
+          <label htmlFor="co-op">
+            Co-op
+            <input type="checkbox" name="co-op" id="co-op" onChange={({target}) => router.push({ pathname: '/', query: { name: name, categories: (target.checked) ? 'co-op' : undefined } }) } />
+          </label>
+
         { 
           (games.data?.pages[0].games.length != 0)
           ? <GameGrid data={games.data} />
