@@ -29,7 +29,7 @@ All data collected is publicly available on steam and we don't (and don't want t
 
 ## Special Thanks
 > Thank you [HilliamT](https://github.com/HilliamT) </br>
-> For to your [repository](https://github.com/HilliamT/nextjs-steam-auth) on how to use nextjs in combination with passport and steam auth I din't suffer too much making this.
+> For to your [repository](https://github.com/HilliamT/nextjs-steam-auth) on how to use nextjs in combination with passport and steam auth I didn't suffer too much making this.
 
 > Thanks to the [Nextjs](https://nextjs.org/) Team </br>
 > For the awesome [next](https://nextjs.org/)-framework.
