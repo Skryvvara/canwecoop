@@ -13,7 +13,7 @@ export const PageHeader: FunctionComponent = () => {
     <header className={styles.mainHeader}>
       <div className={`container ${styles.flexRow}`}>
         <div className={styles.logo}>
-          <a href="https://canwecoop.darkyne.com">CanWeCoop</a>
+          <a href="https://canwecoop.com">CanWeCoop</a>
           <select 
             value={theme} 
             name="theme2" 
