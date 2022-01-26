@@ -36,7 +36,7 @@ async function syncGames() {
 
         const detailsData: any = await steam.getGameDetails(String(game));
 
-        if (detailsData.type != 'game') return;
+        if (detailsData.type == 'video') return;
 
         globalGame = detailsData;
 
@@ -60,9 +60,11 @@ async function syncGames() {
           name: String(detailsData.name)
             .replace(/\’/g, '\'')
             .replace(/®/g, '')
-            .replace(/™/g, ''),
+            .replace(/™/g, '')
+            .replace(/&amp;/g, '&'),
           is_free: detailsData.is_free,
-          short_description: detailsData.short_description,
+          short_description: detailsData.short_description
+            .replace(/&amp;/g, '&'),
           header_image: detailsData.header_image,
           website: detailsData.website || '',
           developers: detailsData.developers,
