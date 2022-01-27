@@ -21,30 +21,26 @@ const appRouter = router()
     limit: z.number().min(1).max(100).nullish(),
     cursor: z.string().nullish(),
     name: z.string().nullish(),
-    categories: z.string().array().nullish()
+    categories: z.string().array().nullish(),
+    users: z.string().array().nullish(),
+    free: z.boolean().nullish()
   }),
   async resolve({ input }) {
     const limit = input.limit ?? 50;
     const { cursor } = input;
     let name = input.name ?? undefined;
-    let categories = input.categories ?? undefined;
+    let categories = input.categories ?? [];
+    let free = input.free ?? undefined;
 
-    if (categories && categories[0] == '') categories = undefined;
-    console.log(name, categories);
+    const generateRelationFilter = (list: string[], relationName: string, column: string) => list.map((value) => ({ [relationName]: { some: { [column]: { contains: value, mode: 'insensitive' } } } }));
 
     const games = await prisma.game.findMany({
       where: {
-        AND: {
-          name: { contains: name, mode: 'insensitive' },
-          categories: {
-            some: {
-              description: {
-                in: categories,
-                mode: 'insensitive'
-              }
-            }
-          }
-        }
+        AND: [
+          { name: { contains: name, mode: 'insensitive' } },
+          { AND: generateRelationFilter(categories, 'categories', 'description') },
+          { is_free: { equals: free } }
+        ],
       },
       take: limit + 1,
       cursor: cursor ? { id: cursor } : undefined,

@@ -4,19 +4,41 @@ import Link from 'next/link';
 import { trpc } from 'lib/trpc';
 import { useRouter } from 'next/router';
 import { GameGrid } from 'components/gameGrid';
+import { stringify } from 'query-string';
 
+interface ISearchProps {
+  name?: string,
+  categories?: string[]
+}
+ 
 const Home: NextPage = () => {
   const router = useRouter();
   const { name } = router.query ?? undefined;
-  const categories = router.query.categories != null ? router.query.categories.toString().split(',') : undefined;
+  const categories = router.query.categories != null ? router.query.categories.toString().split(',') : [];
+  const free = router.query.free != 'true' ? false : true;
   const games = trpc.useInfiniteQuery(
-    ['allGames', { limit: 48, name: name?.toString(), categories: categories }], {
+    ['allGames', { limit: 48, name: name?.toString(), categories: categories, free: free }], {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchOnWindowFocus: false,
       keepPreviousData: true
     },
   );
   const gameCount = trpc.useQuery(['gameCount'], { refetchOnWindowFocus: false });
+
+  const setUrl = (key: keyof ISearchProps, value: any) => {
+    let searchProps: ISearchProps = { name: name?.toString(), categories: categories};
+    if (key == 'name') 
+      searchProps[key] = (value) ? value : undefined;
+    else if (key == 'categories')
+      (searchProps.categories?.includes(value))
+      ? searchProps.categories?.splice(searchProps.categories.indexOf(value), 1)
+      : searchProps.categories?.push(value);
+    let str = stringify(searchProps);
+
+    if (str) str = '?'+str;
+
+    router.push(str);
+  };
 
   return(
     <>
@@ -32,19 +54,18 @@ const Home: NextPage = () => {
           placeholder='search' 
           className='search' 
           defaultValue={name} 
-          onChange={({ target }) => router.push({
-            pathname: '/',
-            query: {
-              name: (target.value) ? target.value : undefined,
-              categories: categories
-            }
-          })}
+          onChange={({ target }) => setUrl('name', target.value)}
           />
           
-          <label htmlFor="co-op">
-            Co-op
-            <input type="checkbox" name="co-op" id="co-op" onChange={({target}) => router.push({ pathname: '/', query: { name: name, categories: (target.checked) ? 'co-op' : undefined } }) } />
-          </label>
+        <label htmlFor="co-op">
+          Co-op
+          <input type="checkbox" checked={categories.includes('Co-op')} name="co-op" id="co-op" onChange={({target}) => setUrl('categories', 'Co-op')} />
+        </label>
+
+        <label htmlFor="multi-player">
+          Multi-player
+          <input type="checkbox" checked={categories.includes('Multi-player')} name="Multi-player" id="Multi-player" onChange={({target}) => setUrl('categories', 'Multi-player') } />
+        </label>
 
         { 
           (games.data?.pages[0].games.length != 0)
