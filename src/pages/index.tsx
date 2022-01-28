@@ -15,7 +15,9 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { name } = router.query ?? undefined;
   const categories = router.query.categories != null ? router.query.categories.toString().split(',') : [];
-  const free = router.query.free != 'true' ? false : true;
+  const free = (router.query.free) ? (router.query.free === 'true') ? true : false : undefined;
+
+  const gameCount = trpc.useQuery(['gameCount'], { refetchOnWindowFocus: false });
   const games = trpc.useInfiniteQuery(
     ['allGames', { limit: 48, name: name?.toString(), categories: categories, free: free }], {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -23,7 +25,6 @@ const Home: NextPage = () => {
       keepPreviousData: true
     },
   );
-  const gameCount = trpc.useQuery(['gameCount'], { refetchOnWindowFocus: false });
 
   const setUrl = (key: keyof ISearchProps, value: any) => {
     let searchProps: ISearchProps = { name: name?.toString(), categories: categories};
