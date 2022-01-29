@@ -8,14 +8,15 @@ import { stringify } from 'query-string';
 
 interface ISearchProps {
   name?: string,
-  categories?: string[]
+  categories?: string[],
+  free?: boolean
 }
  
 const Home: NextPage = () => {
   const router = useRouter();
   const { name } = router.query ?? undefined;
   const categories = router.query.categories != null ? router.query.categories.toString().split(',') : [];
-  const free = (router.query.free) ? (router.query.free === 'true') ? true : false : undefined;
+  const free = (router.query.free === 'true') ? true : undefined;
 
   const gameCount = trpc.useQuery(['gameCount'], { refetchOnWindowFocus: false });
   const games = trpc.useInfiniteQuery(
@@ -27,15 +28,21 @@ const Home: NextPage = () => {
   );
 
   const setUrl = (key: keyof ISearchProps, value: any) => {
-    let searchProps: ISearchProps = { name: name?.toString(), categories: categories};
-    if (key == 'name') 
-      searchProps[key] = (value) ? value : undefined;
-    else if (key == 'categories')
-      (searchProps.categories?.includes(value))
-      ? searchProps.categories?.splice(searchProps.categories.indexOf(value), 1)
-      : searchProps.categories?.push(value);
+    let searchProps: ISearchProps = { name: name?.toString(), categories: categories, free: free};
+    switch(key) {
+      case 'name':
+        searchProps[key] = (value) ? value : undefined;
+        break;
+      case 'categories':
+        (searchProps.categories?.includes(value))
+          ? searchProps.categories?.splice(searchProps.categories.indexOf(value), 1)
+          : searchProps.categories?.push(value);
+        break;
+      case 'free':
+        searchProps.free = value;
+        break;
+    }
     let str = stringify(searchProps);
-
     if (str) str = '?'+str;
 
     router.push(str);
@@ -57,15 +64,20 @@ const Home: NextPage = () => {
           defaultValue={name} 
           onChange={({ target }) => setUrl('name', target.value)}
           />
+
+        <label htmlFor="free">
+          Free
+          <input type="checkbox" checked={(free == true) ? true : false} name="free" id="free" onChange={({target}) => setUrl('free', target.checked ? true : undefined)} />
+        </label>
           
         <label htmlFor="co-op">
           Co-op
           <input type="checkbox" checked={categories.includes('Co-op')} name="co-op" id="co-op" onChange={({target}) => setUrl('categories', 'Co-op')} />
         </label>
 
-        <label htmlFor="multi-player">
-          Multi-player
-          <input type="checkbox" checked={categories.includes('Multi-player')} name="Multi-player" id="Multi-player" onChange={({target}) => setUrl('categories', 'Multi-player') } />
+        <label htmlFor="controller-support">
+          Controller Support
+          <input type="checkbox" checked={categories.includes('controller support')} name="controller-support" id="controller-support" onChange={({target}) => setUrl('categories', 'controller support') } />
         </label>
 
         { 
