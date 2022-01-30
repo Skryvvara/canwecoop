@@ -27,7 +27,7 @@ export const UserCard: FunctionComponent<IProps> = ({ user }) => {
       <Image className={styles.userImg} src={user.avatarfull} alt={user.displayName} height={64} width={64} />
       <h2>{user.displayName}</h2>
       { (currentUser && user.id != currentUser?.id)
-        ? (user.followers.findIndex((f) => f.id = currentUser?.id) == -1)
+        ? (user.followers.findIndex((f) => f.id == currentUser?.id) == -1)
           ? <button 
               className={`appBtn ${styles.flexBottom}`} 
               onClick={async(e) => follow.mutate({ id: user.id, currentId: currentUser.id })}>
