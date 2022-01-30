@@ -3,7 +3,8 @@ dotenv.config({
   path: '../.env'
 });
 import { PrismaClient, Game, Category, Genre } from '../node_modules/@prisma/client';
-import { Log, chunk, upsertGame }  from './lib';
+import { Log, chunk, upsertGame } from './lib';
+import { syncUserGames } from './syncUserGames';
 import SteamAPI from 'steamapi';
 
 const steam = new SteamAPI(process.env.STEAM_API_KEY!);
@@ -79,7 +80,6 @@ async function syncGames() {
         };
 
         const result = await upsertGame(dbGame, categories, genres, db);
-
       } catch(error: any) {
         Log('error', error.message);
         if (!error.message.includes('No app found')) return;
@@ -87,6 +87,7 @@ async function syncGames() {
         try {
           let rawId = globalGame.steam_appid;
           let id: string = (typeof rawId === 'string' || typeof rawId === 'number') ? String(rawId) : String(rawId.id);
+          console.log(id);
 
           const badId = await db.badId.upsert({
             where: { id: id },
@@ -102,11 +103,17 @@ async function syncGames() {
       }
     }));
     console.log(badIds);
+    if (chunk == chunked[chunked.length-1]) continue;
     await new Promise((res) => setTimeout(res, 1000 * 60 * 5.5));
   }
   const end = performance.now();
 
   Log('info', 'Service finished in '+Math.floor((end-start)/1000/60)+' minutes.');
+  try {
+    await syncUserGames();
+  } catch(error: any) {
+    Log('error', error.message);
+  }
 }
 
 syncGames();

@@ -23,30 +23,39 @@ const appRouter = router()
     name: z.string().nullish(),
     categories: z.string().array().nullish(),
     users: z.string().array().nullish(),
-    free: z.boolean().nullish()
+    free: z.boolean().nullish(),
   }),
   async resolve({ input }) {
     const limit = input.limit ?? 50;
     const { cursor } = input;
     let name = input.name ?? undefined;
-    let categories = input.categories ?? [];
+    let categories = (input.categories?.filter((e) => e != '')) ?? [];
+    let users = (input.users?.filter((e) => e != '')) ?? [];
     let free = input.free ?? undefined;
 
-    const generateRelationFilter = (list: string[], relationName: string, column: string) => list.map((value) => ({ [relationName]: { some: { [column]: { contains: value, mode: 'insensitive' } } } }));
+    const generateRelationFilter = (list: string[], relationName: string, column: string) => list.map((value) => ({ [relationName]: { some: { [column]: { in: [value], mode: 'insensitive' } } } }));
 
     const games = await prisma.game.findMany({
       where: {
         AND: [
           { name: { contains: name, mode: 'insensitive' } },
           { AND: generateRelationFilter(categories, 'categories', 'description') },
-          { is_free: { equals: free } }
+          { is_free: { equals: free } },
+          { OR: generateRelationFilter(users, 'ownedBy', 'id') },
         ],
       },
       take: limit + 1,
       cursor: cursor ? { id: cursor } : undefined,
       include: {
         categories: true,
-        genres: true
+        genres: true,
+        ownedBy: {
+          select: {
+            id: true,
+            displayName: true,
+            avatarfull: true
+          }
+        }
       },
       orderBy: {
         id: 'asc'

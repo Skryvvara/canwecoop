@@ -28,6 +28,7 @@ model User {
   lastLogin    DateTime? @updatedAt
   following User[]   @relation("UserFollows", references: [id]) 
   followers User[]   @relation("UserFollows", references: [id])
+  games Game[]
 }
 
 model Game {
@@ -48,6 +49,7 @@ model Game {
   genres            Genre[]
   background        String
   storeUrl          String
+  ownedBy User[]
 }
 
 model Category {

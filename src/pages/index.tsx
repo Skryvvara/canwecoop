@@ -5,22 +5,27 @@ import { trpc } from 'lib/trpc';
 import { useRouter } from 'next/router';
 import { GameGrid } from 'components/gameGrid';
 import { stringify } from 'query-string';
+import { useContext } from 'react';
+import { UserContext } from 'providers/userContextProvider';
 
 interface ISearchProps {
-  name?: string,
-  categories?: string[],
+  name?: string
+  categories?: string[]
+  users?: string[]
   free?: boolean
 }
  
 const Home: NextPage = () => {
+  const { currentUser } = useContext(UserContext);
   const router = useRouter();
   const { name } = router.query ?? undefined;
   const categories = router.query.categories != null ? router.query.categories.toString().split(',') : [];
+  const users = router.query.users != null ? router.query.users.toString().split(',') : [];
   const free = (router.query.free === 'true') ? true : undefined;
 
   const gameCount = trpc.useQuery(['gameCount'], { refetchOnWindowFocus: false });
   const games = trpc.useInfiniteQuery(
-    ['allGames', { limit: 48, name: name?.toString(), categories: categories, free: free }], {
+    ['allGames', { limit: 48, name: name?.toString(), categories: categories, users: users, free: free }], {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchOnWindowFocus: false,
       keepPreviousData: true
@@ -28,7 +33,7 @@ const Home: NextPage = () => {
   );
 
   const setUrl = (key: keyof ISearchProps, value: any) => {
-    let searchProps: ISearchProps = { name: name?.toString(), categories: categories, free: free};
+    let searchProps: ISearchProps = { name: name?.toString(), categories: categories, free: free, users: users};
     switch(key) {
       case 'name':
         searchProps[key] = (value) ? value : undefined;
@@ -37,6 +42,11 @@ const Home: NextPage = () => {
         (searchProps.categories?.includes(value))
           ? searchProps.categories?.splice(searchProps.categories.indexOf(value), 1)
           : searchProps.categories?.push(value);
+        break;
+      case 'users':
+        (searchProps.users?.includes(value))
+          ? searchProps.users?.splice(searchProps.users.indexOf(value), 1)
+          : searchProps.users?.push(value);
         break;
       case 'free':
         searchProps.free = value;
@@ -79,6 +89,29 @@ const Home: NextPage = () => {
           Controller Support
           <input type="checkbox" checked={categories.includes('controller support')} name="controller-support" id="controller-support" onChange={({target}) => setUrl('categories', 'controller support') } />
         </label>
+
+        {
+          (currentUser)
+          ? <ul>
+              <li>
+                <label htmlFor={currentUser.displayName}>
+                  {currentUser.displayName}
+                  <input type="checkbox" checked={users.includes(currentUser.id)} name={currentUser.displayName} id={currentUser.displayName} onChange={({target}) => setUrl('users', currentUser.id) } />
+                </label>
+              </li>
+              {
+                currentUser.following.map((user) => (
+                  <li key={user.id}>
+                    <label htmlFor={user.displayName}>
+                      {user.displayName}
+                      <input type="checkbox" checked={users.includes(user.id)} name={user.displayName} id={user.displayName} onChange={({target}) => setUrl('users', user.id) } />
+                    </label>
+                  </li>
+                ))
+              }
+          </ul>
+          : <></>
+        }
 
         { 
           (games.data?.pages[0].games.length != 0)

@@ -4,7 +4,10 @@ import { useUser } from 'lib/hook';
 import { User } from '@prisma/client';
 
 export interface IUserContext {
-  currentUser?: User;
+  currentUser?: User & {
+    followers: User[];
+    following: User[];
+  };
   loading?: boolean;
 }
 

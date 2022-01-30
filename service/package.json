@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "ts-node index.ts",
+    "sync:userGames": "ts-node syncUserGames.ts"
   },
   "devDependencies": {
     "dotenv": "^14.2.0",
