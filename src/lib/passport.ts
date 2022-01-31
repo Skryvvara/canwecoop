@@ -40,8 +40,18 @@ passport.use(new SteamStrategy({
 		}
 	});
 
+	const allUsers = await prisma.user.findMany({ select: { id: true } });
+	const friends = userData.steamFriendIds.filter((friend) => allUsers.findIndex((user) => user.id == friend) != -1);
+
 	if (!user) user = await prisma.user.create({ 
-		data: userData, 
+		data: {
+			...userData,
+			following: {
+				connect: friends.map((friend) => ({
+					id: friend
+				}))
+			}
+		}, 
 		include: {
 			followers: true,
 			following: true
@@ -49,9 +59,6 @@ passport.use(new SteamStrategy({
 	});
 
 	if (!user) throw 'No user found and was unable to create user record';
-	const allUsers = await prisma.user.findMany({ select: { id: true } });
-
-	const friends = userData.steamFriendIds.filter((friend) => allUsers.findIndex((user) => user.id == friend) != -1);
 
 	user = await prisma.user.update({
 		data: { 
@@ -61,11 +68,6 @@ passport.use(new SteamStrategy({
 			avatarfull: userData.avatarfull,
 			profileurl: userData.profileurl,
 			steamFriendIds: userData.steamFriendIds,
-			following: {
-				connect: friends.map((friend) => ({
-					id: friend
-				}))
-			}
 		},
 		where: { id: user.id },
 		include: {
