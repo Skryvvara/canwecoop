@@ -36,3 +36,6 @@ All data collected is publicly available on steam and we don't (and don't want t
 
 > Thanks to [Steam](https://store.steampowered.com/) </br>
 > For providing the option to use a steam account to authorize 3rd party websites and providing the game data.
+
+## License
+- MIT
