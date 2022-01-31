@@ -23,9 +23,9 @@ const Home: NextPage = () => {
   const users = router.query.users != null ? router.query.users.toString().split(',') : [];
   const free = (router.query.free === 'true') ? true : undefined;
 
-  const gameCount = trpc.useQuery(['gameCount'], { refetchOnWindowFocus: false });
+  const gameCount = trpc.useQuery(['game.gameCount'], { refetchOnWindowFocus: false });
   const games = trpc.useInfiniteQuery(
-    ['allGames', { limit: 48, name: name?.toString(), categories: categories, users: users, free: free }], {
+    ['game.allGames', { limit: 48, name: name?.toString(), categories: categories, users: users, free: free }], {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchOnWindowFocus: false,
       keepPreviousData: true

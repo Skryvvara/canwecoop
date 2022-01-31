@@ -15,11 +15,11 @@ interface IProps {
 export const UserCard: FunctionComponent<IProps> = ({ user }) => {
   const { currentUser } = useContext(UserContext);
   const utils = trpc.useContext();
-  const follow = trpc.useMutation('follow', {
-    onSuccess() { utils.invalidateQueries('allUsers'); }
+  const follow = trpc.useMutation('user.follow', {
+    onSuccess() { utils.invalidateQueries('user.allUsers'); }
   });
-  const unfollow = trpc.useMutation('unfollow', {
-    onSuccess() { utils.invalidateQueries('allUsers'); }
+  const unfollow = trpc.useMutation('user.unfollow', {
+    onSuccess() { utils.invalidateQueries('user.allUsers'); }
   });
 
   return(
