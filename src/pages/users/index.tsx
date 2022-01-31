@@ -3,12 +3,15 @@ import { trpc } from 'lib/trpc';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { UserContext } from 'providers/userContextProvider';
+import { useContext } from 'react';
 
 const Users: NextPage = () => {
+  const { currentUser } = useContext(UserContext);
   const router = useRouter();
   const { name } = router.query ?? undefined;
   const users = trpc.useInfiniteQuery(
-    ['allUsers', { limit: 48, name: name?.toString() }], {
+    ['allUsers', { limit: 48, name: name?.toString(), currentUserId: currentUser && currentUser.id }], {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchOnWindowFocus: false,
       keepPreviousData: true

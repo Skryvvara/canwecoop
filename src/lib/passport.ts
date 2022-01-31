@@ -3,7 +3,7 @@ import { Strategy as SteamStrategy } from 'passport-steam';
 import { Config } from './config';
 import prisma from './prisma';
 import { getBaseUrl } from './getBaseUrl';
-import { User } from '@prisma/client';
+import { getSteamFriends } from './steam';
 
 passport.serializeUser(function(user, done) {
 	done(null, user);
@@ -27,10 +27,17 @@ passport.use(new SteamStrategy({
 		avatarmedium: profile._json.avatarmedium,
 		avatarfull: profile._json.avatarfull,
 		profileurl: profile._json.profileurl,
+		steamFriendIds: [] as string[]
 	};
 
+	userData.steamFriendIds = await getSteamFriends(userData.id);
+
 	let user = await prisma.user.findFirst({
-		where: { id: userData.id }
+		where: { id: userData.id },
+		include: {
+			followers: true,
+			following: true
+		}
 	});
 
 	if (!user) user = await prisma.user.create({ 
@@ -42,6 +49,9 @@ passport.use(new SteamStrategy({
 	});
 
 	if (!user) throw 'No user found and was unable to create user record';
+	const allUsers = await prisma.user.findMany({ select: { id: true } });
+
+	const friends = userData.steamFriendIds.filter((friend) => allUsers.findIndex((user) => user.id == friend) != -1);
 
 	user = await prisma.user.update({
 		data: { 
@@ -49,7 +59,13 @@ passport.use(new SteamStrategy({
 			avatar: userData.avatar,
 			avatarmedium: userData.avatarmedium,
 			avatarfull: userData.avatarfull,
-			profileurl: userData.profileurl
+			profileurl: userData.profileurl,
+			steamFriendIds: userData.steamFriendIds,
+			following: {
+				connect: friends.map((friend) => ({
+					id: friend
+				}))
+			}
 		},
 		where: { id: user.id },
 		include: {

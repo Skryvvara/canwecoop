@@ -26,6 +26,7 @@ model User {
   profileurl   String
   createdAt    DateTime  @default(now())
   lastLogin    DateTime? @updatedAt
+  steamFriendIds String[]
   following User[]   @relation("UserFollows", references: [id]) 
   followers User[]   @relation("UserFollows", references: [id])
   games Game[]

@@ -21,6 +21,7 @@ export default router.get(path, async(req: IUserAuthRequest, res: NextApiRespons
         following: true
       }
     });
+    if (!user) throw `No user with id ${userId}`;
 
     res.json({ user: user });
   } catch(error: any) {

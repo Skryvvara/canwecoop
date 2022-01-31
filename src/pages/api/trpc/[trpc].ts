@@ -93,15 +93,26 @@ const appRouter = router()
   input: z.object({
     limit: z.number().min(1).max(100).nullish(),
     cursor: z.string().nullish(),
-    name: z.string().nullish()
+    name: z.string().nullish(),
+    currentUserId: z.string().nullish()
   }),
   async resolve({ input }) {
     const limit = input.limit ?? 50;
     const { cursor } = input;
     const name = input.name ?? undefined;
+    const currentUserId = input.currentUserId ?? undefined;
+
+    const currentUser = await prisma.user.findFirst({
+      where: {
+        id: currentUserId
+      }
+    });
+    if (!currentUser) throw 'Couldn\' fetch user';
+
     const users = await prisma.user.findMany({
       where: {
         displayName: { contains: name, mode: 'insensitive' },
+        id: { in: currentUser.steamFriendIds }
       },
       include: { followers: true, following: true },
       take: limit + 1,
