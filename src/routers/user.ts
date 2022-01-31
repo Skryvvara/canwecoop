@@ -3,13 +3,13 @@ import { z } from 'zod';
 import prisma from 'lib/prisma';
 
 export const userRouter = router()
-.query('userCount', {
+.query('getUserCount', {
   async resolve() {
     const count = await prisma.user.count();
     return count;
   }
 })
-.query('allUsers', {
+.query('getUsers', {
   input: z.object({
     limit: z.number().min(1).max(100).nullish(),
     cursor: z.string().nullish(),
@@ -52,7 +52,7 @@ export const userRouter = router()
     };
   }
 })
-.query('user', {
+.query('getUser', {
   input: z.object({
     id: z.string()
   }),

@@ -3,13 +3,13 @@ import { z } from 'zod';
 import prisma from 'lib/prisma';
 
 export const gameRouter = router()
-.query('gameCount', {
+.query('getGameCount', {
   async resolve() {
     const count = await prisma.game.count();
     return count;
   }
 })
-.query('allGames', {
+.query('getGames', {
   input: z.object({
     limit: z.number().min(1).max(100).nullish(),
     cursor: z.string().nullish(),
@@ -67,7 +67,7 @@ export const gameRouter = router()
     };
   }
 })
-.query('game', {
+.query('getGame', {
   input: z.object({
     id: z.string()
   }),

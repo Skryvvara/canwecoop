@@ -11,13 +11,13 @@ const Users: NextPage = () => {
   const router = useRouter();
   const { name } = router.query ?? undefined;
   const users = trpc.useInfiniteQuery(
-    ['user.allUsers', { limit: 48, name: name?.toString(), currentUserId: currentUser && currentUser.id }], {
+    ['user.getUsers', { limit: 48, name: name?.toString(), currentUserId: currentUser && currentUser.id }], {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchOnWindowFocus: false,
       keepPreviousData: true
     },
   );
-  const userCount = trpc.useQuery(['user.userCount'], { refetchOnWindowFocus: false });
+  const userCount = trpc.useQuery(['user.getUserCount'], { refetchOnWindowFocus: false });
 
   return(
     <>

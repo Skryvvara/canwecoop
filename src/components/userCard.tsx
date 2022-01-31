@@ -16,10 +16,10 @@ export const UserCard: FunctionComponent<IProps> = ({ user }) => {
   const { currentUser } = useContext(UserContext);
   const utils = trpc.useContext();
   const follow = trpc.useMutation('user.follow', {
-    onSuccess() { utils.invalidateQueries('user.allUsers'); }
+    onSuccess() { utils.invalidateQueries('user.getUsers'); }
   });
   const unfollow = trpc.useMutation('user.unfollow', {
-    onSuccess() { utils.invalidateQueries('user.allUsers'); }
+    onSuccess() { utils.invalidateQueries('user.getUsers'); }
   });
 
   return(
