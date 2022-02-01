@@ -29,7 +29,7 @@ export const PageHeader: FunctionComponent = () => {
             <div className={styles.user}>
               <Link href="/api/auth/logout">Logout</Link>
               <a className={styles.userimg} target="_blank" rel="noreferrer" href={currentUser.profileurl}>
-                <Image src={currentUser.avatarfull} alt='' height={48} width={48} className={styles.profile} />
+                <Image src={currentUser.avatarfull} alt={currentUser.displayName} height={48} width={48} className={styles.profile} />
               </a>              
             </div>
           </>

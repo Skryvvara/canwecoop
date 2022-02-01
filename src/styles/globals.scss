@@ -3,16 +3,16 @@
   --color-gray-15: hsl(210deg, 4%, 15%);
   --color-white-100: hsl(0deg, 0%, 100%);
   --color-white-95: hsl(0deg, 0%, 95%);
-  --color-yellow-70: hsl(44deg, 74%, 70%);
-  --color-yellow-65: hsl(44deg, 74%, 65%);
+  --color-purple-1:  	hsl(238deg, 21%, 32%);
+  --color-purple-2:  	hsl(238deg, 21%, 25%);
 
   --bg-color: var(--color-gray-10);
   --bg-color-secondary: var(--color-gray-15);
   --fg-color: var(--color-white-100);
   --fg-color-secondary: var(--color-white-95);
-  --fg-brand-color: var(--color-gray-10);
-  --brand-color: var(--color-yellow-70);
-  --brand-color-secondary: var(--color-yellow-65);
+  --fg-brand-color: var(--color-white-95);
+  --brand-color: var(--color-purple-1);
+  --brand-color-secondary: var(--color-purple-2);
   --shadow-color: rgba(0, 0, 0, 0.8);
   --shadow-color-secondary: rgba(0, 0, 0, 0.6):
 }
@@ -22,9 +22,6 @@
   --bg-color-secondary: var(--color-white-100);
   --fg-color: var(--color-gray-10);
   --fg-color-secondary: var(--color-gray-15);
-  --brand-fg-color: var(--color-gray-10);
-  --brand-color: var(--color-yellow-70);
-  --brand-color-secondary: var(--color-yellow-65);
   --shadow-color: rgba(0, 0, 0, 0.2);
   --shadow-color-secondary: rgba(0, 0, 0, 0.4);
 }
@@ -66,8 +63,9 @@ a {
 
 .appLink {
   color: var(--brand-color);
+  font-weight: bold;
   border-bottom: 1px solid transparent;
-  transition: 200ms border ease-in-out;
+  transition: 250ms border ease-in-out;
 
   &:hover {
     border-bottom: 1px solid var(--brand-color);
@@ -84,7 +82,7 @@ a {
 .search {
   background: var(--bg-color-secondary);
   color: var(--fg-color);
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   border-radius: 0.25rem;
   outline: none;
   width: 100%;
@@ -93,7 +91,7 @@ a {
   margin-top: 15px;
   margin-bottom: 15px;
   box-shadow: 0 2px 5px 0 var(--shadow-color);
-  transition: 150ms border ease-in;
+  transition: 250ms border ease-in-out;
 
   &::placeholder {
     color: var(--fg-color);
@@ -102,7 +100,7 @@ a {
 
   &:focus {
     outline: none;
-    border: 1px solid var(--brand-color);
+    border-color: var(--brand-color);
   }
 }
 
@@ -120,9 +118,9 @@ a {
   margin-top: 15px;
   color: var(--fg-brand-color);
   background-color: var(--brand-color);
-  border: 1px solid var(--brand-color);
+  border: 2px solid var(--brand-color);
   box-shadow: 0 2px 5px 0 var(--shadow-color);
-  transition: all 200ms ease-in;
+  transition: all 250ms ease-in-out;
 
   &:hover {
     background-color: var(--brand-color-secondary);

@@ -11,6 +11,7 @@ import { UserContext } from 'providers/userContextProvider';
 interface ISearchProps {
   name?: string
   categories?: string[]
+  genres?: string[]
   users?: string[]
   free?: boolean
 }
@@ -20,12 +21,13 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { name } = router.query ?? undefined;
   const categories = router.query.categories != null ? router.query.categories.toString().split(',') : [];
+  const genres = router.query.genres != null ? router.query.genres.toString().split(',') : [];
   const users = router.query.users != null ? router.query.users.toString().split(',') : [];
   const free = (router.query.free === 'true') ? true : undefined;
 
   const gameCount = trpc.useQuery(['game.getGameCount'], { refetchOnWindowFocus: false });
   const games = trpc.useInfiniteQuery(
-    ['game.getGames', { limit: 48, name: name?.toString(), categories: categories, users: users, free: free }], {
+    ['game.getGames', { limit: 48, name: name?.toString(), categories: categories, genres: genres, users: users, free: free }], {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchOnWindowFocus: false,
       keepPreviousData: true
@@ -33,7 +35,7 @@ const Home: NextPage = () => {
   );
 
   const setUrl = (key: keyof ISearchProps, value: any) => {
-    let searchProps: ISearchProps = { name: name?.toString(), categories: categories, free: free, users: users};
+    let searchProps: ISearchProps = { name: name?.toString(), categories: categories, genres: genres, free: free, users: users};
     switch(key) {
       case 'name':
         searchProps[key] = (value) ? value : undefined;
@@ -42,6 +44,11 @@ const Home: NextPage = () => {
         (searchProps.categories?.includes(value))
           ? searchProps.categories?.splice(searchProps.categories.indexOf(value), 1)
           : searchProps.categories?.push(value);
+        break;
+      case 'genres':
+      (searchProps.genres?.includes(value))
+        ? searchProps.genres?.splice(searchProps.genres.indexOf(value), 1)
+        : searchProps.genres?.push(value);
         break;
       case 'users':
         (searchProps.users?.includes(value))
@@ -52,7 +59,7 @@ const Home: NextPage = () => {
         searchProps.free = value;
         break;
     }
-    let str = stringify(searchProps);
+    let str = stringify(searchProps, { arrayFormat: 'comma', skipEmptyString: true });
     if (str) str = '?'+str;
 
     router.push(str);
@@ -68,7 +75,7 @@ const Home: NextPage = () => {
       <div className="container">
         <h1>We have a total of {gameCount.data} games!</h1>
         <input 
-          type="text" 
+          type="search" 
           placeholder='search' 
           className='search' 
           defaultValue={name} 

@@ -8,11 +8,6 @@
   transform-style: flat;
   backface-visibility: hidden;
 
-  img {
-    backface-visibility: hidden;
-    transition: 200ms transform ease-in-out;
-  }
-
   .cardBody {
     height: 100%;
     padding: 10px;
@@ -21,6 +16,13 @@
   }
 
   .categoryBtn {
+    appearance: none;
+    background-color: var(--brand-color);
+    color: var(--fg-brand-color);
+    font-weight: bold;
+    border: 2px solid var(--brand-color);
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 5px 0 var(--shadow-color);
     margin-top: auto;
     position: relative;
   
@@ -45,6 +47,10 @@
     }
   }
 
+  .categoryBtn + .categoryBtn {
+    margin-top: 5px;
+  }
+
   h2 { font-size: 1.15rem; }
 
   p {
@@ -59,11 +65,5 @@
     overflow: hidden !important;
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
-  }
-
-  &:hover {
-    img {
-      transform: scale(1.025);
-    }
   }
 } 

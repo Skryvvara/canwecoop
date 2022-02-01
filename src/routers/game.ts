@@ -15,6 +15,7 @@ export const gameRouter = router()
     cursor: z.string().nullish(),
     name: z.string().nullish(),
     categories: z.string().array().nullish(),
+    genres: z.string().array().nullish(),
     users: z.string().array().nullish(),
     free: z.boolean().nullish(),
   }),
@@ -23,6 +24,7 @@ export const gameRouter = router()
     const { cursor } = input;
     let name = input.name ?? undefined;
     let categories = (input.categories?.filter((e) => e != '')) ?? [];
+    let genres = (input.genres?.filter((e) => e != '')) ?? [];
     let users = (input.users?.filter((e) => e != '')) ?? [];
     let free = input.free ?? undefined;
 
@@ -33,6 +35,7 @@ export const gameRouter = router()
         AND: [
           { name: { contains: name, mode: 'insensitive' } },
           { AND: generateRelationFilter(categories, 'categories', 'description') },
+          { AND: generateRelationFilter(genres, 'genres', 'description') },
           { is_free: { equals: free } },
           { OR: generateRelationFilter(users, 'ownedBy', 'id') },
         ],
