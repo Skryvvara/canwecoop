@@ -27,7 +27,7 @@ const Home: NextPage = () => {
 
   const gameCount = trpc.useQuery(['game.getGameCount'], { refetchOnWindowFocus: false });
   const games = trpc.useInfiniteQuery(
-    ['game.getGames', { limit: 48, name: name?.toString(), categories: categories, genres: genres, users: users, free: free }], {
+    ['game.getGames', { limit: 24, name: name?.toString(), categories: categories, genres: genres, users: users, free: free }], {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchOnWindowFocus: false,
       keepPreviousData: true
