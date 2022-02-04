@@ -38,6 +38,8 @@
     "sharp": "^0.30.0",
     "steamapi": "^2.2.0",
     "swr": "^1.2.1",
+    "winston": "^3.5.1",
+    "winston-daily-rotate-file": "^4.6.0",
     "zod": "^3.11.6"
   },
   "devDependencies": {

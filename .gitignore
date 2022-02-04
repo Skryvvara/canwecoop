@@ -20,6 +20,8 @@ node_modules/
 # misc
 .DS_Store
 *.pem
+/logs/*.json
+/logs/*.log
 
 # debug
 npm-debug.log*
