@@ -7,14 +7,28 @@ import { withTRPC } from '@trpc/next';
 import { AppRouter } from './api/trpc/[trpc]';
 import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import { getBaseUrl } from 'lib/getBaseUrl';
+import { ExtendedStringifyOptions, NextQueryParamProvider } from 'next-query-params';
+
+const stringifyOptions: ExtendedStringifyOptions = {
+  transformSearchString: (searchString: string) => {
+    const params = new URLSearchParams(searchString);
+    params.forEach((value, key) => {
+      if (value != '' && value != '0') return;
+      params.delete(key);
+    });
+    return params.toString();
+  }
+};
 
 function App({ Component, pageProps}: AppProps) {
   return (
     <UserContextProvider>
       <ThemeProvider>
-        <MainLayout>
-          <Component {...pageProps} />
-        </MainLayout>
+        <NextQueryParamProvider stringifyOptions={stringifyOptions}>
+          <MainLayout>
+            <Component {...pageProps} />
+          </MainLayout>
+        </NextQueryParamProvider>
       </ThemeProvider>
     </UserContextProvider>
   );

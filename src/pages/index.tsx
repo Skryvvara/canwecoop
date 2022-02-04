@@ -1,29 +1,27 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { trpc } from 'lib/trpc';
 import { useRouter } from 'next/router';
 import { GameGrid } from 'components/gameGrid';
-import { stringify } from 'query-string';
 import { useContext } from 'react';
 import { UserContext } from 'providers/userContextProvider';
+import { StringParam, useQueryParams, withDefault } from 'next-query-params';
 
-interface ISearchProps {
-  name?: string
-  categories?: string[]
-  genres?: string[]
-  users?: string[]
-  free?: boolean
-}
+import { CustomArrayParam, CustomBooleanParam } from 'lib/queryParams';
+import { toggle } from 'lib/arrayToogle';
+import { trpc } from 'lib/trpc';
  
 const Home: NextPage = () => {
   const { currentUser } = useContext(UserContext);
   const router = useRouter();
-  const { name } = router.query ?? undefined;
-  const categories = router.query.categories != null ? router.query.categories.toString().split(',') : [];
-  const genres = router.query.genres != null ? router.query.genres.toString().split(',') : [];
-  const users = router.query.users != null ? router.query.users.toString().split(',') : [];
-  const free = (router.query.free === 'true') ? true : undefined;
+  const [query, setQuery] = useQueryParams({
+    name: withDefault(StringParam, undefined),
+    categories: CustomArrayParam,
+    genres: CustomArrayParam,
+    users: CustomArrayParam,
+    free: CustomBooleanParam
+  });
+  const { name, categories, genres, users, free  } = query;
 
   const gameCount = trpc.useQuery(['game.getGameCount'], { refetchOnWindowFocus: false });
   const games = trpc.useInfiniteQuery(
@@ -33,37 +31,6 @@ const Home: NextPage = () => {
       keepPreviousData: true
     },
   );
-
-  const setUrl = (key: keyof ISearchProps, value: any) => {
-    let searchProps: ISearchProps = { name: name?.toString(), categories: categories, genres: genres, free: free, users: users};
-    switch(key) {
-      case 'name':
-        searchProps[key] = (value) ? value : undefined;
-        break;
-      case 'categories':
-        (searchProps.categories?.includes(value))
-          ? searchProps.categories?.splice(searchProps.categories.indexOf(value), 1)
-          : searchProps.categories?.push(value);
-        break;
-      case 'genres':
-      (searchProps.genres?.includes(value))
-        ? searchProps.genres?.splice(searchProps.genres.indexOf(value), 1)
-        : searchProps.genres?.push(value);
-        break;
-      case 'users':
-        (searchProps.users?.includes(value))
-          ? searchProps.users?.splice(searchProps.users.indexOf(value), 1)
-          : searchProps.users?.push(value);
-        break;
-      case 'free':
-        searchProps.free = value;
-        break;
-    }
-    let str = stringify(searchProps, { arrayFormat: 'comma', skipEmptyString: true });
-    if (str) str = '?'+str;
-
-    router.push(str);
-  };
 
   return(
     <>
@@ -79,22 +46,22 @@ const Home: NextPage = () => {
           placeholder='search' 
           className='search' 
           defaultValue={name} 
-          onChange={({ target }) => setUrl('name', target.value)}
+          onChange={({ target }) => setQuery({ name: target.value })}
           />
 
         <label htmlFor="free">
           Free
-          <input type="checkbox" checked={(free == true) ? true : false} name="free" id="free" onChange={({target}) => setUrl('free', target.checked ? true : undefined)} />
+          <input type="checkbox" checked={free} name="free" id="free" onChange={({target}) => setQuery({ free: target.checked })} />
         </label>
           
         <label htmlFor="co-op">
           Co-op
-          <input type="checkbox" checked={categories.includes('Co-op')} name="co-op" id="co-op" onChange={({target}) => setUrl('categories', 'Co-op')} />
+          <input type="checkbox" checked={categories?.includes('Co-op')} name="co-op" id="co-op" onChange={({target}) => setQuery({ categories: toggle(categories, 'Co-op') })} />
         </label>
 
         <label htmlFor="controller-support">
           Controller Support
-          <input type="checkbox" checked={categories.includes('controller support')} name="controller-support" id="controller-support" onChange={({target}) => setUrl('categories', 'controller support') } />
+          <input type="checkbox" checked={categories.includes('Full Controller Support')} name="controller-support" id="controller-support" onChange={({target}) => setQuery({ categories: toggle(categories, 'Full Controller Support') }) }/>
         </label>
 
         {
@@ -103,7 +70,7 @@ const Home: NextPage = () => {
               <li>
                 <label htmlFor={currentUser.displayName}>
                   {currentUser.displayName}
-                  <input type="checkbox" checked={users.includes(currentUser.id)} name={currentUser.displayName} id={currentUser.displayName} onChange={({target}) => setUrl('users', currentUser.id) } />
+                  <input type="checkbox" checked={users.includes(currentUser.id)} name={currentUser.displayName} id={currentUser.displayName} onChange={({target}) => setQuery({ users: toggle(users, currentUser.id) })} />
                 </label>
               </li>
               {
@@ -111,7 +78,7 @@ const Home: NextPage = () => {
                   <li key={user.id}>
                     <label htmlFor={user.displayName}>
                       {user.displayName}
-                      <input type="checkbox" checked={users.includes(user.id)} name={user.displayName} id={user.displayName} onChange={({target}) => setUrl('users', user.id) } />
+                      <input type="checkbox" checked={users.includes(user.id)} name={user.displayName} id={user.displayName} onChange={({target}) => setQuery({ users: toggle(users, user.id) }) } />
                     </label>
                   </li>
                 ))

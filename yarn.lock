@@ -760,11 +760,6 @@ debug@^4.1.1, debug@^4.3.1, debug@^4.3.2:
   dependencies:
     ms "2.1.2"
 
-decode-uri-component@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
-  integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
-
 decompress-response@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/decompress-response/-/decompress-response-6.0.0.tgz#ca387612ddb7e104bd16d85aab00d5ecf09c66fc"
@@ -1177,11 +1172,6 @@ fill-range@^7.0.1:
   integrity sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==
   dependencies:
     to-regex-range "^5.0.1"
-
-filter-obj@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/filter-obj/-/filter-obj-1.1.0.tgz#9b311112bc6c6127a16e016c6c5d7f19e0805c5b"
-  integrity sha1-mzERErxsYSehbgFsbF1/GeCAXFs=
 
 find-up@^2.1.0:
   version "2.1.0"
@@ -1763,6 +1753,13 @@ next-connect@^0.11.1:
   dependencies:
     trouter "^3.2.0"
 
+next-query-params@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/next-query-params/-/next-query-params-2.1.2.tgz#69261ef74a917fb482d241e1afac6c945f711e76"
+  integrity sha512-s366Gby3upGkprnm7F/5aAfX8kygdjzclrQ85T2ik7Hr9Uka1OZe2Jnz1dmnTtlifnTqOu6rKZzj1Mevxxydmg==
+  dependencies:
+    use-query-params "1.2.3"
+
 next-themes@^0.0.15:
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/next-themes/-/next-themes-0.0.15.tgz#ab0cee69cd763b77d41211f631e108beab39bf7d"
@@ -2115,16 +2112,6 @@ qs@^6.1.0, qs@^6.5.2:
   dependencies:
     side-channel "^1.0.4"
 
-query-string@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/query-string/-/query-string-7.1.0.tgz#96b88f27b39794f97b8c8ccd060bc900495078ef"
-  integrity sha512-wnJ8covk+S9isYR5JIXPt93kFUmI2fQ4R/8130fuq+qwLiGVTurg7Klodgfw4NSz/oe7xnyi09y3lSrogUeM3g==
-  dependencies:
-    decode-uri-component "^0.2.0"
-    filter-obj "^1.1.0"
-    split-on-first "^1.0.0"
-    strict-uri-encode "^2.0.0"
-
 queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
@@ -2360,6 +2347,11 @@ semver@^7.3.5:
   dependencies:
     lru-cache "^6.0.0"
 
+serialize-query-params@^1.3.5:
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/serialize-query-params/-/serialize-query-params-1.3.6.tgz#5dd5225db85ce747fe6fbc4897628504faafec6d"
+  integrity sha512-VlH7sfWNyPVZClPkRacopn6sn5uQMXBsjPVz1+pBHX895VpcYVznfJtZ49e6jymcrz+l/vowkepCZn/7xEAEdw==
+
 set-blocking@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
@@ -2436,11 +2428,6 @@ slash@^3.0.0:
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.0.2.tgz#adbc361d9c62df380125e7f161f71c826f1e490c"
   integrity sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==
 
-split-on-first@^1.0.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/split-on-first/-/split-on-first-1.1.0.tgz#f610afeee3b12bce1d0c30425e76398b78249a5f"
-  integrity sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==
-
 stack-trace@0.0.x:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/stack-trace/-/stack-trace-0.0.10.tgz#547c70b347e8d32b4e108ea1a2a159e5fdde19c0"
@@ -2464,11 +2451,6 @@ steamid@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/steamid/-/steamid-2.0.0.tgz#6d4a51feb80638c1fe4793be77aa972996f4ad75"
   integrity sha512-+BFJMbo+IxzyfovLR37E7APkaNfmrL3S+88T7wTMRHnQ6LBhzEawPnjfWNKM9eUL/dH45j+7vhSX4WaGXoa4/Q==
-
-strict-uri-encode@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz#b9c7330c7042862f6b142dc274bbcc5866ce3546"
-  integrity sha1-ucczDHBChi9rFC3CdLvMWGbONUY=
 
 string-width@^1.0.1:
   version "1.0.2"
@@ -2725,6 +2707,13 @@ uri-js@^4.2.2:
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
+
+use-query-params@1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/use-query-params/-/use-query-params-1.2.3.tgz#306c31a0cbc714e8a3b4bd7e91a6a9aaccaa5e22"
+  integrity sha512-cdG0tgbzK+FzsV6DAt2CN8Saa3WpRnze7uC4Rdh7l15epSFq7egmcB/zuREvPNwO5Yk80nUpDZpiyHsoq50d8w==
+  dependencies:
+    serialize-query-params "^1.3.5"
 
 use-subscription@1.5.1:
   version "1.5.1"
