@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config({
   path: '../.env'
 });
-import { PrismaClient } from '../node_modules/@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import SteamAPI from 'steamapi';
 
 export async function syncUserGames() {

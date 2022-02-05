@@ -2,8 +2,8 @@ import dotenv from 'dotenv';
 dotenv.config({
   path: '../.env'
 });
-import { PrismaClient } from '../node_modules/@prisma/client';
-import { chunk, Log, upsertAllGames } from './lib';
+import { PrismaClient } from '@prisma/client';
+import { chunk, logger, upsertAllGames } from './lib';
 import SteamAPI from 'steamapi';
 
 const steam = new SteamAPI(process.env.STEAM_API_KEY!);
@@ -30,7 +30,7 @@ async function syncGames() {
     const chunked: number[][] = chunk(allGames, 190);
     await upsertAllGames(chunked);
   } catch(error: any) {
-    Log('error', error.message);
+    logger.error(error.message);
   }
 }
 

@@ -1,4 +1,4 @@
-export { Log } from './log';
+export { default as logger } from './logger';
 export { chunk } from './chunk';
 export { excludeProperties } from './excludeProperties';
 export { upsertGame } from  './upsertGame';

@@ -8,14 +8,14 @@ const defaultFormat = printf(({ level, message, label, timestamp }) => {
 
 const logger = createLogger({
   format: combine(
-    label({ label: 'app' }),
+    label({ label: 'service' }),
     timestamp(),
     defaultFormat
   ),
   transports: [
     new DailyRotateFile({
-      dirname: './logs/%DATE%',
-      filename: '%DATE%.log',
+      dirname: './../logs/%DATE%',
+      filename: 'service-%DATE%.log',
       datePattern: 'YYYY-DD-MM',
       maxSize: '20M',
       maxFiles: '14d'

@@ -1,4 +1,4 @@
-import { PrismaClient, Category, Genre } from '../../node_modules/@prisma/client';
+import { PrismaClient, Category, Genre } from '@prisma/client';
 import { excludeProperties } from '.';
 
 export async function upsertGame(

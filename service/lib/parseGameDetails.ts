@@ -1,4 +1,4 @@
-import { Category, Game, Genre } from '@prisma/client';
+import { Game } from '@prisma/client';
 
 export function parseGameDetails(detailsData: any) {
   let metaScore: number = (detailsData.metacritic) ? detailsData.metacritic.score : -1;

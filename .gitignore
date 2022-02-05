@@ -22,6 +22,7 @@ node_modules/
 *.pem
 /logs/*.json
 /logs/*.log
+/logs/*/
 
 # debug
 npm-debug.log*

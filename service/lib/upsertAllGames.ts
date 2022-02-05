@@ -2,8 +2,8 @@ import dotenv from 'dotenv';
 dotenv.config({
   path: '../.env'
 });
-import { PrismaClient, Category, Genre } from './../../node_modules/@prisma/client';
-import { Log, upsertGame, parseGameDetails } from './../lib';
+import { PrismaClient, Category, Genre } from '@prisma/client';
+import { logger, upsertGame, parseGameDetails } from '.';
 import { syncUserGames } from './../syncUserGames';
 import SteamAPI from 'steamapi';
 
@@ -19,14 +19,13 @@ export async function upsertAllGames(chunked: number[][]) {
     await Promise.all(chunk.map(async(game) => {
       try {
         if (badIds.findIndex((predicate) => predicate.id == String(game)) != -1) return;
-        console.log(game);
 
         globalGame = String(game);
         const detailsData: any = await steam.getGameDetails(String(game));
 
         if (detailsData.type == 'video') return;
 
-        Log('info', `Processing game ${detailsData.name}`);
+        logger.info(`Processing game ${detailsData.name}`);
 
         const categories: Category[] = (detailsData.categories)
           ? detailsData.categories.map((category: any) => { return {id: String(category.id), description: String(category.description)}; })
@@ -39,9 +38,9 @@ export async function upsertAllGames(chunked: number[][]) {
         const dbGame = parseGameDetails(detailsData);
 
         await upsertGame(dbGame, categories, genres, db);
-        Log('info', 'created entry for '+dbGame.name+' ('+dbGame.id+')');
+        logger.info('created entry for '+dbGame.name+' ('+dbGame.id+')');
       } catch(error: any) {
-        Log('error', error.message);
+        logger.error(error.message);
         if (!error.message.includes('No app found')) return;
 
         try {
@@ -56,20 +55,19 @@ export async function upsertAllGames(chunked: number[][]) {
           });
           badIds.push(badId);
         } catch(error: any) {
-          Log('error', `Could not create badID with id ${globalGame}`);
+          logger.error(`Could not create badID with id ${globalGame}`);
         }
       }
     }));
-    console.log(badIds);
     if (chunk == chunked[chunked.length-1]) continue;
     await new Promise((res) => setTimeout(res, 1000 * 60 * 5.5));
   }
   const end = performance.now();
 
-  Log('info', 'Service finished in '+Math.floor((end-start)/1000/60)+' minutes.');
+  logger.info('Service finished in '+Math.floor((end-start)/1000/60)+' minutes.');
   try {
     await syncUserGames();
   } catch(error: any) {
-    Log('error', error.message);
+    logger.error(error.message);
   }
 }
