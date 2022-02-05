@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+dotenv.config({
+  path: '../.env'
+});
 import { PrismaClient } from '../node_modules/@prisma/client';
 import SteamAPI from 'steamapi';
 

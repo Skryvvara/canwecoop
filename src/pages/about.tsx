@@ -1,7 +1,10 @@
+import { trpc } from 'lib/trpc';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
 const About: NextPage = () => {
+  trpc.useQuery(['sync.missingGames', { key: '123' }]);
+
   return(
     <>
       <Head>
