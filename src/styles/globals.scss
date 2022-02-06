@@ -3,16 +3,14 @@
   --color-gray-15: hsl(210deg, 4%, 15%);
   --color-white-100: hsl(0deg, 0%, 100%);
   --color-white-95: hsl(0deg, 0%, 95%);
-  --color-purple-1:  	hsl(238deg, 21%, 32%);
-  --color-purple-2:  	hsl(238deg, 21%, 25%);
 
   --bg-color: var(--color-gray-10);
   --bg-color-secondary: var(--color-gray-15);
   --fg-color: var(--color-white-100);
   --fg-color-secondary: var(--color-white-95);
-  --fg-brand-color: var(--color-white-95);
-  --brand-color: var(--color-purple-1);
-  --brand-color-secondary: var(--color-purple-2);
+  --fg-brand-color: var(--color-white-100);
+  --brand-color: hsl(210deg, 100%, 45%);
+  --brand-color-secondary: hsl(210deg ,100%, 45%);
   --shadow-color: rgba(0, 0, 0, 0.8);
   --shadow-color-secondary: rgba(0, 0, 0, 0.6):
 }

@@ -1,17 +1,27 @@
 .mainFooter {
-  height: 4rem;
-  display: grid;
-  place-items: center;
+  min-height: 4rem;
   margin-top: auto;
-  flex: none;
   box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.6);
-
-  .linkList {
+  font-size: 0.95rem;
+  
+  .footerLinks {
+    width: fit-content;
     display: flex;
     list-style: none;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid dimgray;
 
-    li + li {
-      margin-left: 15px;
+    li {
+      color: var(--fg-color-secondary);
+      &:hover { text-decoration: underline white; }
+    }
+
+    li + li::before {
+      content: '|';
+      margin: 0 0.25rem;
+      opacity: 0.4;
+      display: inline-block;
     }
   }
 }
