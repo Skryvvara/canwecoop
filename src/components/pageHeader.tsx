@@ -13,7 +13,7 @@ export const PageHeader: FunctionComponent = () => {
     <header className={styles.mainHeader}>
       <div className={`container ${styles.flexRow}`}>
         <div className={styles.logo}>
-          <a href="https://canwecoop.com">CanWeCoop</a>
+          <Link href='/'>CanWeCoop</Link>
           <select 
             value={theme} 
             name="theme2" 
