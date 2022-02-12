@@ -22,17 +22,22 @@ export const userRouter = router()
     const name = input.name ?? undefined;
     const currentUserId = input.currentUserId ?? undefined;
 
-    const currentUser = await prisma.user.findFirst({
-      where: {
-        id: currentUserId
-      }
-    });
-    if (!currentUser) throw 'Couldn\' fetch user';
+    let friends: string[] = [];
+    if (currentUserId) {
+      const currentUser = await prisma.user.findFirst({
+        where: { id: currentUserId },
+        select: { steamFriendIds: true }
+      });
+      if (!currentUser) throw `Couldn't fetch user with id ${currentUserId}`;
+      friends = currentUser?.steamFriendIds;
+    }
 
     const users = await prisma.user.findMany({
       where: {
-        displayName: { contains: name, mode: 'insensitive' },
-        id: { in: currentUser.steamFriendIds }
+        AND: [
+          { displayName: { contains: name, mode: 'insensitive' } },
+          { id: { in: friends } }
+        ]
       },
       include: { followers: true, following: true },
       take: limit + 1,
