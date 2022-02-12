@@ -8,9 +8,9 @@
   --bg-color-secondary: var(--color-gray-15);
   --fg-color: var(--color-white-100);
   --fg-color-secondary: var(--color-white-95);
-  --fg-brand-color: var(--color-white-100);
-  --brand-color: hsl(210deg, 100%, 45%);
-  --brand-color-secondary: hsl(210deg ,100%, 45%);
+  --fg-brand-color: var(--bg-color);
+  --brand-color: var(--fg-color);
+  --brand-color-secondary: var(--fg-color-secondary);
   --shadow-color: rgba(0, 0, 0, 0.8);
   --shadow-color-secondary: rgba(0, 0, 0, 0.6):
 }
