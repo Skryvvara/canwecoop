@@ -103,9 +103,16 @@ export const gameRouter = router()
   .query('getCategories', {
     async resolve() {
       return await prisma.category.findMany({
+        where: {
+          relevance: { gt: 0 },
+        },
         select: {
           id: true,
           description: true,
+          relevance: true,
+        },
+        orderBy: {
+          relevance: 'desc',
         },
       });
     },
