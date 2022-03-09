@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { GameGrid } from 'components/gameGrid';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from 'providers/userContextProvider';
 import { StringParam, useQueryParams, withDefault } from 'next-query-params';
 
@@ -22,6 +22,7 @@ const Home: NextPage = () => {
     free: CustomBooleanParam,
   });
   const { name, categories, genres, users, free } = query;
+  const [open, setOpen] = useState(false);
 
   const gameCount = trpc.useQuery(['game.getGameCount'], {
     refetchOnWindowFocus: false,
@@ -68,23 +69,28 @@ const Home: NextPage = () => {
           onChange={({ target }) => setQuery({ name: target.value })}
         />
 
-        <h2>This is a work in progress and will look pretty soon</h2>
-        {gameCategories.data?.map((category) => (
-          <label key={category.id} htmlFor={category.description}>
-            <input
-              type="checkbox"
-              checked={categories.includes(category.description)}
-              name={category.description}
-              id={category.description}
-              onChange={({ target }) =>
-                setQuery({
-                  categories: toggle(categories, category.description),
-                })
-              }
-            />
-            {category.description}
-          </label>
-        ))}
+        <div className="selection-box">
+          <button onClick={() => setOpen(!open)}>Filter categories</button>
+
+          <div className={`category-grid ${open ? 'cg-open' : ''}`}>
+            {gameCategories.data?.map((category) => (
+              <label key={category.id} htmlFor={category.description}>
+                <input
+                  type="checkbox"
+                  checked={categories.includes(category.description)}
+                  name={category.description}
+                  id={category.description}
+                  onChange={({ target }) =>
+                    setQuery({
+                      categories: toggle(categories, category.description),
+                    })
+                  }
+                />
+                {category.description}
+              </label>
+            ))}
+          </div>
+        </div>
 
         {currentUser ? (
           <ul>
