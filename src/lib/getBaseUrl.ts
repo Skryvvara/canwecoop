@@ -1,5 +1,5 @@
 export function getBaseUrl() {
-  if (typeof window === 'undefined') {
+  if (typeof window !== 'undefined') {
     return '';
   }
   // reference for vercel.com
