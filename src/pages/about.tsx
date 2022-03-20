@@ -17,7 +17,7 @@ const About: NextPage = () => {
 
       <div className="container">
         <h1>About</h1>
-        <p>
+        <span>
           The goal of CanWeCoop is to make finding coop games easy. Have you
           ever looked at your and your friends steam library side by side to see
           which games you both own and could play together? Yeah. We too. This
@@ -40,11 +40,11 @@ const About: NextPage = () => {
             </li>
             <li>The user can now use our service</li>
           </ol>
-        </p>
+        </span>
 
         <h1>Data Usage</h1>
         <p>WIP</p>
-        <p>
+        <span>
           Collected data:
           <ul>
             <li>
@@ -71,7 +71,7 @@ const About: NextPage = () => {
               </p>
             </li>
           </ul>
-        </p>
+        </span>
       </div>
     </>
   );
