@@ -33,14 +33,13 @@
 }
 
 .mobile {
-  display: flex;
+  display: none;
   position: relative;
   align-items: center;
 }
 
 .mobileMenuToggle {
   height: max-content;
-  display: none;
   align-self: center;
 }
 
@@ -96,15 +95,11 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .mobileMenuToggle {
-    display: block;
+  .mobile {
+    display: flex;
   }
 
-  .navigation {
-    display: none;
-  }
-
-  .user {
+  .navigation, .user {
     display: none;
   }
 
