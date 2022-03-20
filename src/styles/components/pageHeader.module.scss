@@ -16,12 +16,6 @@
   border-radius: 50%;
 }
 
-.games {
-  width: 100%;
-  max-width: 1440px;
-  margin: 10px auto;
-}
-
 .flexRow {
   height: 100%;
   display: flex;
@@ -38,12 +32,19 @@
   letter-spacing: 0.05ch;
 }
 
+.navigation {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  list-style: none;
+}
+
 .user {
   display: flex;
   align-items: center;
 }
 
-.userimg {
+.userImg {
   display: flex;
   justify-content: center;
   align-items: center;

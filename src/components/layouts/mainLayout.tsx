@@ -1,9 +1,9 @@
 import type { NextPage } from 'next';
 import { PageFooter } from 'components/pageFooter';
-import { PageHeader } from 'components/pageHeader';
+import { PageHeader } from 'components/pageHeader/pageHeader';
 
 const MainLayout: NextPage = ({ children }) => {
-  return(
+  return (
     <>
       <PageHeader />
       <main>{children}</main>
