@@ -30,7 +30,16 @@ const About: NextPage = () => {
           the games of all users with our database. This procedure is necessary
           because of steams rate limit for the game detail api. All data
           collected is publicly available on steam, and we don&apos;t (and
-          don&apos;t want to) collect any sensitive data of our users.
+          don&apos;t want to) collect any sensitive data of our users. The way
+          it works (soon):
+          <ol>
+            <li>A user logs in</li>
+            <li>
+              Our game service syncs the missing games every night (interval
+              might change).
+            </li>
+            <li>The user can now use our service</li>
+          </ol>
         </p>
 
         <h1>Data Usage</h1>
