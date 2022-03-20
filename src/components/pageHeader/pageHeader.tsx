@@ -1,10 +1,12 @@
 import styles from 'styles/components/pageHeader.module.scss';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import Link from 'next/link';
 import { Navigation, User } from '.';
 import { ThemeToggle } from 'components/themeToggle';
 
 export const PageHeader: FunctionComponent = () => {
+  const [open, setOpen] = useState(false);
+
   return (
     <header className={styles.mainHeader}>
       <div className={`container ${styles.flexRow}`}>
@@ -14,6 +16,18 @@ export const PageHeader: FunctionComponent = () => {
         </div>
         <Navigation />
         <User />
+        <div className={styles.mobile}>
+          <button
+            className={`${styles.mobileMenuToggle} appBtn`}
+            onClick={() => setOpen(!open)}
+          >
+            Menu
+          </button>
+          <div className={`${styles.mobileMenu} ${open ? styles.open : ''}`}>
+            <Navigation />
+            <User />
+          </div>
+        </div>
       </div>
     </header>
   );
