@@ -5,15 +5,15 @@
 
 ## Description
 > !! THIS PROJECT IS A WIP !! </br>
-> I'm trying to get this ready asap but I hope you understand if it takes time to complete this project.
+> I'm trying to get this ready soon, but I hope you understand if it takes time to complete this project.
 
-The goal of CanWeCoop is to make finding coop games easy. Have you ever looked at your and your friends steam library side by side to see which games you both own and could play together? Yeah we too.
+The goal of CanWeCoop is to make finding coop games easy. Have you ever looked at your and your friends steam library side by side to see which games you both own and could play together? Yeah. We too.
 
-This is very tedious and annoying. CanWeCoop wants to provide a huge list of games so people can either see which games they and their friends own to play together but also find new games to play. We want to create a easy usable library of games for primarly but not limited to coop games.
+This is very tedious and annoying. CanWeCoop wants to provide a huge list of games so people can either see which games they and their friends own to play together but also find new games to play. We want to create an easy usable library of games for primarily but not limited to coop games.
 
 Basically every time a user logs in he's "registered" for our service. On a regular schedule we sync the games of all users with our database. This procedure is necessary because of steams rate limit for the game detail api.
 
-All data collected is publicly available on steam and we don't (and don't want to) collect any sensitive data of our users. 
+All data collected is publicly available on steam, and we don't (and don't want to) collect any sensitive data of our users. 
 
 
 ## Used Technologies
@@ -24,7 +24,7 @@ All data collected is publicly available on steam and we don't (and don't want t
 - [postgresql](https://www.postgresql.org/)
 - [tRPC](https://trpc.io/)
 - [Passport](https://www.passportjs.org/) with [Passport-steam](https://www.passportjs.org/packages/passport-steam/)
-- [Github Actions](https://docs.github.com/en/actions)
+- [GitHub Actions](https://docs.github.com/en/actions)
 - [Prisma](https://www.prisma.io/)
 
 ## Special Thanks
