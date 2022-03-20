@@ -48,6 +48,9 @@ const Home: NextPage = () => {
   const gameCategories = trpc.useQuery(['game.getCategories'], {
     refetchOnWindowFocus: false,
   });
+  const gameGenres = trpc.useQuery(['game.getGenres'], { 
+    refetchOnWindowFocus: false 
+  });
 
   return (
     <>
@@ -61,73 +64,96 @@ const Home: NextPage = () => {
 
       <div className="container">
         <h1>We have a total of {gameCount.data} games!</h1>
-        <input
-          type="search"
-          placeholder="search"
-          className="search"
-          defaultValue={name}
-          onChange={({ target }) => setQuery({ name: target.value })}
-        />
-
-        <div className="selection-box">
-          <button onClick={() => setOpen(!open)}>Filter categories</button>
-
-          <div className={`category-grid ${open ? 'cg-open' : ''}`}>
-            {gameCategories.data?.map((category) => (
-              <label key={category.id} htmlFor={category.description}>
-                <input
-                  type="checkbox"
-                  checked={categories.includes(category.description)}
-                  name={category.description}
-                  id={category.description}
-                  onChange={({ target }) =>
-                    setQuery({
-                      categories: toggle(categories, category.description),
-                    })
-                  }
-                />
-                {category.description}
-              </label>
-            ))}
-          </div>
+        <div className="input-row">
+          <input
+            type="search"
+            placeholder="search"
+            className="search"
+            defaultValue={name}
+            onChange={({ target }) => setQuery({ name: target.value })}
+          />
+          <button className="appBtn" onClick={() => setOpen(!open)}>Filter</button>
         </div>
 
-        {currentUser ? (
-          <ul>
-            <li>
-              <label htmlFor={currentUser.displayName}>
-                {currentUser.displayName}
-                <input
-                  type="checkbox"
-                  checked={users.includes(currentUser.id)}
-                  name={currentUser.displayName}
-                  id={currentUser.displayName}
-                  onChange={({ target }) =>
-                    setQuery({ users: toggle(users, currentUser.id) })
-                  }
-                />
-              </label>
-            </li>
-            {currentUser.following.map((user) => (
-              <li key={user.id}>
-                <label htmlFor={user.displayName}>
-                  {user.displayName}
-                  <input
-                    type="checkbox"
-                    checked={users.includes(user.id)}
-                    name={user.displayName}
-                    id={user.displayName}
-                    onChange={({ target }) =>
-                      setQuery({ users: toggle(users, user.id) })
-                    }
+        <div className="selection-box">
+          <div className={`selection-grid ${open ? 'cg-open' : ''}`}>
+            <h3>Categories</h3>
+            <ul>
+              {gameCategories.data?.map((category) => (
+                <li key={category.id}>
+                  <label htmlFor={category.description}>
+                    <input
+                      type="checkbox"
+                      checked={categories.includes(category.description)}
+                      name={category.description}
+                      id={category.description}
+                      onChange={({ target }) =>
+                        setQuery({
+                          categories: toggle(categories, category.description),
+                        })
+                      }
+                    />
+                    {category.description}
+                  </label>
+                </li>
+              ))}
+            </ul>
+            <h3>Genres</h3>
+            <ul>
+            {gameGenres.data?.map((genre) => (
+              <li key={genre.id}>
+                <label htmlFor={genre.description}>
+                  <input 
+                    type="checkbox" 
+                    checked={genres.includes(genre.description)}
+                    name={genre.description}
+                    id={genre.description}
+                    onChange={({ target }) => setQuery({ genres: toggle(genres, genre.description) })}
                   />
+                  {genre.description}
                 </label>
               </li>
             ))}
-          </ul>
-        ) : (
-          <></>
-        )}
+            </ul>
+            {currentUser && (
+              <>
+              <h3>Users</h3>
+              <ul>
+                <li>
+                  <label htmlFor={currentUser.displayName}>
+                    <input 
+                      type="checkbox" 
+                      checked={users.includes(currentUser.id)}
+                      name={currentUser.displayName}
+                      id={currentUser.displayName}
+                      onChange={({ target }) => 
+                        setQuery({ users: toggle(users, currentUser.id) })
+                      } 
+                    />
+                    {currentUser.displayName}
+                  </label>
+                </li>
+                {currentUser.following.map((user) => (
+                  <li key={user.id}>
+                    <label htmlFor={user.displayName}>
+                      <input
+                        type="checkbox"
+                        checked={users.includes(user.id)}
+                        name={user.displayName}
+                        id={user.displayName}
+                        onChange={({ target }) =>
+                          setQuery({ users: toggle(users, user.id) })
+                        }
+                      />
+                      {user.displayName}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+              </>
+            )}
+          </div>
+        </div>
 
         {games.data?.pages[0].games.length != 0 ? (
           <GameGrid data={games.data} />

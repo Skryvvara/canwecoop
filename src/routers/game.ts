@@ -116,4 +116,21 @@ export const gameRouter = router()
         },
       });
     },
+  })
+  .query('getGenres', {
+    async resolve() {
+      return await prisma.genre.findMany({
+        where: {
+          relevance: { gt: 0 },
+        },
+        select: {
+          id: true,
+          description: true,
+          relevance: true
+        },
+        orderBy: {
+          relevance: 'desc'
+        },
+      })
+    }
   });
