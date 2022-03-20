@@ -1,17 +1,17 @@
-import type {NextPage} from 'next';
+import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import {GameGrid} from 'components/gameGrid';
-import {useContext, useState} from 'react';
-import {UserContext} from 'providers/userContextProvider';
-import {StringParam, useQueryParams, withDefault} from 'next-query-params';
+import { GameGrid } from 'components/gameGrid';
+import { useContext, useState } from 'react';
+import { UserContext } from 'providers/userContextProvider';
+import { StringParam, useQueryParams, withDefault } from 'next-query-params';
 
-import {CustomArrayParam, CustomBooleanParam} from 'lib/queryParams';
-import {toggle} from 'lib/arrayToogle';
-import {trpc} from 'lib/trpc';
+import { CustomArrayParam, CustomBooleanParam } from 'lib/queryParams';
+import { toggle } from 'lib/arrayToogle';
+import { trpc } from 'lib/trpc';
 
 const Home: NextPage = () => {
-  const {currentUser} = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const [query, setQuery] = useQueryParams({
     name: withDefault(StringParam, undefined),
     categories: CustomArrayParam,
@@ -19,7 +19,7 @@ const Home: NextPage = () => {
     users: CustomArrayParam,
     free: CustomBooleanParam,
   });
-  const {name, categories, genres, users, free} = query;
+  const { name, categories, genres, users, free } = query;
   const [open, setOpen] = useState(false);
 
   const gameCount = trpc.useQuery(['game.getGameCount'], {
@@ -47,7 +47,7 @@ const Home: NextPage = () => {
     refetchOnWindowFocus: false,
   });
   const gameGenres = trpc.useQuery(['game.getGenres'], {
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
   });
 
   return (
@@ -68,9 +68,11 @@ const Home: NextPage = () => {
             placeholder="search"
             className="search"
             defaultValue={name}
-            onChange={({target}) => setQuery({name: target.value})}
+            onChange={({ target }) => setQuery({ name: target.value })}
           />
-          <button className="appBtn" onClick={() => setOpen(!open)}>Filter</button>
+          <button className="appBtn" onClick={() => setOpen(!open)}>
+            Filter
+          </button>
         </div>
 
         <div className="selection-box">
@@ -85,7 +87,7 @@ const Home: NextPage = () => {
                       checked={categories.includes(category.description)}
                       name={category.description}
                       id={category.description}
-                      onChange={({target}) =>
+                      onChange={() =>
                         setQuery({
                           categories: toggle(categories, category.description),
                         })
@@ -106,7 +108,9 @@ const Home: NextPage = () => {
                       checked={genres.includes(genre.description)}
                       name={genre.description}
                       id={genre.description}
-                      onChange={({target}) => setQuery({genres: toggle(genres, genre.description)})}
+                      onChange={() =>
+                        setQuery({ genres: toggle(genres, genre.description) })
+                      }
                     />
                     {genre.description}
                   </label>
@@ -124,8 +128,8 @@ const Home: NextPage = () => {
                         checked={users.includes(currentUser.id)}
                         name={currentUser.displayName}
                         id={currentUser.displayName}
-                        onChange={({target}) =>
-                          setQuery({users: toggle(users, currentUser.id)})
+                        onChange={() =>
+                          setQuery({ users: toggle(users, currentUser.id) })
                         }
                       />
                       {currentUser.displayName}
@@ -139,8 +143,8 @@ const Home: NextPage = () => {
                           checked={users.includes(user.id)}
                           name={user.displayName}
                           id={user.displayName}
-                          onChange={({target}) =>
-                            setQuery({users: toggle(users, user.id)})
+                          onChange={() =>
+                            setQuery({ users: toggle(users, user.id) })
                           }
                         />
                         {user.displayName}
@@ -154,7 +158,7 @@ const Home: NextPage = () => {
         </div>
 
         {games.data?.pages[0].games.length != 0 ? (
-          <GameGrid data={games.data}/>
+          <GameGrid data={games.data} />
         ) : (
           <div>
             <h2>Oh no! These aren&#39;t the games you&#39;re looking for.</h2>
