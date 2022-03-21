@@ -19,7 +19,7 @@ router.use(session({
   secret: Config.SessionSecret,
   name: 'cwc-session',
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: false,
   store: new PrismaSessionStore(
     prisma,
     {
