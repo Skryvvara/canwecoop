@@ -13,6 +13,9 @@ const age: number = 1000 * 60 * 60 * 24 * 30; // 30 days
 router.use(session({
   cookie: {
     maxAge: age,
+    httpOnly: true,
+    secure: (process.env.NODE_ENV === 'production'),
+    sameSite: 'strict',
   },
   secret: Config.SessionSecret,
   name: 'cwc-session',
