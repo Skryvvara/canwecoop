@@ -14,8 +14,7 @@ router.use(session({
   cookie: {
     maxAge: age,
     httpOnly: true,
-    secure: (process.env.NODE_ENV === 'production'),
-    sameSite: 'lax',
+    sameSite: 'strict',
   },
   secret: Config.SessionSecret,
   name: 'cwc-session',
