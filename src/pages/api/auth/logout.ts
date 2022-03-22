@@ -1,5 +1,6 @@
-import router from '../../../lib/router';
+import router from 'lib/router';
 
+// Might be obsolte and will be removed in a future release
 interface IAuthLogoutRequest extends Request {
     logout: () => any;
 }
@@ -11,4 +12,4 @@ interface IAuthLogoutResponse extends Response {
 const path = '/api/auth/logout';
 
 export default router
-    .get(path, (req: IAuthLogoutRequest, res: IAuthLogoutResponse) => { req.logout(); res.redirect('/'); });
+    .get(path, (req: any, res: IAuthLogoutResponse) => { req.logout(); res.redirect(req.headers.referer ?? '/'); });
