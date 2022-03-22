@@ -8,11 +8,11 @@ export interface IUserContext {
     followers: User[];
     following: User[];
   };
-  mutate?: Function;
+  mutate: Function;
   loading?: boolean;
 }
 
-export const UserContext = createContext<IUserContext>({});
+export const UserContext = createContext<IUserContext>({ mutate: (key: string) => {} });
 
 export const UserContextProvider: NextPage = ({children}) => {
   const [user, { mutate, loading }] = useUser();
