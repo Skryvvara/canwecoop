@@ -8,16 +8,17 @@ export interface IUserContext {
     followers: User[];
     following: User[];
   };
+  mutate?: Function;
   loading?: boolean;
 }
 
 export const UserContext = createContext<IUserContext>({});
 
 export const UserContextProvider: NextPage = ({children}) => {
-  const [user] = useUser();
+  const [user, { mutate, loading }] = useUser();
 
   return (
-    <UserContext.Provider value={{currentUser: user}}>
+    <UserContext.Provider value={{currentUser: user, mutate, loading}}>
       {children}
     </UserContext.Provider>
   );
