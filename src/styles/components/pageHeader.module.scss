@@ -19,17 +19,50 @@
 .flexRow {
   height: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+
+  .logo, .navigation, .user {
+    flex: 1;
+  }
 }
 
 .logo {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .logo a {
   font-weight: bold;
   letter-spacing: 0.05ch;
+}
+
+.navigation {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+
+  a {
+    border: 1px solid transparent;
+    transition: border-bottom 250ms ease-out;
+
+    &:hover { border-bottom: 1px solid var(--fg-color); }
+  }
+}
+
+.user {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.userImg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
 }
 
 .mobile {
@@ -73,25 +106,6 @@
     display: flex;
     flex-direction: column;
   }
-}
-
-.navigation {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  list-style: none;
-}
-
-.user {
-  display: flex;
-  align-items: center;
-}
-
-.userImg {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 5px;
 }
 
 @media only screen and (max-width: 600px) {
