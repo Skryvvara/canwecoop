@@ -24,6 +24,8 @@ model User {
   avatarmedium   String
   avatarfull     String
   profileurl     String
+  tester         Boolean @default(false)
+  admin          Boolean @default(false)
   createdAt      DateTime  @default(now())
   lastLogin      DateTime? @updatedAt
   steamFriendIds String[]
@@ -51,6 +53,7 @@ model Game {
   background        String
   storeUrl          String
   ownedBy           User[]
+  hidden            Boolean @default(false)
 }
 
 model Category {
