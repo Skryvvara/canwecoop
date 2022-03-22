@@ -27,7 +27,15 @@ const Users: NextPage = () => {
 
       <div className="container">
         <h1>We have a total of {userCount.data} users!</h1>
-        <input type="text" placeholder='search' className='search' defaultValue={name} onChange={({ target }) => setName(target.value) }/>
+        <div className="input-row">
+          <input 
+            type="text" 
+            placeholder='search' 
+            className='search' 
+            defaultValue={name} 
+            onChange={({ target }) => setName(target.value) }
+          />
+        </div>
         { 
           (users.data?.pages[0].users.length != 0)
           ? <UserGrid data={users.data} />
