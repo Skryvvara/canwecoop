@@ -16,9 +16,28 @@ export default router.get(path, async(req: IUserAuthRequest, res: NextApiRespons
     const userId = req.user.id;
     const user = await prisma.user.findFirst({
       where: { id: userId },
-      include: {
-        followers: true,
-        following: true
+      select: {
+        id: true,
+        displayName: true,
+        avatar: true,
+        avatarmedium: true,
+        avatarfull: true,
+        profileurl: true,
+        lastLogin: false,
+        createdAt: false,
+        steamFriendIds: false,
+        followers: {
+          select: {
+            id: true,
+            displayName: true
+          }
+        },
+        following: {
+          select: {
+            id: true,
+            displayName: true
+          }
+        }
       }
     });
     if (!user) throw `No user with id ${userId}`;
