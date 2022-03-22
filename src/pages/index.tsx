@@ -19,6 +19,7 @@ const Home: NextPage = () => {
     users: CustomArrayParam,
     free: CustomBooleanParam,
   });
+  const following = trpc.useQuery(['user.getFollowing', { id: currentUser?.id }], { refetchOnWindowFocus: false });
   const { name, categories, genres, users, free } = query;
   const [open, setOpen] = useState(false);
 
@@ -135,7 +136,7 @@ const Home: NextPage = () => {
                       {currentUser.displayName}
                     </label>
                   </li>
-                  {currentUser.following.map((user) => (
+                  {following.data?.following.map((user) => (
                     <li key={user.id}>
                       <label htmlFor={user.displayName}>
                         <input

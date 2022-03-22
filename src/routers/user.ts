@@ -72,6 +72,24 @@ export const userRouter = router()
     };
   }
 })
+.query('getFollowing', {
+  input: z.object({
+    id: z.string().nullish()
+  }),
+  async resolve({ input }) {
+    const { id } = input;
+    if (!id) return;
+
+    const user = await prisma.user.findFirst({
+      where: { id: id },
+      select: {
+        following: true
+      }
+    });
+
+    return user;
+  }
+})
 .mutation('follow', {
   input:  z.object({
     currentId: z.string(),
