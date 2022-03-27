@@ -25,7 +25,7 @@
     box-shadow: 0 2px 5px 0 var(--shadow-color);
     margin-top: auto;
     position: relative;
-  
+
     .categoryList {
       background-color: var(--bg-color-secondary);
       color: var(--fg-color-secondary);
@@ -39,8 +39,9 @@
       box-shadow: 0 2px 5px 0 var(--shadow-color);
       z-index: 10;
     }
-  
-    &:hover, &:focus {
+
+    &:hover,
+    &:focus {
       .categoryList {
         display: grid;
       }
@@ -51,13 +52,15 @@
     margin-top: 5px;
   }
 
-  h2 { font-size: 1.15rem; }
+  h2 {
+    font-size: 1.15rem;
+  }
 
   p {
     font-size: 0.9rem;
     color: var(--fg-color-secondary);
-  
-    overflow:hidden;
+
+    overflow: hidden;
     max-height: 4rem;
     -webkit-box-orient: vertical;
     display: block;
@@ -67,4 +70,4 @@
     -webkit-line-clamp: 3;
     margin-bottom: 5px;
   }
-} 
+}

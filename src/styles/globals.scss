@@ -1,3 +1,5 @@
+@import 'mixins';
+
 :root {
   --color-gray-10: hsl(210deg, 4%, 10%);
   --color-gray-15: hsl(210deg, 4%, 15%);
@@ -15,7 +17,7 @@
   --shadow-color-secondary: rgba(0, 0, 0, 0.6);
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   --bg-color: var(--color-white-95);
   --bg-color-secondary: var(--color-white-100);
   --fg-color: var(--color-gray-10);
@@ -31,8 +33,8 @@ main {
   background-color: var(--bg-color);
   color: var(--fg-color);
   height: 100%;
-  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -112,6 +114,20 @@ a {
       margin: 0 5px;
     }
   }
+
+  @include tablet {
+    ul {
+      grid-template-columns: repeat(2, auto);
+    }
+  }
+
+  @include phone {
+    width: auto;
+
+    ul {
+      grid-template-columns: 1fr;
+    }
+  }
 }
 
 .search {
@@ -189,49 +205,30 @@ a {
   }
 }
 
-[data-box="grid"] {
+[data-box='grid'] {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 15px;
   list-style: none;
 
-  &[data-col="6"] {
+  &[data-col='6'] {
     grid-template-columns: repeat(6, minmax(0, 1fr));
   }
-}
 
-@media only screen and (max-width: 900px) {
-  [data-box="grid"] {
+  @include tablet {
     grid-template-columns: 1fr 1fr;
 
-    &[data-col="6"] {
+    &[data-col='6'] {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
-  .selection-grid {
-    
-    ul {
-      grid-template-columns: repeat(2, auto);
-    }
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  [data-box="grid"] {
+  @include phone {
     grid-template-columns: minmax(0, 1fr);
 
-    &[data-col="6"] {
+    &[data-col='6'] {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  .selection-grid {
-    width: auto;
-    
-    ul {
-      grid-template-columns: 1fr;
     }
   }
 }

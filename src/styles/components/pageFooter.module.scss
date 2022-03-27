@@ -1,3 +1,5 @@
+@import '../mixins';
+
 .mainFooter {
   min-height: 4rem;
   margin-top: auto;
@@ -6,8 +8,11 @@
   background-color: var(--bg-color-secondary);
   padding: 15px 0;
 
-  li, p { font-size: 0.95rem; }
-  
+  li,
+  p {
+    font-size: 0.95rem;
+  }
+
   .footerLinks {
     width: fit-content;
     display: flex;
@@ -18,7 +23,9 @@
 
     li {
       color: var(--fg-color-secondary);
-      &:hover { text-decoration: underline; }
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     li + li::before {
@@ -28,13 +35,11 @@
       display: inline-block;
     }
   }
-}
 
-@media only screen and (max-width: 600px) {
-  .mainFooter {
+  @include phone {
     .footerLinks {
       flex-direction: column;
-  
+
       li + li::before {
         display: none;
       }
