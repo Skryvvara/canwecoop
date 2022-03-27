@@ -7,7 +7,7 @@ import { UserContext } from 'providers/userContextProvider';
 import { StringParam, useQueryParams, withDefault } from 'next-query-params';
 
 import { CustomArrayParam, CustomBooleanParam } from 'lib/queryParams';
-import { toggle } from 'lib/arrayToogle';
+import { toggle } from 'lib/arrayToggle';
 import { trpc } from 'lib/trpc';
 
 const Home: NextPage = () => {
@@ -19,7 +19,10 @@ const Home: NextPage = () => {
     users: CustomArrayParam,
     free: CustomBooleanParam,
   });
-  const following = trpc.useQuery(['user.getFollowing', { id: currentUser?.id }], { refetchOnWindowFocus: false });
+  const following = trpc.useQuery(
+    ['user.getFollowing', { id: currentUser?.id }],
+    { refetchOnWindowFocus: false }
+  );
   const { name, categories, genres, users, free } = query;
   const [open, setOpen] = useState(false);
 
