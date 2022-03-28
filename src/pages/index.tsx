@@ -66,7 +66,7 @@ const Home: NextPage = () => {
 
       <div className="container">
         <h1>We have a total of {gameCount.data} games!</h1>
-        <div className="input-row">
+        <section aria-label="search" className="input-row">
           <input
             type="search"
             placeholder="search"
@@ -77,7 +77,7 @@ const Home: NextPage = () => {
           <button className="appBtn" onClick={() => setOpen(!open)}>
             Filter
           </button>
-        </div>
+        </section>
 
         <div className="selection-box">
           <div className={`selection-grid ${open ? 'cg-open' : ''}`}>
