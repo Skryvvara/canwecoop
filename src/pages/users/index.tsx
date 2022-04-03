@@ -3,7 +3,7 @@ import { trpc } from 'lib/trpc';
 import type { NextPage } from 'next';
 import { StringParam, useQueryParam, withDefault } from 'next-query-params';
 import Head from 'next/head';
-import { UserContext } from 'providers/userContextProvider';
+import { UserContext } from 'context/userContextProvider';
 import { useContext } from 'react';
 
 const Users: NextPage = () => {

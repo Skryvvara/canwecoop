@@ -1,13 +1,16 @@
 import 'styles/globals.scss';
 import type { AppProps } from 'next/app';
-import { UserContextProvider } from 'providers/userContextProvider';
+import { UserContextProvider } from 'context';
 import { ThemeProvider } from 'next-themes';
 import MainLayout from 'components/layouts/mainLayout';
 import { withTRPC } from '@trpc/next';
 import { AppRouter } from './api/trpc/[trpc]';
 import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import { getBaseUrl } from 'lib/getBaseUrl';
-import { ExtendedStringifyOptions, NextQueryParamProvider } from 'next-query-params';
+import {
+  ExtendedStringifyOptions,
+  NextQueryParamProvider,
+} from 'next-query-params';
 
 const stringifyOptions: ExtendedStringifyOptions = {
   transformSearchString: (searchString: string) => {
@@ -17,10 +20,10 @@ const stringifyOptions: ExtendedStringifyOptions = {
       params.delete(key);
     });
     return params.toString();
-  }
+  },
 };
 
-function App({ Component, pageProps}: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <UserContextProvider>
       <ThemeProvider>
@@ -45,7 +48,7 @@ export default withTRPC<AppRouter>({
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
         }),
-      ]
+      ],
     };
   },
   /**

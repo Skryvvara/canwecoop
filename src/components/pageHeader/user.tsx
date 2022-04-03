@@ -2,7 +2,7 @@ import styles from 'styles/components/pageHeader.module.scss';
 import { FunctionComponent, useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { UserContext } from '../../providers/userContextProvider';
+import { UserContext } from 'context';
 
 export const User: FunctionComponent = () => {
   const { currentUser, loading } = useContext(UserContext);

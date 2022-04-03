@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { createContext } from 'react';
-import { useUser } from 'lib/hook';
+import { useUser } from 'hooks';
 import { User } from '@prisma/client';
 
 export interface IUserContext {
@@ -12,13 +12,15 @@ export interface IUserContext {
   loading?: boolean;
 }
 
-export const UserContext = createContext<IUserContext>({ mutate: (key: string) => {} });
+export const UserContext = createContext<IUserContext>({
+  mutate: (key: string) => {},
+});
 
-export const UserContextProvider: NextPage = ({children}) => {
+export const UserContextProvider: NextPage = ({ children }) => {
   const [user, { mutate, loading }] = useUser();
 
   return (
-    <UserContext.Provider value={{currentUser: user, mutate, loading}}>
+    <UserContext.Provider value={{ currentUser: user, mutate, loading }}>
       {children}
     </UserContext.Provider>
   );

@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { GameGrid } from 'components/gameGrid';
 import { useContext, useState } from 'react';
-import { UserContext } from 'providers/userContextProvider';
+import { UserContext } from 'context';
 import { StringParam, useQueryParams, withDefault } from 'next-query-params';
 
 import { CustomArrayParam, CustomBooleanParam } from 'lib/queryParams';
