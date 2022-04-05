@@ -101,6 +101,20 @@ const Home: NextPage = () => {
                   </label>
                 </li>
               ))}
+              <li>
+                <label htmlFor="free">
+                  <input
+                    type="checkbox"
+                    checked={free}
+                    name="free"
+                    id="free"
+                    onChange={({ target }) =>
+                      setQuery({ free: target.checked })
+                    }
+                  />
+                  Free
+                </label>
+              </li>
             </ul>
             <h3>Genres</h3>
             <ul>
