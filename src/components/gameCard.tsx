@@ -2,6 +2,8 @@ import styles from 'styles/components/gameCard.module.scss';
 import { FunctionComponent } from 'react';
 import { Category, Game, Genre } from '@prisma/client';
 import Image from 'next/image';
+import { FaShoppingCart } from 'react-icons/fa';
+import Link from 'next/link';
 
 interface Props {
   game: Game & { categories: Category[]; genres: Genre[]; }
@@ -24,23 +26,23 @@ export const GameCard: FunctionComponent<Props> = ({ game, index }) => {
             : <></>
           }
 
-          <button className={styles.categoryBtn}>
-            Categories
-            <ul className={styles.categoryList}>
-              {game.categories.map((c) => 
-                <li key={c.id}>
-                  {c.description}
-                </li>) 
-              }
-            </ul>
-          </button>
+          <div className={styles.buttonGroup}>
+            <button className={styles.categoryBtn}>
+              C
+              <ul className={styles.categoryList}>
+                { game.categories.map((c) => <li key={c.id}>{c.description}</li>) }
+              </ul>
+            </button>
 
-          <button className={styles.categoryBtn}>
-            Genres
-            <ul className={styles.categoryList}>
-              {game.genres.map((c) => <li key={c.id}>{c.description}</li>) }
-            </ul>
-          </button>
+            <button className={styles.categoryBtn}>
+              G
+              <ul className={styles.categoryList}>
+                { game.genres.map((c) => <li key={c.id}>{c.description}</li>) }
+              </ul>
+            </button>
+
+            <div className="appBtn"><Link href={game.storeUrl} passHref><><FaShoppingCart /> Store</></Link></div>
+          </div>
         </div>
       </li>
   );

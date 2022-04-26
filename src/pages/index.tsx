@@ -5,6 +5,7 @@ import { GameGrid } from 'components/gameGrid';
 import { useContext, useState } from 'react';
 import { UserContext } from 'context';
 import { StringParam, useQueryParams, withDefault } from 'next-query-params';
+import { FaFilter } from 'react-icons/fa';
 
 import { CustomArrayParam, CustomBooleanParam } from 'lib/queryParams';
 import { toggle } from 'lib/arrayToggle';
@@ -74,8 +75,8 @@ const Home: NextPage = () => {
             defaultValue={name}
             onChange={({ target }) => setQuery({ name: target.value })}
           />
-          <button className="appBtn" onClick={() => setOpen(!open)}>
-            Filter
+          <button className="appBtn" aria-label='Filter' name='Filter' title='Apply filters' onClick={() => setOpen(!open)}>
+            <FaFilter className='icon' />
           </button>
         </section>
 

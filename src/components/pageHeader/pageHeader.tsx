@@ -3,6 +3,7 @@ import { FunctionComponent, useState } from 'react';
 import Link from 'next/link';
 import { Navigation, User } from '.';
 import { ThemeToggle } from 'components/themeToggle';
+import { FaBars } from 'react-icons/fa';
 
 export const PageHeader: FunctionComponent = () => {
   const [open, setOpen] = useState(false);
@@ -21,7 +22,7 @@ export const PageHeader: FunctionComponent = () => {
             className={`${styles.mobileMenuToggle} appBtn`}
             onClick={() => setOpen(!open)}
           >
-            Menu
+            <FaBars className='icon'/>
           </button>
           <div className={`${styles.mobileMenu} ${open ? styles.open : ''}`}>
             <Navigation />

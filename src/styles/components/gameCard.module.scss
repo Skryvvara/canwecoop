@@ -16,19 +16,23 @@
   }
 
   .categoryBtn {
+    width: fit-content;
     appearance: none;
     background-color: var(--brand-color);
     color: var(--fg-brand-color);
     font-weight: bold;
+    font-size: 1rem;
     border: 2px solid var(--brand-color);
     border-radius: 0.25rem;
     box-shadow: 0 2px 5px 0 var(--shadow-color);
+    padding: 5px 7px;
     margin-top: auto;
     position: relative;
 
     .categoryList {
       background-color: var(--bg-color-secondary);
       color: var(--fg-color-secondary);
+      font-size: 0.80rem;
       display: none;
       border-radius: 4px;
       padding: 5px;
@@ -48,8 +52,14 @@
     }
   }
 
-  .categoryBtn + .categoryBtn {
-    margin-top: 5px;
+  .buttonGroup {
+    margin-top: auto;
+    display: flex;
+    gap: 10px;
+
+    button {
+      height: 100%;
+    }
   }
 
   h2 {

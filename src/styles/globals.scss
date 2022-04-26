@@ -4,12 +4,12 @@
   --color-gray-10: hsl(210deg, 4%, 10%);
   --color-gray-15: hsl(210deg, 4%, 15%);
   --color-white-100: hsl(0deg, 0%, 100%);
-  --color-white-95: hsl(0deg, 0%, 95%);
+  --color-white-90: hsl(0deg, 0%, 90%);
 
   --bg-color: var(--color-gray-10);
   --bg-color-secondary: var(--color-gray-15);
   --fg-color: var(--color-white-100);
-  --fg-color-secondary: var(--color-white-95);
+  --fg-color-secondary: var(--color-white-90);
   --fg-brand-color: var(--bg-color);
   --brand-color: var(--fg-color);
   --brand-color-secondary: var(--fg-color-secondary);
@@ -18,7 +18,7 @@
 }
 
 [data-theme='light'] {
-  --bg-color: var(--color-white-95);
+  --bg-color: var(--color-white-90);
   --bg-color-secondary: var(--color-white-100);
   --fg-color: var(--color-gray-10);
   --fg-color-secondary: var(--color-gray-15);
@@ -202,6 +202,11 @@ a {
   &:hover {
     background-color: var(--brand-color-secondary);
     border-color: var(--brand-color-secondary);
+  }
+
+  .icon {
+    height: 2em;
+    width: 2em;
   }
 }
 
