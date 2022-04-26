@@ -18,13 +18,15 @@ export const GameCard: FunctionComponent<Props> = ({ game, index }) => {
           <Image src={game.header_image} priority={(index && index <= 12) ? true : false} alt={game.name} width={460} height={215} />
         </div>
         <div className={styles.cardBody}>
-          <h2>{game.name}</h2>
-          <p>{game.short_description}</p>
+          <div className={styles.cardText}>
+            <h2>{game.name}</h2>
+            <p>{game.short_description}</p>
 
-          { (game.is_free) 
-            ? <p><strong>FREE</strong></p>
-            : <></>
-          }
+            { (game.is_free) 
+              ? <p><strong>FREE</strong></p>
+              : <></>
+            }
+          </div>
 
           <div className={styles.buttonGroup}>
             <button className={styles.categoryBtn}>
@@ -41,7 +43,9 @@ export const GameCard: FunctionComponent<Props> = ({ game, index }) => {
               </ul>
             </button>
 
-            <div className="appBtn"><Link href={game.storeUrl} passHref><><FaShoppingCart /> Store</></Link></div>
+            <div className={`${styles.shopBtn} appBtn`}>
+              <Link href={game.storeUrl} passHref><><FaShoppingCart className={styles.icon} />Store</></Link>
+            </div>
           </div>
         </div>
       </li>

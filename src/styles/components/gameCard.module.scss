@@ -3,16 +3,24 @@
   background: var(--bg-color-secondary);
   box-shadow: 0 4px 10px 0 var(--shadow-color);
   display: flex;
-  overflow: hidden;
   flex-direction: column;
   transform-style: flat;
   backface-visibility: hidden;
+
+  .imgBox, img {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+  }
 
   .cardBody {
     height: 100%;
     padding: 10px;
     display: flex;
     flex-direction: column;
+    
+    .cardText {
+      margin-bottom: 10px;
+    }
   }
 
   .categoryBtn {
@@ -59,6 +67,16 @@
 
     button {
       height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .shopBtn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
     }
   }
 
