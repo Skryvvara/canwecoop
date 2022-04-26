@@ -44,7 +44,9 @@ export const GameCard: FunctionComponent<Props> = ({ game, index }) => {
             </button>
 
             <div className={`${styles.shopBtn} appBtn`}>
-              <Link href={game.storeUrl} passHref><><FaShoppingCart className={styles.icon} />Store</></Link>
+              <Link href={game.storeUrl} passHref>
+                <a target="_blank" rel="noreferrer" referrerPolicy="no-referrer" ><FaShoppingCart className={styles.icon} />Store</a>
+              </Link>
             </div>
           </div>
         </div>
