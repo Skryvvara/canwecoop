@@ -131,6 +131,6 @@ export const gameRouter = router()
         orderBy: {
           relevance: 'desc'
         },
-      })
+      });
     }
   });
