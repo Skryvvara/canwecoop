@@ -68,6 +68,11 @@ passport.use(new SteamStrategy({
 			avatarfull: userData.avatarfull,
 			profileurl: userData.profileurl,
 			steamFriendIds: userData.steamFriendIds,
+			following: {
+				connect: friends.map((friend) => ({
+					id: friend
+				}))
+			}
 		},
 		where: { id: user.id },
 		include: {
