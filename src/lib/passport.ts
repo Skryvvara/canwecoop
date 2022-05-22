@@ -63,11 +63,8 @@ passport.use(new SteamStrategy({
 	user = await prisma.user.update({
 		data: { 
 			displayName: userData.displayName,
-			avatar: userData.avatar,
-			avatarmedium: userData.avatarmedium,
 			avatarfull: userData.avatarfull,
 			profileurl: userData.profileurl,
-			steamFriendIds: userData.steamFriendIds,
 			following: {
 				connect: friends.map((friend) => ({
 					id: friend

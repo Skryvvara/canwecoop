@@ -20,15 +20,12 @@ model Session {
 model User {
   id             String    @id
   displayName    String
-  avatar         String
-  avatarmedium   String
   avatarfull     String
   profileurl     String
   tester         Boolean @default(false)
   admin          Boolean @default(false)
   createdAt      DateTime  @default(now())
   lastLogin      DateTime? @updatedAt
-  steamFriendIds String[]
   following      User[]    @relation("UserFollows", references: [id])
   followers      User[]    @relation("UserFollows", references: [id])
   games          Game[]

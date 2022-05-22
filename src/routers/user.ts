@@ -26,10 +26,8 @@ export const userRouter = router()
     if (currentUserId) {
       const currentUser = await prisma.user.findFirst({
         where: { id: currentUserId },
-        select: { steamFriendIds: true }
       });
       if (!currentUser) throw `Couldn't fetch user with id ${currentUserId}`;
-      friends = currentUser?.steamFriendIds;
     }
 
     const users = await prisma.user.findMany({
