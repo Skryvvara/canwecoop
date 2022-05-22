@@ -21,13 +21,10 @@ export default router.get(
         select: {
           id: true,
           displayName: true,
-          avatar: true,
-          avatarmedium: true,
           avatarfull: true,
           profileurl: true,
           lastLogin: false,
           createdAt: false,
-          steamFriendIds: false,
           followers: {
             select: {
               id: true,
@@ -44,9 +41,9 @@ export default router.get(
       });
       if (!user) throw `No user with id ${userId}`;
 
-      res.json({ user: user });
+      res.status(200).json({ user: user });
     } catch (error: any) {
-      res.json({ user: undefined, error: true });
+      res.status(500).json({ user: undefined, error: true });
     }
   }
 );

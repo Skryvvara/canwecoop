@@ -23,8 +23,6 @@ passport.use(new SteamStrategy({
 	let userData = {
 		id: profile.id,
 		displayName: profile.displayName,
-		avatar: profile._json.avatar,
-		avatarmedium: profile._json.avatarmedium,
 		avatarfull: profile._json.avatarfull,
 		profileurl: profile._json.profileurl,
 		steamFriendIds: [] as string[]
