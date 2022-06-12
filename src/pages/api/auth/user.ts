@@ -43,7 +43,7 @@ export default router.get(
 
       res.status(200).json({ user: user });
     } catch (error: any) {
-      res.status(500).json({ user: undefined, error: true });
+      res.status(401).json({ user: undefined, error: true });
     }
   }
 );
