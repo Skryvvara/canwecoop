@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { GameGrid } from 'components/gameGrid';
-import { useContext, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { UserContext } from 'context';
 import { StringParam, useQueryParams, withDefault } from 'next-query-params';
 import { FaFilter } from 'react-icons/fa';
@@ -10,6 +10,7 @@ import { FaFilter } from 'react-icons/fa';
 import { CustomArrayParam, CustomBooleanParam } from 'lib/queryParams';
 import { toggle } from 'lib/arrayToggle';
 import { trpc } from 'lib/trpc';
+import { Checkbox } from 'components/checkbox';
 
 const Home: NextPage = () => {
   const { currentUser } = useContext(UserContext);
@@ -26,6 +27,14 @@ const Home: NextPage = () => {
   );
   const { name, categories, genres, users, free } = query;
   const [open, setOpen] = useState(false);
+
+  const allUsers: any[] = useMemo(() => {
+    let users: any[] = [];
+    if (currentUser) users = users.concat([currentUser]);
+    if (following.data?.following)
+      users = users.concat(following.data.following);
+    return users;
+  }, [following, currentUser]);
 
   const gameCount = trpc.useQuery(['game.getGameCount'], {
     refetchOnWindowFocus: false,
@@ -75,8 +84,14 @@ const Home: NextPage = () => {
             defaultValue={name}
             onChange={({ target }) => setQuery({ name: target.value })}
           />
-          <button className="appBtn" aria-label='Filter' name='Filter' title='Apply filters' onClick={() => setOpen(!open)}>
-            <FaFilter className='icon' />
+          <button
+            className="appBtn"
+            aria-label="Filter"
+            name="Filter"
+            title="Apply filters"
+            onClick={() => setOpen(!open)}
+          >
+            <FaFilter className="icon" />
           </button>
         </section>
 
@@ -86,53 +101,39 @@ const Home: NextPage = () => {
             <ul>
               {gameCategories.data?.map((category) => (
                 <li key={category.id}>
-                  <label htmlFor={category.description}>
-                    <input
-                      type="checkbox"
-                      checked={categories.includes(category.description)}
-                      name={category.description}
-                      id={category.description}
-                      onChange={() =>
-                        setQuery({
-                          categories: toggle(categories, category.description),
-                        })
-                      }
-                    />
-                    {category.description}
-                  </label>
+                  <Checkbox
+                    name={category.description}
+                    checked={categories.includes(category.description)}
+                    fn={() => {
+                      setQuery({
+                        categories: toggle(categories, category.description),
+                      });
+                    }}
+                  />
                 </li>
               ))}
               <li>
-                <label htmlFor="free">
-                  <input
-                    type="checkbox"
-                    checked={free}
-                    name="free"
-                    id="free"
-                    onChange={({ target }) =>
-                      setQuery({ free: target.checked })
-                    }
-                  />
-                  Free
-                </label>
+                <Checkbox
+                  name="free"
+                  checked={free ?? false}
+                  label="Free"
+                  fn={({ target }) => {
+                    setQuery({ free: target.checked });
+                  }}
+                />
               </li>
             </ul>
             <h3>Genres</h3>
             <ul>
               {gameGenres.data?.map((genre) => (
                 <li key={genre.id}>
-                  <label htmlFor={genre.description}>
-                    <input
-                      type="checkbox"
-                      checked={genres.includes(genre.description)}
-                      name={genre.description}
-                      id={genre.description}
-                      onChange={() =>
-                        setQuery({ genres: toggle(genres, genre.description) })
-                      }
-                    />
-                    {genre.description}
-                  </label>
+                  <Checkbox
+                    name={genre.description}
+                    checked={genres.includes(genre.description)}
+                    fn={() => {
+                      setQuery({ genres: toggle(genres, genre.description) });
+                    }}
+                  />
                 </li>
               ))}
             </ul>
@@ -140,36 +141,19 @@ const Home: NextPage = () => {
               <>
                 <h3>Users</h3>
                 <ul>
-                  <li>
-                    <label htmlFor={currentUser.displayName}>
-                      <input
-                        type="checkbox"
-                        checked={users.includes(currentUser.id)}
-                        name={currentUser.displayName}
-                        id={currentUser.displayName}
-                        onChange={() =>
-                          setQuery({ users: toggle(users, currentUser.id) })
-                        }
-                      />
-                      {currentUser.displayName}
-                    </label>
-                  </li>
-                  {following.data?.following.map((user) => (
-                    <li key={user.id}>
-                      <label htmlFor={user.displayName}>
-                        <input
-                          type="checkbox"
-                          checked={users.includes(user.id)}
+                  {allUsers.map((user) => {
+                    return (
+                      <li key={user.id}>
+                        <Checkbox
                           name={user.displayName}
-                          id={user.displayName}
-                          onChange={() =>
-                            setQuery({ users: toggle(users, user.id) })
-                          }
+                          checked={users.includes(user.id)}
+                          fn={() => {
+                            setQuery({ users: toggle(users, user.id) });
+                          }}
                         />
-                        {user.displayName}
-                      </label>
-                    </li>
-                  ))}
+                      </li>
+                    );
+                  })}
                 </ul>
               </>
             )}
