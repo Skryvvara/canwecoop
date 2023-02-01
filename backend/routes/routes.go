@@ -19,5 +19,11 @@ func RegisterRoutes(r *chi.Mux) {
 				r.Delete("/", controllers.DeleteAuth)
 			})
 		})
+
+		r.Route("/friends", func(r chi.Router) {
+			r.Use(middleware.WithAuth)
+			r.Get("/", controllers.GetFriends)
+			r.Post("/", controllers.UpdateFriends)
+		})
 	})
 }
