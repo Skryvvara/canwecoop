@@ -13,7 +13,6 @@ import (
 func Initialize() {
 	log.Println("Initializing logger...")
 	logFile := path.Clean(config.App.Log.LogFile)
-	defer log.Println("Successfully initialized logger. Using log file: " + logFile)
 
 	permissions := os.O_RDWR | os.O_CREATE | os.O_APPEND
 
@@ -37,4 +36,6 @@ func Initialize() {
 	}, os.Stderr)
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	log.SetOutput(multiWriter)
+
+	log.Println("Successfully initialized logger. Using log file: " + logFile)
 }

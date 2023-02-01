@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/skryvvara/canwecoop/config"
+	"github.com/skryvvara/canwecoop/db"
 	"github.com/skryvvara/canwecoop/logger"
 	"github.com/skryvvara/canwecoop/middleware"
 )
@@ -25,6 +26,8 @@ func printStartupMessage() {
 func main() {
 	config.Initialize()
 	logger.Initialize()
+	db.Connect()
+	db.Migrate()
 
 	r := chi.NewRouter()
 	r.Use(middleware.WithLogger)
