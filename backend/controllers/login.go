@@ -95,21 +95,10 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Update friend list
-		friends, err := config.SteamApiClient.GetFriendsList(user.ID)
-		if err != nil {
+		if err := utils.UpdateFriendList(user); err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
-		}
-		for i := range friends {
-			var friend models.User
-			if err := db.ORM.First(&friend, friends[i]).Error; err != nil {
-				continue
-			}
-
-			if err := db.ORM.Model(&user).Association("Friends").Append(&models.User{ID: friend.ID}); err != nil {
-				log.Println(err)
-			}
 		}
 
 		destination := "/"
