@@ -9,6 +9,7 @@ import (
 	"github.com/skryvvara/canwecoop/db"
 	"github.com/skryvvara/canwecoop/logger"
 	"github.com/skryvvara/canwecoop/middleware"
+	"github.com/skryvvara/canwecoop/routes"
 )
 
 func printStartupMessage() {
@@ -31,6 +32,8 @@ func main() {
 
 	r := chi.NewRouter()
 	r.Use(middleware.WithLogger)
+
+	routes.RegisterRoutes(r)
 
 	printStartupMessage()
 	log.Fatal(http.ListenAndServe(":3000", r))

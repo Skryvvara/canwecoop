@@ -4,16 +4,24 @@ import (
 	"log"
 	"os"
 	"path"
+	"time"
 
 	"github.com/BurntSushi/toml"
 	"github.com/caarlos0/env/v6"
 	"github.com/creasty/defaults"
+	"github.com/skryvvara/go-steam"
 )
 
 type ServerConfig struct {
 	Port       int    `toml:"port" env:"SERVER_PORT" default:"8080"`
 	TimeZone   string `toml:"timezone" env:"SERVER_TIMEZONE" default:"Europe/Berlin"`
 	ConfigPath string `env:"SERVER_CONFIG_PATH" default:"/app/config.toml"`
+}
+
+type SteamConfig struct {
+	ApiKey       string        `toml:"api_key" env:"STEAM_API_KEY"`
+	SyncInterval time.Duration `toml:"sync_interval_seconds" env:"STEAM_SYNC_INTERVAL_SECONDS" default:"3600"`
+	SyncCooldown time.Duration `toml:"sync_cooldown_seconds" env:"STEAM_COOLDOWN_SECONDS" default:"300"`
 }
 
 type DatabaseConfig struct {
@@ -23,6 +31,12 @@ type DatabaseConfig struct {
 	Name     string `toml:"name" env:"DB_NAME" default:"canwecoop"`
 	Port     int    `toml:"port" env:"DB_PORT" default:"5432"`
 	SSLMode  string `string:"ssl_mode" default:"disable"`
+}
+
+type AuthConfig struct {
+	Secret           string `toml:"secret" env:"AUTH_SECRET"`
+	AuthCookieName   string `toml:"auth_cookie_name" env:"AUTH_AUTH_COOKIE_NAME" default:"session"`
+	OriginCookieName string `toml:"origin_cookie_name" env:"AUTH_ORIGIN_COOKIE_NAME" default:"origin"`
 }
 
 type LogConfig struct {
@@ -35,11 +49,14 @@ type LogConfig struct {
 
 type Config struct {
 	Server ServerConfig   `toml:"server"`
+	Steam  SteamConfig    `toml:"steam"`
 	DB     DatabaseConfig `toml:"database"`
+	Auth   AuthConfig     `toml:"auth"`
 	Log    LogConfig      `toml:"log"`
 }
 
 var App Config
+var SteamApiClient steam.SteamApiClient
 
 func getEnvValue(key, fallback string) string {
 	value := os.Getenv(key)
@@ -76,5 +93,6 @@ func Initialize() {
 	}
 
 	defaults.Set(&App)
+	SteamApiClient = steam.NewApiClient(App.Steam.ApiKey)
 	log.Println("Successfully configured application!")
 }
