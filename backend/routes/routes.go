@@ -8,6 +8,8 @@ import (
 
 func RegisterRoutes(r *chi.Mux) {
 	r.Route("/api", func(r chi.Router) {
+		r.Get("/health", controllers.GetHealth)
+
 		r.Route("/auth", func(r chi.Router) {
 			r.Get("/login", controllers.GetLogin)
 
