@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/go-chi/chi/v5"
+	"github.com/skryvvara/canwecoop/config"
 	"github.com/skryvvara/canwecoop/controllers"
 	"github.com/skryvvara/canwecoop/middleware"
 )
@@ -17,6 +18,13 @@ func RegisterRoutes(r *chi.Mux) {
 				r.Use(middleware.WithAuth)
 				r.Get("/", controllers.GetAuth)
 				r.Delete("/", controllers.DeleteAuth)
+			})
+		})
+
+		r.Route("/sync", func(r chi.Router) {
+			r.Group(func(r chi.Router) {
+				r.Use(middleware.WithAuth)
+				r.With(middleware.WithRole(config.APP.Steam.SyncRole)).Post("/", controllers.StartSync)
 			})
 		})
 

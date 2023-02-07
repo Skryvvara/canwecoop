@@ -15,7 +15,7 @@ import (
 )
 
 func GetLogin(w http.ResponseWriter, r *http.Request) {
-	cookie, err := r.Cookie(config.App.Auth.AuthCookieName)
+	cookie, err := r.Cookie(config.APP.Auth.AuthCookieName)
 	if err != nil && !errors.Is(err, http.ErrNoCookie) {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
@@ -29,7 +29,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 
 	if ref := r.Referer(); len(ref) > 0 {
 		http.SetCookie(w, &http.Cookie{
-			Name:     config.App.Auth.OriginCookieName,
+			Name:     config.APP.Auth.OriginCookieName,
 			Value:    ref,
 			Path:     "/",
 			HttpOnly: true,
@@ -45,7 +45,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 	default:
 		/* THIS CODE IS ONLY REACHED ON SUCCESSFUL AUTHENTICATION */
 
-		steamUser, err := opId.ValidateAndGetUser(config.App.Steam.ApiKey)
+		steamUser, err := opId.ValidateAndGetUser(config.APP.Steam.ApiKey)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -102,7 +102,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 		}
 
 		destination := "/"
-		originCookie, err := r.Cookie(config.App.Auth.OriginCookieName)
+		originCookie, err := r.Cookie(config.APP.Auth.OriginCookieName)
 		if err != nil && !errors.Is(err, http.ErrNoCookie) {
 			log.Println(err)
 			http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
@@ -111,7 +111,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 		if originCookie != nil {
 			destination = originCookie.Value
 			http.SetCookie(w, &http.Cookie{
-				Name:     config.App.Auth.OriginCookieName,
+				Name:     config.APP.Auth.OriginCookieName,
 				Path:     "/",
 				MaxAge:   -1,
 				HttpOnly: true,
@@ -127,7 +127,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 
 		expires := time.Now().Add(time.Minute * 5)
 		authCookie := &http.Cookie{
-			Name:     config.App.Auth.AuthCookieName,
+			Name:     config.APP.Auth.AuthCookieName,
 			Value:    token,
 			Expires:  expires,
 			MaxAge:   86400,

@@ -23,13 +23,13 @@ func Connect() {
 
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=%s",
-		config.App.DB.Host,
-		config.App.DB.Username,
-		config.App.DB.Password,
-		config.App.DB.Name,
-		config.App.DB.Port,
-		config.App.DB.SSLMode,
-		config.App.Server.TimeZone,
+		config.APP.DB.Host,
+		config.APP.DB.Username,
+		config.APP.DB.Password,
+		config.APP.DB.Name,
+		config.APP.DB.Port,
+		config.APP.DB.SSLMode,
+		config.APP.Server.TimeZone,
 	)
 
 	ORM, err = gorm.Open(postgres.Open(dsn), cfg)
@@ -57,7 +57,7 @@ func Migrate() {
 	}
 
 	defaultRoles := []string{
-		"start_sync",
+		config.APP.Steam.SyncRole,
 		"manage_roles",
 		"manage_users",
 	}

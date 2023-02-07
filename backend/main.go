@@ -10,6 +10,7 @@ import (
 	"github.com/skryvvara/canwecoop/logger"
 	"github.com/skryvvara/canwecoop/middleware"
 	"github.com/skryvvara/canwecoop/routes"
+	"github.com/skryvvara/canwecoop/services"
 )
 
 func printStartupMessage() {
@@ -18,10 +19,10 @@ func printStartupMessage() {
 	log.Println(banner)
 	defer log.Println(banner)
 
-	log.Printf("| Port: %d", config.App.Server.Port)
-	log.Printf("| TimeZone: %s", config.App.Server.TimeZone)
-	log.Printf("| ConfigPath: %s", config.App.Server.ConfigPath)
-	//log.Printf("| Sync Timing: every %d Minutes", config.App.Steam.SyncInterval/60)
+	log.Printf("| Port: %d", config.APP.Server.Port)
+	log.Printf("| TimeZone: %s", config.APP.Server.TimeZone)
+	log.Printf("| ConfigPath: %s", config.APP.Server.ConfigPath)
+	log.Printf("| Sync Timing: every %d Minutes", config.APP.Steam.SyncInterval/60)
 }
 
 func main() {
@@ -34,6 +35,7 @@ func main() {
 	r.Use(middleware.WithLogger)
 
 	routes.RegisterRoutes(r)
+	services.RegisterServices()
 
 	printStartupMessage()
 	log.Fatal(http.ListenAndServe(":3000", r))

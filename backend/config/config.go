@@ -22,6 +22,7 @@ type SteamConfig struct {
 	ApiKey       string        `toml:"api_key" env:"STEAM_API_KEY"`
 	SyncInterval time.Duration `toml:"sync_interval_seconds" env:"STEAM_SYNC_INTERVAL_SECONDS" default:"3600"`
 	SyncCooldown time.Duration `toml:"sync_cooldown_seconds" env:"STEAM_COOLDOWN_SECONDS" default:"300"`
+	SyncRole     string        `toml:"sync_role" env:"STEAM_SYNC_ROLE" default:"sync_role"`
 }
 
 type DatabaseConfig struct {
@@ -55,8 +56,8 @@ type Config struct {
 	Log    LogConfig      `toml:"log"`
 }
 
-var App Config
-var SteamApiClient steam.SteamApiClient
+var APP Config
+var STEAM_API_CLIENT steam.SteamApiClient
 
 func getEnvValue(key, fallback string) string {
 	value := os.Getenv(key)
@@ -84,15 +85,15 @@ func Initialize() {
 		log.Panic(err)
 	}
 
-	if _, err := toml.Decode(string(bytes), &App); err != nil {
+	if _, err := toml.Decode(string(bytes), &APP); err != nil {
 		log.Panic(err)
 	}
 
-	if err := env.Parse(&App); err != nil {
+	if err := env.Parse(&APP); err != nil {
 		log.Panic(err)
 	}
 
-	defaults.Set(&App)
-	SteamApiClient = steam.NewApiClient(App.Steam.ApiKey)
+	defaults.Set(&APP)
+	STEAM_API_CLIENT = steam.NewApiClient(APP.Steam.ApiKey)
 	log.Println("Successfully configured application!")
 }

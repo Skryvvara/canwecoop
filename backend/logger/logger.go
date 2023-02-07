@@ -12,7 +12,7 @@ import (
 
 func Initialize() {
 	log.Println("Initializing logger...")
-	logFile := path.Clean(config.App.Log.LogFile)
+	logFile := path.Clean(config.APP.Log.LogFile)
 
 	permissions := os.O_RDWR | os.O_CREATE | os.O_APPEND
 
@@ -30,9 +30,9 @@ func Initialize() {
 
 	multiWriter := io.MultiWriter(&lumberjack.Logger{
 		Filename:   logFile,
-		MaxSize:    config.App.Log.MaxSize,
-		MaxBackups: config.App.Log.MaxBackups,
-		MaxAge:     config.App.Log.MaxAge,
+		MaxSize:    config.APP.Log.MaxSize,
+		MaxBackups: config.APP.Log.MaxBackups,
+		MaxAge:     config.APP.Log.MaxAge,
 	}, os.Stderr)
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	log.SetOutput(multiWriter)

@@ -11,7 +11,7 @@ import (
 )
 
 func UpdateFriendList(user models.User) error {
-	friends, err := config.SteamApiClient.GetFriendsList(user.ID)
+	friends, err := config.STEAM_API_CLIENT.GetFriendsList(user.ID)
 	if err != nil {
 		return err
 	}

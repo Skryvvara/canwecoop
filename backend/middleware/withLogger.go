@@ -10,5 +10,5 @@ import (
 
 var WithLogger func(next http.Handler) http.Handler = middleware.RequestLogger(&middleware.DefaultLogFormatter{
 	Logger:  log.Default(),
-	NoColor: !config.App.Log.Color,
+	NoColor: !config.APP.Log.Color,
 })

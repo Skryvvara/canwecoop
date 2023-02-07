@@ -13,12 +13,12 @@ func GenerateJWT(issuer string) (string, error) {
 		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)),
 	})
 
-	return claims.SignedString([]byte(config.App.Auth.Secret))
+	return claims.SignedString([]byte(config.APP.Auth.Secret))
 }
 
 func ParseJWT(cookie string) (string, error) {
 	token, err := jwt.ParseWithClaims(cookie, &jwt.RegisteredClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(config.App.Auth.Secret), nil
+		return []byte(config.APP.Auth.Secret), nil
 	})
 
 	if err != nil || !token.Valid {

@@ -15,7 +15,7 @@ import (
 
 func WithAuth(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		cookie, err := r.Cookie(config.App.Auth.AuthCookieName)
+		cookie, err := r.Cookie(config.APP.Auth.AuthCookieName)
 		if err != nil {
 			if errors.Is(err, http.ErrNoCookie) {
 				log.Println(err)
