@@ -64,7 +64,12 @@ func SyncGames() {
 	for i := range games {
 		gameID := games[i]
 		if err := db.ORM.First(&models.Game{}, "id = ?", gameID).Error; err == nil {
-			log.Printf("Game with id %s already exists. Skipping...", gameID)
+			log.Printf("Game with id %s already exists.", gameID)
+			continue
+		}
+
+		if err := db.ORM.First(&models.BadGame{}, "id = ?", gameID).Error; err == nil {
+			log.Printf("Game with id %s is on the blacklist. Skipping", gameID)
 			continue
 		}
 
@@ -95,11 +100,20 @@ func SyncGames() {
 
 		if len(game.ID) <= 0 || len(game.Name) <= 0 {
 			log.Println("Received invalid game details for game " + gameID)
+			if len(gameID) > 0 {
+				log.Printf("Adding %s to list of invalid IDs\n", gameID)
+				badGame := models.BadGame{
+					ID: gameID,
+				}
+				if err := db.ORM.Create(&badGame).Error; err != nil {
+					log.Println(err)
+				}
+			}
 			continue
 		}
 
 		if err := db.ORM.First(&models.Game{}, "id = ?", game.ID).Error; err == nil {
-			log.Printf("Game with id %s already exists. Skipping\n", game.ID)
+			log.Printf("Game with id %s (sourceID: %s) already exists\n", game.ID, gameID)
 			continue
 		}
 
@@ -150,6 +164,11 @@ func SyncGames() {
 
 		for gameID := range games {
 			if len(gameID) <= 0 {
+				continue
+			}
+
+			if err := db.ORM.First(&models.BadGame{}, "id = ?", gameID).Error; err == nil {
+				log.Printf("Game with id %s is on the blacklist. Skipping", gameID)
 				continue
 			}
 
