@@ -21,6 +21,11 @@ func RegisterRoutes(r *chi.Mux) {
 			})
 		})
 
+		r.Route("/games", func(r chi.Router) {
+			r.Get("/", controllers.GetAllGames)
+			r.Get("/{id}", controllers.GetGameById)
+		})
+
 		r.Route("/sync", func(r chi.Router) {
 			r.Group(func(r chi.Router) {
 				r.Use(middleware.WithAuth)
