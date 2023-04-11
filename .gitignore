@@ -1,4 +1,5 @@
 .temp/
 .vscode/
 .env
+.DS_Store
 config.toml

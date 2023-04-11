@@ -13,9 +13,10 @@ import (
 var CHUNK_SIZE = 195
 var PROCESS_LOCKED bool
 var LAST_SYNC time.Time
-var COOLDOWN = time.Second * config.APP.Steam.SyncCooldown
+var COOLDOWN = time.Second * time.Duration(config.APP.Steam.SyncCooldown)
 
 func SyncGames() {
+	log.Println(COOLDOWN)
 	if time.Since(LAST_SYNC) <= COOLDOWN {
 		log.Println("Last sync was too recent, cannot start new sync process. Last sync was at: " + LAST_SYNC.Format(time.RFC3339))
 		return
