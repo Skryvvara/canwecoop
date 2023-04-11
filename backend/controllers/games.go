@@ -66,6 +66,7 @@ func GetGameById(w http.ResponseWriter, r *http.Request) {
 // - is_free: a boolean value used to filter games by whether they are free or not (0 = not free, 1 = free)
 // - categories: a comma-separated list of categories used to filter games by category name
 // - genres: a comma-separated list of genres used to filter games by genre name
+// - users: a comma-separated list of users used to filter games by user id
 //
 // This function uses the ORM to build and execute the database query, and returns the resulting games as JSON.
 // It also handles any errors that occur during the database query by logging them and returning an HTTP 500 error response
