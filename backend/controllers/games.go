@@ -91,6 +91,13 @@ func GetAllGames(w http.ResponseWriter, r *http.Request) {
 		case "genres":
 			genres := strings.Split(queryValue, ",")
 			stmt = addDistinctNameQuery(stmt, "genres", "genre", genres)
+		case "users":
+			users := strings.Split(queryValue, ",")
+			stmt.Table("games").
+				Joins("JOIN user_game ON games.id = user_game.game_id").
+				Where("user_game.user_id IN (?)", users).
+				Group("games.id").
+				Having("COUNT(DISTINCT user_game.user_id) = ?", len(users))
 		}
 	}
 
