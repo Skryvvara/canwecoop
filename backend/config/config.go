@@ -35,9 +35,10 @@ type DatabaseConfig struct {
 }
 
 type AuthConfig struct {
-	Secret           string `toml:"secret" env:"AUTH_SECRET"`
-	AuthCookieName   string `toml:"auth_cookie_name" env:"AUTH_AUTH_COOKIE_NAME" default:"session"`
-	OriginCookieName string `toml:"origin_cookie_name" env:"AUTH_ORIGIN_COOKIE_NAME" default:"origin"`
+	Secret           string        `toml:"secret" env:"AUTH_SECRET"`
+	AuthCookieName   string        `toml:"auth_cookie_name" env:"AUTH_AUTH_COOKIE_NAME" default:"session"`
+	OriginCookieName string        `toml:"origin_cookie_name" env:"AUTH_ORIGIN_COOKIE_NAME" default:"origin"`
+	JWTExpiresAt     time.Duration `toml:"jwt_expires" env:"AUTH_JWT_EXPIRES" default:"86400"`
 }
 
 type LogConfig struct {

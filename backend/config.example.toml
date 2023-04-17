@@ -20,6 +20,7 @@ ssl="disable"
 secret="supersecret"
 auth_cookie_name="session"
 origin_cookie_name="origin"
+jwt_expires=86400
 
 ["log"]
 log_file="../.temp/log/app.log"
