@@ -11,19 +11,8 @@ import (
 	"github.com/skryvvara/canwecoop/middleware"
 	"github.com/skryvvara/canwecoop/routes"
 	"github.com/skryvvara/canwecoop/services"
+	"github.com/skryvvara/canwecoop/utils"
 )
-
-func printStartupMessage() {
-	banner := "--------------------| Starting Canwecoop |--------------------"
-
-	log.Println(banner)
-	defer log.Println(banner)
-
-	log.Printf("| Port: %d", config.APP.Server.Port)
-	log.Printf("| TimeZone: %s", config.APP.Server.TimeZone)
-	log.Printf("| ConfigPath: %s", config.APP.Server.ConfigPath)
-	log.Printf("| Sync Timing: every %d Minutes", config.APP.Steam.SyncInterval/60)
-}
 
 func main() {
 	config.Initialize()
@@ -37,6 +26,6 @@ func main() {
 	routes.RegisterRoutes(r)
 	services.RegisterServices()
 
-	printStartupMessage()
+	utils.PrintStartupMessage()
 	log.Fatal(http.ListenAndServe(":3000", r))
 }
