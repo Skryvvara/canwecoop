@@ -3,3 +3,6 @@
 .env
 .DS_Store
 config.toml
+
+.next/
+node_modules/
