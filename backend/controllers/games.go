@@ -68,8 +68,7 @@ func GetGameById(w http.ResponseWriter, r *http.Request) {
 // - genres: a comma-separated list of genres used to filter games by genre name
 // - users: a comma-separated list of users used to filter games by user id
 //
-// This function returns the resulting games as JSON.
-// It also handles any errors that occur during the database query by logging them and returning an HTTP 500 error response
+// It handles any errors that occur during the database query by logging them and returning an HTTP 500 error response
 func GetAllGames(w http.ResponseWriter, r *http.Request) {
 	var games []models.Game
 
