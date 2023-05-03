@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -27,5 +28,7 @@ func main() {
 	services.RegisterServices()
 
 	utils.PrintStartupMessage()
-	log.Fatal(http.ListenAndServe(":3000", r))
+
+	port := fmt.Sprintf(":%d", config.APP.Server.Port)
+	log.Fatal(http.ListenAndServe(port, r))
 }
