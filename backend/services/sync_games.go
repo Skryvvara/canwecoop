@@ -17,6 +17,7 @@ func syncGamesService() {
 	for range ticker.C {
 		if utils.PROCESS_LOCKED {
 			log.Println("Can't start sync process, another sync process is already running.")
+			continue
 		}
 
 		go utils.SyncGames()
