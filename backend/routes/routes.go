@@ -24,6 +24,7 @@ func RegisterRoutes(r *chi.Mux) {
 		r.Route("/games", func(r chi.Router) {
 			r.Get("/", controllers.GetAllGames)
 			r.Get("/{id}", controllers.GetGameById)
+			r.Get("/bad-games", controllers.GetAllBadGames)
 		})
 
 		r.Route("/sync", func(r chi.Router) {

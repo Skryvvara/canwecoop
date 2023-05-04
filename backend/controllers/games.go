@@ -109,3 +109,17 @@ func GetAllGames(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(&games)
 }
+
+// GetAlLBadGames returns all IDs of games that couldn't be added during a sync process.
+// It handles any errors that occur during the database query by logging them and returning an HTTP 500 error response
+func GetAllBadGames(w http.ResponseWriter, r *http.Request) {
+	var badGames []models.BadGame
+
+	if err := db.ORM.Find(&badGames).Error; err != nil {
+		log.Println(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(&badGames)
+}
