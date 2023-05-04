@@ -24,7 +24,15 @@ func RegisterRoutes(r *chi.Mux) {
 		r.Route("/games", func(r chi.Router) {
 			r.Get("/", controllers.GetAllGames)
 			r.Get("/{id}", controllers.GetGameById)
-			r.Get("/bad-games", controllers.GetAllBadGames)
+		})
+
+		r.Route("/bad-games", func(r chi.Router) {
+			r.Get("/", controllers.GetAllBadGames)
+			r.Group(func(r chi.Router) {
+				r.Use(middleware.WithAuth)
+				r.With(middleware.WithRole("manage-bad-games")).Post("/", controllers.CreateBadGame)
+				r.With(middleware.WithRole("manage-bad-games")).Delete("/{id}", controllers.DeleteBadGameByID)
+			})
 		})
 
 		r.Route("/sync", func(r chi.Router) {
