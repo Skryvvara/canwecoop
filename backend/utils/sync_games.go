@@ -13,7 +13,7 @@ import (
 var CHUNK_SIZE = 195
 var PROCESS_LOCKED bool
 var LAST_SYNC time.Time
-var COOLDOWN = time.Second * config.APP.Steam.SyncCooldown
+var COOLDOWN = time.Second * time.Duration(config.APP.Steam.SyncCooldown)
 
 func setProcessLock(isLocked bool) {
 	PROCESS_LOCKED = isLocked

@@ -8,7 +8,7 @@ import (
 )
 
 func GenerateJWT(issuer string) (string, error) {
-	expires := time.Now().Add(time.Second * config.APP.Auth.JWTExpiresAt)
+	expires := time.Now().Add(time.Second * time.Duration(config.APP.Auth.JWTExpiresAt))
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
 		Issuer:    issuer,
 		ExpiresAt: jwt.NewNumericDate(expires),

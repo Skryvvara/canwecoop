@@ -4,7 +4,6 @@ import (
 	"log"
 	"os"
 	"path"
-	"time"
 
 	"github.com/BurntSushi/toml"
 	"github.com/caarlos0/env/v6"
@@ -19,10 +18,10 @@ type ServerConfig struct {
 }
 
 type SteamConfig struct {
-	ApiKey       string        `toml:"api_key" env:"STEAM_API_KEY"`
-	SyncInterval time.Duration `toml:"sync_interval_seconds" env:"STEAM_SYNC_INTERVAL_SECONDS" default:"3600"`
-	SyncCooldown time.Duration `toml:"sync_cooldown_seconds" env:"STEAM_COOLDOWN_SECONDS" default:"300"`
-	SyncRole     string        `toml:"sync_role" env:"STEAM_SYNC_ROLE" default:"sync_role"`
+	ApiKey       string `toml:"api_key" env:"STEAM_API_KEY"`
+	SyncInterval int    `toml:"sync_interval_seconds" env:"STEAM_SYNC_INTERVAL_SECONDS" default:"3600"`
+	SyncCooldown int    `toml:"sync_cooldown_seconds" env:"STEAM_COOLDOWN_SECONDS" default:"300"`
+	SyncRole     string `toml:"sync_role" env:"STEAM_SYNC_ROLE" default:"sync_role"`
 }
 
 type DatabaseConfig struct {
@@ -35,10 +34,10 @@ type DatabaseConfig struct {
 }
 
 type AuthConfig struct {
-	Secret           string        `toml:"secret" env:"AUTH_SECRET"`
-	AuthCookieName   string        `toml:"auth_cookie_name" env:"AUTH_AUTH_COOKIE_NAME" default:"session"`
-	OriginCookieName string        `toml:"origin_cookie_name" env:"AUTH_ORIGIN_COOKIE_NAME" default:"origin"`
-	JWTExpiresAt     time.Duration `toml:"jwt_expires" env:"AUTH_JWT_EXPIRES" default:"86400"`
+	Secret           string `toml:"secret" env:"AUTH_SECRET"`
+	AuthCookieName   string `toml:"auth_cookie_name" env:"AUTH_AUTH_COOKIE_NAME" default:"session"`
+	OriginCookieName string `toml:"origin_cookie_name" env:"AUTH_ORIGIN_COOKIE_NAME" default:"origin"`
+	JWTExpiresAt     int    `toml:"jwt_expires" env:"AUTH_JWT_EXPIRES" default:"86400"`
 }
 
 type LogConfig struct {
