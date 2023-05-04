@@ -18,10 +18,11 @@ type ServerConfig struct {
 }
 
 type SteamConfig struct {
-	ApiKey       string `toml:"api_key" env:"STEAM_API_KEY"`
-	SyncInterval int    `toml:"sync_interval_seconds" env:"STEAM_SYNC_INTERVAL_SECONDS" default:"3600"`
-	SyncCooldown int    `toml:"sync_cooldown_seconds" env:"STEAM_COOLDOWN_SECONDS" default:"300"`
-	SyncRole     string `toml:"sync_role" env:"STEAM_SYNC_ROLE" default:"sync_role"`
+	ApiKey        string `toml:"api_key" env:"STEAM_API_KEY"`
+	SyncInterval  int    `toml:"sync_interval_seconds" env:"STEAM_SYNC_INTERVAL_SECONDS" default:"3600"`
+	SyncCooldown  int    `toml:"sync_cooldown_seconds" env:"STEAM_COOLDOWN_SECONDS" default:"300"`
+	SyncRole      string `toml:"sync_role" env:"STEAM_SYNC_ROLE" default:"sync_role"`
+	SyncChunkSize int    `toml:"sync_chunk_size" env:"STEAM_SYNC_CHUNK_SIZE" default:"195"`
 }
 
 type DatabaseConfig struct {
@@ -34,10 +35,12 @@ type DatabaseConfig struct {
 }
 
 type AuthConfig struct {
-	Secret           string `toml:"secret" env:"AUTH_SECRET"`
-	AuthCookieName   string `toml:"auth_cookie_name" env:"AUTH_AUTH_COOKIE_NAME" default:"session"`
-	OriginCookieName string `toml:"origin_cookie_name" env:"AUTH_ORIGIN_COOKIE_NAME" default:"origin"`
-	JWTExpiresAt     int    `toml:"jwt_expires" env:"AUTH_JWT_EXPIRES" default:"86400"`
+	Secret             string `toml:"secret" env:"AUTH_SECRET"`
+	AuthCookieName     string `toml:"auth_cookie_name" env:"AUTH_AUTH_COOKIE_NAME" default:"session"`
+	AuthCookieSecure   bool   `toml:"auth_cookie_secure" env:"AUTH_AUTH_COOKIE_SECURE" default:"true"`
+	AuthCookieHttpOnly bool   `toml:"auth_cookie_http_only" env:"AUTH_AUTH_COOKIE_HTTP_ONLY" default:"true"`
+	OriginCookieName   string `toml:"origin_cookie_name" env:"AUTH_ORIGIN_COOKIE_NAME" default:"origin"`
+	JWTExpiresAt       int    `toml:"jwt_expires" env:"AUTH_JWT_EXPIRES" default:"86400"`
 }
 
 type LogConfig struct {

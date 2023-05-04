@@ -7,6 +7,7 @@ api_key=""
 sync_interval_seconds=60
 sync_cooldown_seconds=300
 sync_role="sync_user"
+chunk_size=195
 
 ["database"]
 host="localhost"
@@ -19,6 +20,8 @@ ssl="disable"
 ["auth"]
 secret="supersecret"
 auth_cookie_name="session"
+auth_cookie_secure=false
+auth_cookie_http_only=true
 origin_cookie_name="origin"
 jwt_expires=86400
 

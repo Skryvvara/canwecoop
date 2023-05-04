@@ -10,7 +10,7 @@ import (
 	"github.com/skryvvara/canwecoop/db/models"
 )
 
-var CHUNK_SIZE = 195
+var CHUNK_SIZE = config.APP.Steam.SyncChunkSize
 var PROCESS_LOCKED bool
 var LAST_SYNC time.Time
 var COOLDOWN = time.Second * time.Duration(config.APP.Steam.SyncCooldown)
