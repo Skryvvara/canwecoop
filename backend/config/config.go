@@ -69,6 +69,10 @@ func getEnvValue(key, fallback string) string {
 	return fallback
 }
 
+func init() {
+	Initialize()
+}
+
 func Initialize() {
 	log.Println("Loading configuration...")
 
