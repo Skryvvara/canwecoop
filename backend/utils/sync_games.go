@@ -13,19 +13,27 @@ import (
 var CHUNK_SIZE = 195
 var PROCESS_LOCKED bool
 var LAST_SYNC time.Time
-var COOLDOWN = time.Second * time.Duration(config.APP.Steam.SyncCooldown)
+var COOLDOWN = time.Second * config.APP.Steam.SyncCooldown
+
+func setProcessLock(isLocked bool) {
+	PROCESS_LOCKED = isLocked
+}
 
 func SyncGames() {
-	log.Println(COOLDOWN)
 	if time.Since(LAST_SYNC) <= COOLDOWN {
+		remainingCooldown := time.Until(LAST_SYNC.Add(COOLDOWN)).Round(time.Second)
 		log.Println("Last sync was too recent, cannot start new sync process. Last sync was at: " + LAST_SYNC.Format(time.RFC3339))
+		log.Println("Remaining time until a new sync process can be started: " + remainingCooldown.String())
 		return
 	}
 
-	PROCESS_LOCKED = true
-	defer func() {
-		PROCESS_LOCKED = false
-	}()
+	if PROCESS_LOCKED {
+		log.Println("Can't start sync process, another sync process is already running.")
+		return
+	}
+
+	setProcessLock(true)
+	defer setProcessLock(false)
 
 	log.Println("Starting sync process!")
 
@@ -79,8 +87,8 @@ func SyncGames() {
 			time.Sleep(COOLDOWN)
 			count = 0
 		}
-		count++
 
+		count++
 		gameDetails, err := config.STEAM_API_CLIENT.GetGameDetails(gameID)
 		if err != nil {
 			log.Println(err)
@@ -134,10 +142,7 @@ func SyncGames() {
 				Name:      cat.Name,
 				Relevance: 0,
 			}
-			if err := db.ORM.Model(&game).Association("Categories").Append(&category); err != nil {
-				log.Printf("Error appending category %s to game %s: %s\n", cat.Name, gameID, err)
-				continue
-			}
+			appendSteamTagToGameAssociation(&category, "Categories", &game, gameID)
 		}
 
 		//TODO: Get rid of this duplicate block
@@ -147,10 +152,7 @@ func SyncGames() {
 				Name:      gen.Name,
 				Relevance: 0,
 			}
-			if err := db.ORM.Model(&game).Association("Genres").Append(&genre); err != nil {
-				log.Printf("Error appending genre %s to game %s: %s\n", genre.Name, gameID, err)
-				continue
-			}
+			appendSteamTagToGameAssociation(&genre, "Genres", &game, gameID)
 		}
 
 		log.Printf("Finished processing game: %s\n", game.ID)
@@ -190,4 +192,10 @@ func SyncGames() {
 
 	LAST_SYNC = time.Now()
 	log.Println("Completed sync process")
+}
+
+func appendSteamTagToGameAssociation(model interface{}, association string, game *models.Game, gameID string) {
+	if err := db.ORM.Model(game).Association(association).Append(model); err != nil {
+		log.Printf("Error appending %s to game %s: %s\n", association, gameID, err)
+	}
 }
