@@ -17,7 +17,7 @@ func WithRole(roleName string) func(next http.Handler) http.Handler {
 
 			ok := false
 			for _, role := range user.Roles {
-				if roleName == role.Name {
+				if roleName == role.Name || roleName == "admin" {
 					ok = true
 					break
 				}
