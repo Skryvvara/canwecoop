@@ -22,8 +22,8 @@ func main() {
 	db.Migrate()
 
 	r := chi.NewRouter()
-	r.Use(middleware.WithLogger)
 
+	middleware.RegisterMiddleware(r)
 	routes.RegisterRoutes(r)
 	services.RegisterServices()
 

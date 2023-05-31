@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
+	"github.com/skryvvara/canwecoop/config"
 	"github.com/skryvvara/canwecoop/db/models"
 )
 
@@ -24,4 +26,11 @@ func GetValueFromContext[T any](r *http.Request, contextKey contextKey) (T, erro
 
 func GetUserFromContext(r *http.Request) (models.User, error) {
 	return GetValueFromContext[models.User](r, UserContextKey)
+}
+
+func RegisterMiddleware(r *chi.Mux) {
+	r.Use(WithLogger)
+	if config.APP.Cors.Enabled {
+		r.Use(WithCors)
+	}
 }

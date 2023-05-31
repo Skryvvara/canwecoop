@@ -52,8 +52,10 @@ type LogConfig struct {
 }
 
 type CorsConfig struct {
-	AllowedOrigins string `toml:"allowed_origins" env:"CORS_ALLOWED_ORIGINS" default:"*"`
-	AllowedHeaders string `toml:"allowed_headers" env:"CORS_ALLOWED_HEADERS" default:"Content-Type"`
+	Enabled            bool   `toml:"enabled" env:"CORS_ENABLED" default:"false"`
+	AllowedOrigins     string `toml:"allowed_origins" env:"CORS_ALLOWED_ORIGINS" default:"http://localhost"`
+	AllowedHeaders     string `toml:"allowed_headers" env:"CORS_ALLOWED_HEADERS" default:"Content-Type"`
+	AllowedCredentials string `toml:"allowed_credentials" env:"CORS_ALLOWED_CREDENTIALS" default:"true"`
 }
 
 type Config struct {
