@@ -17,7 +17,7 @@ func GetValueFromContext[T any](r *http.Request, contextKey contextKey) (T, erro
 	var empty T
 	value := r.Context().Value(contextKey)
 	if value == nil {
-		return empty, fmt.Errorf("value not found withing given context")
+		return empty, fmt.Errorf("value not found within given context")
 	}
 	return value.(T), nil
 }
