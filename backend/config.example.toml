@@ -30,3 +30,7 @@ log_file="../.temp/log/app.log"
 max_size=1
 max_backups=3
 max_age=28
+
+["cors"]
+allowed_origins="*"
+allowed_headers="Content-Type"

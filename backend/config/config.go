@@ -51,12 +51,18 @@ type LogConfig struct {
 	Color      bool   `toml:"color" env:"LOG_COLOR" default:"false"`
 }
 
+type CorsConfig struct {
+	AllowedOrigins string `toml:"allowed_origins" env:"CORS_ALLOWED_ORIGINS" default:"*"`
+	AllowedHeaders string `toml:"allowed_headers" env:"CORS_ALLOWED_HEADERS" default:"Content-Type"`
+}
+
 type Config struct {
 	Server ServerConfig   `toml:"server"`
 	Steam  SteamConfig    `toml:"steam"`
 	DB     DatabaseConfig `toml:"database"`
 	Auth   AuthConfig     `toml:"auth"`
 	Log    LogConfig      `toml:"log"`
+	Cors   CorsConfig     `toml:"cors"`
 }
 
 var APP Config
