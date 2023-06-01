@@ -12,9 +12,10 @@ import (
 )
 
 type ServerConfig struct {
-	Port       int    `toml:"port" env:"SERVER_PORT" default:"8080"`
-	TimeZone   string `toml:"timezone" env:"SERVER_TIMEZONE" default:"Europe/Berlin"`
-	ConfigPath string `env:"SERVER_CONFIG_PATH" default:"/app/config.toml"`
+	Port        int    `toml:"port" env:"SERVER_PORT" default:"8080"`
+	TimeZone    string `toml:"timezone" env:"SERVER_TIMEZONE" default:"Europe/Berlin"`
+	ConfigPath  string `env:"SERVER_CONFIG_PATH" default:"/app/config.toml"`
+	FrontendUrl string `toml:"frontend_url" env:"SERVER_FRONTEND_URL" default:"/"`
 }
 
 type SteamConfig struct {

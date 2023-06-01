@@ -101,7 +101,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		destination := "/"
+		destination := config.APP.Server.FrontendUrl
 		originCookie, err := r.Cookie(config.APP.Auth.OriginCookieName)
 		if err != nil && !errors.Is(err, http.ErrNoCookie) {
 			log.Println(err)

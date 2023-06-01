@@ -30,6 +30,7 @@ But there is a lot more that can be configured. The example configuration looks 
 ["server"]
 port=3000
 timezone="Europe/Berlin"
+frontend_url="http://localhost:3000"
 
 ["steam"]
 api_key="YOUR_STEAM_API_KEY"
