@@ -31,6 +31,6 @@ func GetUserFromContext(r *http.Request) (models.User, error) {
 func RegisterMiddleware(r *chi.Mux) {
 	r.Use(WithLogger)
 	if config.APP.Cors.Enabled {
-		r.Use(WithCors)
+		r.Use(WithCors())
 	}
 }

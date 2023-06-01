@@ -58,11 +58,12 @@ type LogConfig struct {
 }
 
 type CorsConfig struct {
-	Enabled            bool   `toml:"enabled" env:"CORS_ENABLED" default:"false"`
-	AllowedOrigins     string `toml:"allowed_origins" env:"CORS_ALLOWED_ORIGINS" default:"http://localhost"`
-	AllowedMethods     string `toml:"allowed_methods" env:"CORS_ALLOWED_METHODS" default:"GET, POST, PATCH, PUT, DELETE, OPTIONS"`
-	AllowedHeaders     string `toml:"allowed_headers" env:"CORS_ALLOWED_HEADERS" default:"Origin, Referer, Content-Type, X-Auth-Token"`
-	AllowedCredentials string `toml:"allowed_credentials" env:"CORS_ALLOWED_CREDENTIALS" default:"true"`
+	Enabled          bool     `toml:"enabled" env:"CORS_ENABLED" default:"false"`
+	AllowedOrigins   []string `toml:"allowed_origins" env:"CORS_ALLOWED_ORIGINS" default:"[\"http://localhost:3000\"]"`
+	AllowedMethods   []string `toml:"allowed_methods" env:"CORS_ALLOWED_METHODS" default:"[\"GET\", \"POST\", \"PATCH\", \"PUT\", \"DELETE\", \"OPTIONS\"]"`
+	AllowedHeaders   []string `toml:"allowed_headers" env:"CORS_ALLOWED_HEADERS" default:"[\"Origin\", \"Referer\", \"Content-Type\", \"X-Auth-Token\"]"`
+	AllowCredentials bool     `toml:"allow_credentials" env:"CORS_ALLOW_CREDENTIALS" default:"true"`
+	ExposedHeaders   []string `toml:"exposed_headers" env:"CORS_EXPOSED_HEADERS" default:"[\"Link\"]" `
 }
 
 type Config struct {

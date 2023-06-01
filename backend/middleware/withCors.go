@@ -3,15 +3,16 @@ package middleware
 import (
 	"net/http"
 
+	"github.com/go-chi/cors"
 	"github.com/skryvvara/canwecoop/config"
 )
 
-func WithCors(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", config.APP.Cors.AllowedOrigins)
-		w.Header().Set("Access-Control-Allow-Methods", config.APP.Cors.AllowedMethods)
-		w.Header().Set("Access-Control-Allow-Headers", config.APP.Cors.AllowedHeaders)
-		w.Header().Set("Access-Control-Allow-Credentials", config.APP.Cors.AllowedCredentials)
-		next.ServeHTTP(w, r)
+func WithCors() func(next http.Handler) http.Handler {
+	return cors.Handler(cors.Options{
+		AllowedOrigins:   config.APP.Cors.AllowedOrigins,
+		AllowedMethods:   config.APP.Cors.AllowedMethods,
+		AllowedHeaders:   config.APP.Cors.AllowedHeaders,
+		ExposedHeaders:   config.APP.Cors.ExposedHeaders,
+		AllowCredentials: config.APP.Cors.AllowCredentials,
 	})
 }
