@@ -9,6 +9,7 @@ import (
 func WithCors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", config.APP.Cors.AllowedOrigins)
+		w.Header().Set("Access-Control-Allow-Methods", config.APP.Cors.AllowedMethods)
 		w.Header().Set("Access-Control-Allow-Headers", config.APP.Cors.AllowedHeaders)
 		w.Header().Set("Access-Control-Allow-Credentials", config.APP.Cors.AllowedCredentials)
 		next.ServeHTTP(w, r)

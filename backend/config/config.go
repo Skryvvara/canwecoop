@@ -60,7 +60,8 @@ type LogConfig struct {
 type CorsConfig struct {
 	Enabled            bool   `toml:"enabled" env:"CORS_ENABLED" default:"false"`
 	AllowedOrigins     string `toml:"allowed_origins" env:"CORS_ALLOWED_ORIGINS" default:"http://localhost"`
-	AllowedHeaders     string `toml:"allowed_headers" env:"CORS_ALLOWED_HEADERS" default:"Content-Type"`
+	AllowedMethods     string `toml:"allowed_methods" env:"CORS_ALLOWED_METHODS" default:"GET, POST, PATCH, PUT, DELETE, OPTIONS"`
+	AllowedHeaders     string `toml:"allowed_headers" env:"CORS_ALLOWED_HEADERS" default:"Origin, Referer, Content-Type, X-Auth-Token"`
 	AllowedCredentials string `toml:"allowed_credentials" env:"CORS_ALLOWED_CREDENTIALS" default:"true"`
 }
 

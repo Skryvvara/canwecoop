@@ -39,5 +39,6 @@ max_age=28
 ["cors"]
 enabled=true
 allowed_origins="http://localhost:3000"
-allowed_headers="Content-Type"
+allowed_methods="GET, POST, PATCH, PUT, DELETE, OPTIONS"
+allowed_headers="Origin, Referer, Content-Type, X-Auth-Token"
 allowed_credentials="true"
