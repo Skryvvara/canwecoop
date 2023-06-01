@@ -15,7 +15,7 @@ import (
 )
 
 func GetLogin(w http.ResponseWriter, r *http.Request) {
-	cookie, err := r.Cookie(config.APP.Auth.AuthCookieName)
+	cookie, err := r.Cookie(config.APP.AuthCookie.Name)
 	if err != nil && !errors.Is(err, http.ErrNoCookie) {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
@@ -125,15 +125,15 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		expires := time.Now().Add(time.Minute * 5)
+		expires := time.Now().Add(time.Second * time.Duration(config.APP.AuthCookie.Expires))
 		authCookie := &http.Cookie{
-			Name:     config.APP.Auth.AuthCookieName,
+			Name:     config.APP.AuthCookie.Name,
 			Value:    token,
 			Expires:  expires,
-			MaxAge:   86400,
-			HttpOnly: true,
-			Path:     "/",
-			Secure:   false,
+			MaxAge:   config.APP.AuthCookie.MaxAge,
+			HttpOnly: config.APP.AuthCookie.HttpOnly,
+			Path:     config.APP.AuthCookie.Path,
+			Secure:   config.APP.AuthCookie.Secure,
 		}
 		http.SetCookie(w, authCookie)
 		http.Redirect(w, r, destination, http.StatusMovedPermanently)

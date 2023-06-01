@@ -21,7 +21,7 @@ func GetAuth(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteAuth(w http.ResponseWriter, r *http.Request) {
-	_, err := r.Cookie(config.APP.Auth.AuthCookieName)
+	_, err := r.Cookie(config.APP.AuthCookie.Name)
 	if err != nil {
 		println(err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
@@ -29,12 +29,12 @@ func DeleteAuth(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cookie := &http.Cookie{
-		Name:     config.APP.Auth.AuthCookieName,
+		Name:     config.APP.AuthCookie.Name,
 		Value:    "",
 		MaxAge:   -1,
-		HttpOnly: true,
-		Path:     "/",
-		Secure:   false,
+		HttpOnly: config.APP.AuthCookie.HttpOnly,
+		Path:     config.APP.AuthCookie.Path,
+		Secure:   config.APP.AuthCookie.Secure,
 	}
 	http.SetCookie(w, cookie)
 	w.Write([]byte("Successfully logged out"))

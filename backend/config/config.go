@@ -35,12 +35,18 @@ type DatabaseConfig struct {
 }
 
 type AuthConfig struct {
-	Secret             string `toml:"secret" env:"AUTH_SECRET"`
-	AuthCookieName     string `toml:"auth_cookie_name" env:"AUTH_AUTH_COOKIE_NAME" default:"session"`
-	AuthCookieSecure   bool   `toml:"auth_cookie_secure" env:"AUTH_AUTH_COOKIE_SECURE" default:"true"`
-	AuthCookieHttpOnly bool   `toml:"auth_cookie_http_only" env:"AUTH_AUTH_COOKIE_HTTP_ONLY" default:"true"`
-	OriginCookieName   string `toml:"origin_cookie_name" env:"AUTH_ORIGIN_COOKIE_NAME" default:"origin"`
-	JWTExpiresAt       int    `toml:"jwt_expires" env:"AUTH_JWT_EXPIRES" default:"86400"`
+	Secret           string `toml:"secret" env:"AUTH_SECRET"`
+	OriginCookieName string `toml:"origin_cookie_name" env:"AUTH_ORIGIN_COOKIE_NAME" default:"origin"`
+	JWTExpiresAt     int    `toml:"jwt_expires" env:"AUTH_JWT_EXPIRES" default:"86400"`
+}
+
+type AuthCookieConfig struct {
+	Name     string `toml:"name" env:"AUTH_COOKIE_NAME" default:"session"`
+	Secure   bool   `toml:"secure" env:"AUTH_COOKIE_SECURE" default:"true"`
+	HttpOnly bool   `toml:"http_only" env:"AUTH_COOKIE_HTTP_ONLY" default:"true"`
+	Path     string `toml:"path" env:"AUTH_COOKIE_PATH" default:"/"`
+	Expires  int    `toml:"expires" env:"AUTH_COOKIE_EXPIRES" default:"3600"`
+	MaxAge   int    `toml:"max_age" env:"AUTH_COOKIE_MAX_AGE" default:"86400"`
 }
 
 type LogConfig struct {
@@ -59,12 +65,13 @@ type CorsConfig struct {
 }
 
 type Config struct {
-	Server ServerConfig   `toml:"server"`
-	Steam  SteamConfig    `toml:"steam"`
-	DB     DatabaseConfig `toml:"database"`
-	Auth   AuthConfig     `toml:"auth"`
-	Log    LogConfig      `toml:"log"`
-	Cors   CorsConfig     `toml:"cors"`
+	Server     ServerConfig     `toml:"server"`
+	Steam      SteamConfig      `toml:"steam"`
+	DB         DatabaseConfig   `toml:"database"`
+	Auth       AuthConfig       `toml:"auth"`
+	AuthCookie AuthCookieConfig `toml:"auth_cookie"`
+	Log        LogConfig        `toml:"log"`
+	Cors       CorsConfig       `toml:"cors"`
 }
 
 var APP Config

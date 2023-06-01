@@ -19,11 +19,16 @@ ssl="disable"
 
 ["auth"]
 secret="supersecret"
-auth_cookie_name="session"
-auth_cookie_secure=false
-auth_cookie_http_only=true
 origin_cookie_name="origin"
 jwt_expires=86400
+
+["auth_cookie"]
+name="session"
+secure=false
+http_only=true
+path="/"
+expires=3600
+max_age=86400
 
 ["log"]
 log_file="../.temp/log/app.log"
