@@ -1,0 +1,20 @@
+version: '3'
+
+networks:
+  canwecoop:
+    external: false
+services:
+  postgres:
+    image: postgres
+    environment:
+    - POSTGRES_PASSWORD=${DB_PASS}
+    - POSTGRES_USER=${DB_USER}
+    - POSTGRES_DB=${DB_NAME}
+    restart: unless-stopped
+    networks:
+    - canwecoop
+    volumes:
+    - ./.temp/db:/var/lib/postgresql/data
+    ports:
+    - 5432:5432
+    

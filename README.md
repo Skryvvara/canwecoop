@@ -1,11 +1,8 @@
-<div align=center>
-  <h1>CanWeCoop</h1>
-  <p>Play games together!</p>
-</div>
+# CanWeCoop
 
 ## Description
-> !! THIS PROJECT IS A WIP !! </br>
-> I'm trying to get this ready soon, but I hope you understand if it takes time to complete this project.
+
+> :warning: This Project is a WIP! <br> I'm trying to get this ready soon, but I hope you understand if it takes time to complete this project.
 
 The goal of CanWeCoop is to make finding coop games easy. Have you ever looked at your and your friends steam library side by side to see which games you both own and could play together? Yeah. We too.
 
@@ -13,29 +10,81 @@ This is very tedious and annoying. CanWeCoop wants to provide a huge list of gam
 
 Basically every time a user logs in he's "registered" for our service. On a regular schedule we sync the games of all users with our database. This procedure is necessary because of steams rate limit for the game detail api.
 
-All data collected is publicly available on steam, and we don't (and don't want to) collect any sensitive data of our users. 
+All data collected is publicly available on steam, and we don't (and don't want to) collect any sensitive data of our users.
 
+## Configuration
 
-## Used Technologies
-- [TypeScript](https://www.typescriptlang.org/)
-- [SCSS](https://sass-lang.com/)
-- [React](https://reactjs.org/) & [Next](https://nextjs.org/)
-- [Docker](https://www.docker.com/)
-- [postgresql](https://www.postgresql.org/)
-- [tRPC](https://trpc.io/)
-- [Passport](https://www.passportjs.org/) with [Passport-steam](https://www.passportjs.org/packages/passport-steam/)
-- [GitHub Actions](https://docs.github.com/en/actions)
-- [Prisma](https://www.prisma.io/)
+The minimal required configuration looks like this:
+
+```toml
+["steam"]
+api_key="YOUR_API_KEY"
+
+["database"]
+password="YOUR_DATABASE_PASSWORD"
+```
+
+But there is a lot more that can be configured. The example configuration looks like this:
+
+```toml
+["server"]
+port=3000
+timezone="Europe/Berlin"
+frontend_url="http://localhost:3000"
+
+["steam"]
+api_key="YOUR_STEAM_API_KEY"
+sync_interval_seconds=60
+sync_cooldown_seconds=300
+sync_role="sync_user"
+chunk_size=195
+
+["database"]
+host="localhost"
+username="dev"
+password="YOUR_DATABASE_PASSWORD"
+name="dev"
+port=5432
+ssl="disable"
+
+["auth"]
+secret="YOUR_AUTH_SECRET"
+origin_cookie_name="origin"
+jwt_expires=86400
+
+["auth_cookie"]
+name="session"
+secure=false
+http_only=true
+path="/"
+expires=3600
+max_age=86400
+
+["log"]
+log_file="../.temp/log/app.log"
+max_size=1
+max_backups=3
+max_age=28
+
+["cors"]
+enabled=true
+allowed_origins=["http://localhost:3000"]
+allowed_methods=["GET","POST","PATCH","PUT","DELETE","OPTIONS"]
+allowed_headers=["Accept","Authorization","Content-Type","X-CSRF-Token"]
+exposed_headers=["Link"]
+allowed_credentials=true
+```
+
+### Environment Variables
+
+Each configuration can also be set via environment variables. The value for `name` under the `auth_cookie` section for example would be set via `AUTH_COOKIE_NAME`.
 
 ## Special Thanks
-> Thank you [HilliamT](https://github.com/HilliamT) </br>
-> For to your [repository](https://github.com/HilliamT/nextjs-steam-auth) on how to use nextjs in combination with passport and steam auth I didn't suffer too much making this.
 
-> Thanks to the [Nextjs](https://nextjs.org/) Team </br>
-> For the awesome [next](https://nextjs.org/)-framework.
+### Thank you [HilliamT](https://github.com/HilliamT) </br>
 
-> Thanks to [Steam](https://store.steampowered.com/) </br>
-> For providing the option to use a steam account to authorize 3rd party websites and providing the game data.
+For to your [repository](https://github.com/HilliamT/nextjs-steam-auth) on how to use nextjs in combination with passport and steam auth I didn't suffer too much making this.
 
-## License
-- MIT
+### Thanks to [Steam](https://store.steampowered.com/) </br>
+
+For providing the option to use a steam account to authorize 3rd party websites and providing the game data.
