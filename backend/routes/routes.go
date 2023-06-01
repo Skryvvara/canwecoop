@@ -12,6 +12,7 @@ func RegisterRoutes(r *chi.Mux) {
 		r.Get("/health", controllers.GetHealth)
 
 		r.Route("/auth", func(r chi.Router) {
+			r.Options("/", controllers.OptionsHandler("GET, DELETE"))
 			r.Get("/login", controllers.GetLogin)
 
 			r.Group(func(r chi.Router) {
@@ -27,6 +28,7 @@ func RegisterRoutes(r *chi.Mux) {
 		})
 
 		r.Route("/bad-games", func(r chi.Router) {
+			r.Options("/", controllers.OptionsHandler("GET, POST, DELETE"))
 			r.Get("/", controllers.GetAllBadGames)
 			r.Group(func(r chi.Router) {
 				r.Use(middleware.WithAuth)
@@ -36,6 +38,7 @@ func RegisterRoutes(r *chi.Mux) {
 		})
 
 		r.Route("/sync", func(r chi.Router) {
+			r.Options("/", controllers.OptionsHandler("POST"))
 			r.Group(func(r chi.Router) {
 				r.Use(middleware.WithAuth)
 				r.With(middleware.WithRole(config.APP.Steam.SyncRole)).Post("/", controllers.StartSync)
@@ -44,6 +47,7 @@ func RegisterRoutes(r *chi.Mux) {
 
 		r.Route("/friends", func(r chi.Router) {
 			r.Use(middleware.WithAuth)
+			r.Options("/", controllers.OptionsHandler("GET, POST"))
 			r.Get("/", controllers.GetFriends)
 			r.Post("/", controllers.UpdateFriends)
 		})
