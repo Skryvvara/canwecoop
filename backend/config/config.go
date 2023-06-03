@@ -105,6 +105,7 @@ func Initialize() {
 		os.Setenv("SERVER_CONFIG_PATH", configPath)
 	}
 
+	defaults.Set(&APP)
 	bytes, err := os.ReadFile(configPath)
 	if err != nil {
 		log.Panic(err)
@@ -118,7 +119,6 @@ func Initialize() {
 		log.Panic(err)
 	}
 
-	defaults.Set(&APP)
 	STEAM_API_CLIENT = steam.NewApiClient(APP.Steam.ApiKey)
 	log.Println("Successfully configured application!")
 }
