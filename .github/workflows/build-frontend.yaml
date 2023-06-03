@@ -1,4 +1,4 @@
-name: Build Backend by Tag
+name: Build Frontend by Tag
 
 on:
   push:
