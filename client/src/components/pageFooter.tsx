@@ -1,8 +1,10 @@
 import styles from "@/styles/components/pageFooter.module.scss";
+import Link from "next/link";
 
-import { SyntheticEvent, useEffect } from "react";
-export function PageFooter(e: SyntheticEvent) {
-  const scrollToTop = () => {
+import { SyntheticEvent } from "react";
+import { ExternalLink } from "react-feather";
+export function PageFooter() {
+  const scrollToTop = (e: SyntheticEvent) => {
     const body = document.querySelector("body");
     if (!body) return;
 
@@ -15,7 +17,51 @@ export function PageFooter(e: SyntheticEvent) {
         <button onClick={scrollToTop}>Back to top</button>
       </nav>
       <div className="container">
-        <p>Copyright</p>
+        <nav className={styles.footerNav}>
+          <section>
+            <h3>Connect</h3>
+            <ul>
+              <li>
+                <Link
+                  className="iconLink"
+                  href="https://github.com/skryvvara/canwecoop"
+                  rel="noreferrer"
+                  target="_BLANK"
+                >
+                  GitHub
+                  <ExternalLink />
+                </Link>
+              </li>
+              <li>
+                <Link className="iconLink" href="/">
+                  RoadMap
+                  <ExternalLink />
+                </Link>
+              </li>
+              <li>
+                <Link className="iconLink" href="/">
+                  Discord
+                  <ExternalLink />
+                </Link>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>About</h3>
+            <ul>
+              <li>
+                <Link href="/">About</Link>
+              </li>
+              <li>
+                <Link href="/">Privacy</Link>
+              </li>
+              <li>
+                <Link href="/">Contact</Link>
+              </li>
+            </ul>
+          </section>
+        </nav>
       </div>
     </footer>
   );

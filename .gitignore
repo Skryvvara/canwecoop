@@ -3,6 +3,7 @@
 .env
 .DS_Store
 config.toml
+yarn-error.log
 
 .next/
 node_modules/

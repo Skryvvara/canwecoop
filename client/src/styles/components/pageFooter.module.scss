@@ -1,7 +1,40 @@
 .footer {
-  background-color: var(--color-brand-dark);
+  background-color: var(--color-background-accented);
   width: 100%;
   margin-top: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.footerNav {
+  padding: 10px;
+  display: flex;
+  gap: 25px;
+  
+  section {
+    h3 {
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      list-style: none;
+
+      li {
+        a {
+          color: var(--color-text-subtle);
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
 }
 
 .scrollToTop {

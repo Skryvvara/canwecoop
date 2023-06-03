@@ -3,6 +3,7 @@ import styles from "@/styles/components/pageHeader.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { ExternalLink } from "react-feather";
 
 export function PageHeader() {
   const { user, isLoading, logout } = useAuth();
@@ -13,15 +14,18 @@ export function PageHeader() {
       <div className="container">
         <nav>
           <div className={styles.logo}>CanWeCoop</div>
-          <ul className={styles.mainNavigation}>
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="/about">About</Link>
-            </li>
-          </ul>
-          <div className="auth">
+          <div className={styles.auth}>
+            <ul className={styles.mainNavigation}>
+              <li>
+                <Link href="/">Home</Link>
+              </li>
+              <li>
+                <Link href="/about">About</Link>
+              </li>
+              <li>
+                <Link href="/contact">Contact</Link>
+              </li>
+            </ul>
             {user ? (
               <>
                 <div className={styles.profile}>
@@ -47,11 +51,13 @@ export function PageHeader() {
                       </li>
                       <li>
                         <Link
+                          className="iconLink"
                           href={user.profileUrl}
                           rel="noreferrer"
                           target="_BLANK"
                         >
                           Profile
+                          <ExternalLink />
                         </Link>
                       </li>
                       <li>

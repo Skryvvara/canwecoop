@@ -18,10 +18,16 @@
   }
 }
 
+.auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
 .mainNavigation {
   height: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   list-style: none;
   gap: 10px;
@@ -30,11 +36,21 @@
     a {
       color: var(--color-text);
       text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &:not(:last-child)::after {
+      content: '|';
+      opacity: 0.45;
+      margin-left: 10px;
     }
   }
 }
 
-.profile {
+.profile {  
   .profileButton {
     padding: 0;
     border-radius: 100%;
@@ -64,7 +80,7 @@
     position: absolute;
     right: 5px;
     list-style: none;
-    z-index: 10;
+    z-index: 20;
 
     li {
       width: 100%;
@@ -72,14 +88,15 @@
       h3 {
         font-size: 0.85rem;
         text-align: center;
-        margin-bottom: 5px;
+        padding: 5px 10px 10px 10px;
+        border-bottom: var(--border);
       }
 
       a {
         color: var(--color-text);
-        display: block;
+        display: flex;
         width: 100%;
-        padding: 5px 10px;
+        padding: 5px 20px;
         margin-bottom: 5px;
         text-decoration: none;
         transition: background-color 250ms ease-out;
@@ -91,7 +108,7 @@
     }
 
     button {
-      margin: 5px 5px 0 5px;
+      margin: 5px 20px 0 20px;
     }
   }
 }
