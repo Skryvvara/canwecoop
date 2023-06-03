@@ -22,7 +22,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if cookie != nil {
-		path := "/?authenticated=true"
+		path := config.APP.Server.FrontendUrl + "?authenticated=true"
 		http.Redirect(w, r, path, http.StatusMovedPermanently)
 		return
 	}
