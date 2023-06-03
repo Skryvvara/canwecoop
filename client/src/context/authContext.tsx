@@ -26,7 +26,7 @@ export function AuthContextProvider(props: PropsWithChildren) {
 
   const getUser = useCallback(() => {
     setIsLoading(true);
-    ApiClient.get<User>("auth", {
+    ApiClient.get("auth", {
       withCredentials: true,
     })
       .then((res) => {

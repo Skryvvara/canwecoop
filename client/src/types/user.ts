@@ -3,9 +3,9 @@ export type User = {
   displayName: string;
   avatarUrl: string;
   profileUrl: string;
-  Friends: User[];
-  CreatedAt: Date;
-  LastLoggedIn: Date;
+  friends: User[];
+  createdAt: Date;
+  lastLoggedIn: Date;
 };
 
 export type Role = {

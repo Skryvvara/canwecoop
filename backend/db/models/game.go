@@ -1,5 +1,9 @@
 package models
 
+import (
+	"gorm.io/gorm"
+)
+
 type Game struct {
 	ID                 string     `json:"id" gorm:"primaryKey"`
 	Name               string     `json:"name"`
@@ -15,15 +19,29 @@ type Game struct {
 }
 
 type Category struct {
-	ID        string `json:"id" gorm:"primaryKey"`
-	Name      string `json:"name"`
-	Relevance int    `json:"relevance"`
+	ID          string `json:"id" gorm:"primaryKey"`
+	Description string `json:"description"`
+	Relevance   int    `json:"relevance"`
+}
+
+func (category *Category) BeforeCreate(tx *gorm.DB) (err error) {
+	if category.Description == "Co-op" {
+		category.Relevance = 100
+	} else {
+		category.Relevance = 10
+	}
+	return
 }
 
 type Genre struct {
-	ID        string `json:"id" gorm:"primaryKey"`
-	Name      string `json:"name"`
-	Relevance int    `json:"relevance"`
+	ID          string `json:"id" gorm:"primaryKey"`
+	Description string `json:"description"`
+	Relevance   int    `json:"relevance"`
+}
+
+func (genre *Genre) BeforeCreate(tx *gorm.DB) (err error) {
+	genre.Relevance = 10
+	return
 }
 
 type BadGame struct {

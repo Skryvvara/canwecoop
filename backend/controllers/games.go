@@ -27,9 +27,9 @@ func addDistinctNameQuery(stmt *gorm.DB, column, m2m_column string, values []str
 	stmt.Table("games").
 		Joins(fmt.Sprintf("JOIN game_%s ON games.id = game_%s.game_id", m2m_column, m2m_column)).
 		Joins(fmt.Sprintf("JOIN %s ON %s.id = game_%s.%s_id", column, column, m2m_column, m2m_column)).
-		Where(fmt.Sprintf("%s.name IN (?)", column), values).
+		Where(fmt.Sprintf("%s.description IN (?)", column), values).
 		Group("games.id").
-		Having(fmt.Sprintf("COUNT(DISTINCT %s.name) = ?", column), len(values))
+		Having(fmt.Sprintf("COUNT(DISTINCT %s.description) = ?", column), len(values))
 
 	return stmt
 }
@@ -78,6 +78,7 @@ func GetAllGames(w http.ResponseWriter, r *http.Request) {
 	pagination := db.GetPaginationFromRequestQuery(r, 12, 84, 8)
 	stmt := db.ORM.Scopes(db.Paginate(pagination)).Model(&models.Game{}).Preload("Genres").Preload("Categories")
 	query := r.URL.Query()
+	log.Println(query)
 	for key, value := range query {
 		queryValue := value[len(value)-1]
 		switch key {
@@ -90,18 +91,24 @@ func GetAllGames(w http.ResponseWriter, r *http.Request) {
 				stmt.Where("is_free = ?", queryValue)
 			}
 		case "categories":
-			categories := strings.Split(queryValue, ",")
-			stmt = addDistinctNameQuery(stmt, "categories", "category", categories)
+			if len(queryValue) > 0 {
+				categories := strings.Split(queryValue, ",")
+				stmt = addDistinctNameQuery(stmt, "categories", "category", categories)
+			}
 		case "genres":
-			genres := strings.Split(queryValue, ",")
-			stmt = addDistinctNameQuery(stmt, "genres", "genre", genres)
-		case "users":
-			users := strings.Split(queryValue, ",")
-			stmt.Table("games").
-				Joins("JOIN user_game ON games.id = user_game.game_id").
-				Where("user_game.user_id IN (?)", users).
-				Group("games.id").
-				Having("COUNT(DISTINCT user_game.user_id) = ?", len(users))
+			if len(queryValue) > 0 {
+				genres := strings.Split(queryValue, ",")
+				stmt = addDistinctNameQuery(stmt, "genres", "genre", genres)
+			}
+		case "friends":
+			if len(queryValue) > 0 {
+				friends := strings.Split(queryValue, ",")
+				stmt.Table("games").
+					Joins("JOIN user_game ON games.id = user_game.game_id").
+					Where("user_game.user_id IN (?)", friends).
+					Group("games.id").
+					Having("COUNT(DISTINCT user_game.user_id) = ?", len(friends))
+			}
 		}
 	}
 

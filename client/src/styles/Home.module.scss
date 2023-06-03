@@ -4,6 +4,7 @@
   display: grid;
   gap: 15px;
   list-style: none;
+  margin-bottom: 15px;
 
   @include tablet {
     grid-template-columns: repeat(2, 1fr);
@@ -14,8 +15,49 @@
   }
 }
 
-@media (prefers-reduced-motion) {
-  .card:hover span {
-    transform: none;
+.searchMenu {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.searchBar {
+  @include menu;
+  width: 100%;
+  padding: 7.5px 5px;
+  position: relative;
+}
+
+.searchFilterContainer {
+  position: relative;
+  display: none;
+  
+  div {
+    @include menu;
+    width: 100%;
+    position: absolute;
+    padding: 10px;
+    z-index: 10;
+  }
+
+  &.active {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gridBox {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+    input[type="checkbox"] {
+      margin-right: 7.5px;
+    }
+  }
+
+  section {
+    h2 {
+      margin: 5px 0;
+    }
   }
 }

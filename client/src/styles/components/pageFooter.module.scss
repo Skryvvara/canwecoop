@@ -1,0 +1,23 @@
+.footer {
+  background-color: var(--color-brand-dark);
+  width: 100%;
+  margin-top: auto;
+}
+
+.scrollToTop {
+  background-color: var(--color-brand-primary);
+  display: grid;
+  place-items: center;
+  padding: 2.5px;
+
+  button {
+    background-color: transparent;
+    transition: color 250ms ease-out;
+    border: none;
+    box-shadow: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

@@ -26,6 +26,8 @@ func RegisterRoutes(r *chi.Mux) {
 			r.Get("/{id}", controllers.GetGameById)
 		})
 
+		r.Get("/game-info", controllers.GetGameInfo)
+
 		r.Route("/bad-games", func(r chi.Router) {
 			r.Get("/", controllers.GetAllBadGames)
 			r.Group(func(r chi.Router) {

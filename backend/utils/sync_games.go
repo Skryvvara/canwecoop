@@ -138,9 +138,9 @@ func SyncGames() {
 
 		for _, cat := range gameDetails.Categories {
 			category := models.Category{
-				ID:        cat.Id.String(),
-				Name:      cat.Name,
-				Relevance: 0,
+				ID:          cat.Id.String(),
+				Description: cat.Name,
+				Relevance:   10,
 			}
 			appendSteamTagToGameAssociation(&category, "Categories", &game, gameID)
 		}
@@ -148,9 +148,9 @@ func SyncGames() {
 		//TODO: Get rid of this duplicate block
 		for _, gen := range gameDetails.Genres {
 			genre := models.Genre{
-				ID:        gen.Id.String(),
-				Name:      gen.Name,
-				Relevance: 0,
+				ID:          gen.Id.String(),
+				Description: gen.Name,
+				Relevance:   10,
 			}
 			appendSteamTagToGameAssociation(&genre, "Genres", &game, gameID)
 		}
