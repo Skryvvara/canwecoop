@@ -21,3 +21,10 @@ export type Game = {
 export type BadGame = {
   id: string;
 };
+
+export type PaginationMeta = {
+  page?: number;
+  size?: number;
+  total?: number;
+  lastPage?: number;
+};

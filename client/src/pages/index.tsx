@@ -2,10 +2,53 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "@/styles/Home.module.scss";
 import { useAuth } from "@/hooks";
+import {
+  NumberParam,
+  StringParam,
+  useQueryParam,
+  useQueryParams,
+  withDefault,
+} from "use-query-params";
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import { ApiClient } from "@/lib";
+import { Game, PaginationMeta } from "@/types";
+import { GameCard } from "@/components";
+
+import { encodeDelimitedArray, decodeDelimitedArray } from "use-query-params";
+
+/** Uses a comma to delimit entries. e.g. ['a', 'b'] => qp?=a,b */
+const CommaArrayParam = {
+  encode: (array: string[] | null | undefined) =>
+    encodeDelimitedArray(array, ","),
+
+  decode: (arrayStr: string | string[] | null | undefined) =>
+    decodeDelimitedArray(arrayStr, ","),
+};
 
 export default function Home() {
   const { user, isLoading, logout } = useAuth();
+  const [query, setQuery] = useQueryParams({
+    name: withDefault(StringParam, undefined),
+    page: withDefault(NumberParam, 1),
+    size: withDefault(NumberParam, 24),
+  });
+
+  const [games, setGames] = useState<Game[]>([]);
+  const [meta, setMeta] = useState<PaginationMeta>({});
+
+  useEffect(() => {
+    let baseUrl = "/games";
+    let queryString = new URLSearchParams(query as any).toString();
+    ApiClient.get(baseUrl + "?" + queryString).then((res) => {
+      if (res.status != 200) return;
+
+      setGames(res.data["data"]);
+      setMeta(res.data["meta"]);
+    });
+  }, [query]);
+
+  console.log(meta);
 
   return (
     <>
@@ -37,6 +80,37 @@ export default function Home() {
             </a>
           </div>
         )}
+        <div className="container">
+          <div>
+            <input
+              type="text"
+              onChange={(e) => setQuery({ name: e.target.value, page: 1 })}
+            />
+            <input
+              type="number"
+              name="page"
+              id="page"
+              value={query.page}
+              min={1}
+              max={meta.lastPage}
+              onChange={(e) => setQuery({ page: Number(e.target.value) })}
+            />
+            <input
+              type="number"
+              name="size"
+              id="size"
+              value={query.size}
+              min={12}
+              max={48}
+              onChange={(e) => setQuery({ size: Number(e.target.value) })}
+            />
+          </div>
+          <ul className={styles.gameGrid}>
+            {games?.map((game) => (
+              <GameCard key={game.id} game={game} />
+            ))}
+          </ul>
+        </div>
       </main>
     </>
   );

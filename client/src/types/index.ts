@@ -1,2 +1,2 @@
 export type { User, Role } from "./user";
-export type { Tag, Game, BadGame } from "./game";
+export type { Tag, Game, BadGame, PaginationMeta } from "./game";

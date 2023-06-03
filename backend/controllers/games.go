@@ -72,7 +72,11 @@ func GetGameById(w http.ResponseWriter, r *http.Request) {
 func GetAllGames(w http.ResponseWriter, r *http.Request) {
 	var games []models.Game
 
-	stmt := db.ORM.Scopes(db.Paginate(r)).Model(&models.Game{}).Preload("Genres").Preload("Categories")
+	var total int64
+	db.ORM.Select("id").Find(&games).Count(&total)
+
+	pagination := db.GetPaginationFromRequestQuery(r, 12, 84, 8)
+	stmt := db.ORM.Scopes(db.Paginate(pagination)).Model(&models.Game{}).Preload("Genres").Preload("Categories")
 	query := r.URL.Query()
 	for key, value := range query {
 		queryValue := value[len(value)-1]
@@ -107,5 +111,15 @@ func GetAllGames(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(&games)
+	result := map[string]interface{}{
+		"data": games,
+		"meta": map[string]interface{}{
+			"page":     pagination.Page,
+			"size":     pagination.Size,
+			"total":    total,
+			"lastPage": (int(total) / pagination.Size) + 1,
+		},
+	}
+
+	json.NewEncoder(w).Encode(&result)
 }
