@@ -1,3 +1,4 @@
+import { ApiClient } from "@/lib";
 import { User } from "@/types";
 import axios from "axios";
 import {
@@ -25,8 +26,9 @@ export function AuthContextProvider(props: PropsWithChildren) {
 
   const getUser = useCallback(() => {
     setIsLoading(true);
-    axios
-      .get<User>("http://localhost:3010/api/auth", { withCredentials: true })
+    ApiClient.get<User>("auth", {
+      withCredentials: true,
+    })
       .then((res) => {
         if (res.status != 200) return;
 
@@ -39,10 +41,9 @@ export function AuthContextProvider(props: PropsWithChildren) {
   }, []);
 
   const logout = useCallback(() => {
-    axios
-      .delete("http://localhost:3010/api/auth", {
-        withCredentials: true,
-      })
+    ApiClient.delete("auth", {
+      withCredentials: true,
+    })
       .then((res) => {
         if (res.status != 200) return;
         setUser(undefined);

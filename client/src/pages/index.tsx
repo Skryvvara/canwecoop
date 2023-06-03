@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "@/styles/Home.module.scss";
 import { useAuth } from "@/hooks";
+import Link from "next/link";
 
 export default function Home() {
   const { user, isLoading, logout } = useAuth();
@@ -24,7 +25,7 @@ export default function Home() {
               height={200}
             />
             <h1>{`Authenticated as ${user.displayName} with ${user.id}`}</h1>
-            <button onClick={logout}>Logout</button>
+            <Link href={"/auth/logout"}>Logout</Link>
           </div>
         ) : (
           <div>
