@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/skryvvara/canwecoop/config"
 	"github.com/skryvvara/canwecoop/middleware"
@@ -30,7 +31,7 @@ func DeleteAuth(w http.ResponseWriter, r *http.Request) {
 
 	cookie := &http.Cookie{
 		Name:     config.APP.AuthCookie.Name,
-		Value:    "",
+		Expires:  time.Now(),
 		MaxAge:   -1,
 		HttpOnly: config.APP.AuthCookie.HttpOnly,
 		Path:     config.APP.AuthCookie.Path,
