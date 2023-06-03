@@ -10,7 +10,7 @@ import (
 	"github.com/skryvvara/canwecoop/db"
 	"github.com/skryvvara/canwecoop/db/models"
 	"github.com/skryvvara/canwecoop/utils"
-	"github.com/solovev/steam_go"
+	"github.com/skryvvara/go-steam"
 	"gorm.io/gorm"
 )
 
@@ -36,7 +36,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	opId := steam_go.NewOpenId(r)
+	opId := steam.NewOpenId(r)
 	switch opId.Mode() {
 	case "":
 		http.Redirect(w, r, opId.AuthUrl(), http.StatusMovedPermanently)
