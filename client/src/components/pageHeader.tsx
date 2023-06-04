@@ -6,7 +6,7 @@ import { useState } from "react";
 import { ExternalLink } from "react-feather";
 
 export function PageHeader() {
-  const { user, isLoading, logout } = useAuth();
+  const { user, isLoading, logout, login } = useAuth();
   const [showProfile, setShowProfile] = useState(false);
 
   return (
@@ -26,62 +26,62 @@ export function PageHeader() {
                 <Link href="/contact">Contact</Link>
               </li>
             </ul>
-            {user ? (
-              <>
-                <div className={styles.profile}>
-                  <button
-                    className={styles.profileButton}
-                    onClick={() => setShowProfile(!showProfile)}
-                  >
-                    <Image
-                      src={user.avatarUrl}
-                      alt={user.displayName}
-                      width={50}
-                      height={50}
-                    />
+            {!isLoading ? (
+              user ? (
+                <>
+                  <div className={styles.profile}>
+                    <button
+                      className={styles.profileButton}
+                      onClick={() => setShowProfile(!showProfile)}
+                    >
+                      <Image
+                        src={user.avatarUrl}
+                        alt={user.displayName}
+                        width={50}
+                        height={50}
+                      />
+                    </button>
+                    <menu
+                      className={`${styles.profileMenu} ${
+                        showProfile && styles.active
+                      }`}
+                    >
+                      <ul>
+                        <li>
+                          <h3>{user.displayName}</h3>
+                        </li>
+                        <li>
+                          <Link
+                            className="iconLink"
+                            href={user.profileUrl}
+                            rel="noreferrer"
+                            target="_BLANK"
+                          >
+                            Profile
+                            <ExternalLink />
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href={"/friends"}>Friends</Link>
+                        </li>
+                        <li>
+                          <button className="inverted" onClick={logout}>
+                            Logout
+                          </button>
+                        </li>
+                      </ul>
+                    </menu>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <button className="inverted" onClick={login}>
+                    Login
                   </button>
-                  <menu
-                    className={`${styles.profileMenu} ${
-                      showProfile && styles.active
-                    }`}
-                  >
-                    <ul>
-                      <li>
-                        <h3>{user.displayName}</h3>
-                      </li>
-                      <li>
-                        <Link
-                          className="iconLink"
-                          href={user.profileUrl}
-                          rel="noreferrer"
-                          target="_BLANK"
-                        >
-                          Profile
-                          <ExternalLink />
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href={"/friends"}>Friends</Link>
-                      </li>
-                      <li>
-                        <button className="inverted" onClick={logout}>
-                          Logout
-                        </button>
-                      </li>
-                    </ul>
-                  </menu>
-                </div>
-              </>
+                </>
+              )
             ) : (
-              <>
-                <Link
-                  role="button"
-                  className="inverted"
-                  href={"http://localhost:3010/api/auth/login"}
-                >
-                  Login
-                </Link>
-              </>
+              <></>
             )}
           </div>
         </nav>

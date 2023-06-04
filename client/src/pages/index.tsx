@@ -11,7 +11,6 @@ import { ApiClient, CommaArrayParam, toggle } from "@/lib";
 import { Game, Tag } from "@/types";
 import { ApiError, GameCard } from "@/components";
 
-import { GetServerSideProps } from "next";
 import { useQuery } from "react-query";
 import { useCallback, useState } from "react";
 
@@ -22,28 +21,7 @@ interface SSProps {
   error: boolean;
 }
 
-export const getServerSideProps: GetServerSideProps<SSProps> = async () => {
-  const props: SSProps = {
-    categories: [],
-    genres: [],
-    total: 0,
-    error: false,
-  };
-
-  try {
-    const res = await ApiClient.get("/game-info");
-    props.categories = res.data["categories"];
-    props.genres = res.data["genres"];
-    props.total = res.data["total"];
-  } catch (error) {
-    console.warn(error);
-    props.error = true;
-  }
-
-  return { props };
-};
-
-export default function Home(props: SSProps) {
+export default function Home() {
   const { user } = useAuth();
   const [query, setQuery] = useQueryParams({
     name: withDefault(StringParam, ""),
@@ -55,13 +33,36 @@ export default function Home(props: SSProps) {
   });
   const [showFilter, setShowFilter] = useState(false);
 
-  const { data } = useQuery({
+  const gameData = useQuery({
     queryKey: ["@games", query],
     queryFn: async () => {
       const baseUrl = "/games";
       const queryString = new URLSearchParams(query as any).toString();
-      const res = await ApiClient.get(baseUrl + "?" + queryString);
-      return { games: res.data.data, meta: res.data.meta };
+      const res = await ApiClient?.get(baseUrl + "?" + queryString);
+      return { games: res?.data.data, meta: res?.data.meta };
+    },
+  });
+
+  const metaData = useQuery<SSProps>({
+    queryKey: ["@meta"],
+    queryFn: async () => {
+      try {
+        const res = await ApiClient?.get("/game-info");
+        return {
+          categories: res?.data["categories"],
+          genres: res?.data["genres"],
+          total: res?.data["total"],
+          error: false,
+        };
+      } catch (error) {
+        console.warn(error);
+        return {
+          categories: [],
+          genres: [],
+          total: 0,
+          error: true,
+        };
+      }
     },
   });
 
@@ -93,120 +94,131 @@ export default function Home(props: SSProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main} id="main">
-        {!props.error ? (
-          <div className="container">
-            <h1>We have a total of {props.total} games!</h1>
-            <section aria-label="search" className={styles.searchMenu}>
-              <input
-                type="search"
-                defaultValue={query.name}
-                id="search"
-                name="search"
-                placeholder="Search"
-                className={styles.searchBar}
-                onChange={(e) => setQuery({ name: e.target.value, page: 1 })}
-              />
-              <button onClick={() => setShowFilter(!showFilter)}>Filter</button>
-            </section>
+        {!metaData.isLoading ? (
+          !metaData.data?.error ? (
+            <div className="container">
+              <h1>We have a total of {metaData.data?.total} games!</h1>
+              <section aria-label="search" className={styles.searchMenu}>
+                <input
+                  type="search"
+                  defaultValue={query.name}
+                  id="search"
+                  name="search"
+                  placeholder="Search"
+                  className={styles.searchBar}
+                  onChange={(e) => setQuery({ name: e.target.value, page: 1 })}
+                />
+                <button onClick={() => setShowFilter(!showFilter)}>
+                  Filter
+                </button>
+              </section>
 
-            <section
-              className={`${styles.searchFilterContainer} ${
-                showFilter && styles.active
-              }`}
-            >
-              <div>
-                <section aria-label="filter-pagesize">
-                  <h2 id="filter-pagesize">Page size</h2>
-                  <input
-                    type="range"
-                    name="size"
-                    id="size"
-                    value={query.size}
-                    min={12}
-                    max={48}
-                    step={4}
-                    onChange={(e) => setQuery({ size: Number(e.target.value) })}
-                  />
-                </section>
-                <section aria-labelledby="filter-categories">
-                  <h2 id="filter-categories">Categories</h2>
-                  <ul className={styles.gridBox}>
-                    {props.categories.map((category) => (
-                      <li key={category.id}>
-                        <label htmlFor={category.description}>
-                          <input
-                            type="checkbox"
-                            id={category.description}
-                            name={category.description}
-                            checked={query.categories.includes(
-                              category.description
-                            )}
-                            onChange={() =>
-                              toggleQueryParam("category", category.description)
-                            }
-                          />
-                          {category.description}
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-
-                <section aria-labelledby="filter-genres">
-                  <h2 id="filter-genres">Genres</h2>
-                  <ul className={styles.gridBox}>
-                    {props.genres.map((genre) => (
-                      <li key={genre.id}>
-                        <label htmlFor={genre.description}>
-                          <input
-                            type="checkbox"
-                            id={genre.description}
-                            name={genre.description}
-                            checked={query.genres.includes(genre.description)}
-                            onChange={() =>
-                              toggleQueryParam("genre", genre.description)
-                            }
-                          />
-                          {genre.description}
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-
-                {user && user.friends?.length > 0 && (
-                  <section aria-labelledby="filter-friends">
-                    <h2 id="filter-friends">Friends</h2>
+              <section
+                className={`${styles.searchFilterContainer} ${
+                  showFilter && styles.active
+                }`}
+              >
+                <div>
+                  <section aria-label="filter-pagesize">
+                    <h2 id="filter-pagesize">Page size</h2>
+                    <input
+                      type="range"
+                      name="size"
+                      id="size"
+                      value={query.size}
+                      min={12}
+                      max={48}
+                      step={4}
+                      onChange={(e) =>
+                        setQuery({ size: Number(e.target.value) })
+                      }
+                    />
+                  </section>
+                  <section aria-labelledby="filter-categories">
+                    <h2 id="filter-categories">Categories</h2>
                     <ul className={styles.gridBox}>
-                      {user.friends.map((friend) => (
-                        <li key={friend.id}>
-                          <label htmlFor={friend.id}>
+                      {metaData.data?.categories.map((category) => (
+                        <li key={category.id}>
+                          <label htmlFor={category.description}>
                             <input
                               type="checkbox"
-                              id={friend.id}
-                              name={friend.displayName}
-                              checked={query.friends.includes(friend.id)}
+                              id={category.description}
+                              name={category.description}
+                              checked={query.categories.includes(
+                                category.description
+                              )}
                               onChange={() =>
-                                toggleQueryParam("friends", friend.id)
+                                toggleQueryParam(
+                                  "category",
+                                  category.description
+                                )
                               }
                             />
-                            {friend.displayName}
+                            {category.description}
                           </label>
                         </li>
                       ))}
                     </ul>
                   </section>
-                )}
-              </div>
-            </section>
-            <ul className={styles.gameGrid}>
-              {data?.games?.map((game: Game, index: number) => (
-                <GameCard key={game.id} game={game} index={index} />
-              ))}
-            </ul>
-          </div>
+
+                  <section aria-labelledby="filter-genres">
+                    <h2 id="filter-genres">Genres</h2>
+                    <ul className={styles.gridBox}>
+                      {metaData.data?.genres.map((genre) => (
+                        <li key={genre.id}>
+                          <label htmlFor={genre.description}>
+                            <input
+                              type="checkbox"
+                              id={genre.description}
+                              name={genre.description}
+                              checked={query.genres.includes(genre.description)}
+                              onChange={() =>
+                                toggleQueryParam("genre", genre.description)
+                              }
+                            />
+                            {genre.description}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  {user && user.friends?.length > 0 && (
+                    <section aria-labelledby="filter-friends">
+                      <h2 id="filter-friends">Friends</h2>
+                      <ul className={styles.gridBox}>
+                        {user.friends.map((friend) => (
+                          <li key={friend.id}>
+                            <label htmlFor={friend.id}>
+                              <input
+                                type="checkbox"
+                                id={friend.id}
+                                name={friend.displayName}
+                                checked={query.friends.includes(friend.id)}
+                                onChange={() =>
+                                  toggleQueryParam("friends", friend.id)
+                                }
+                              />
+                              {friend.displayName}
+                            </label>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                  )}
+                </div>
+              </section>
+              <ul className={styles.gameGrid}>
+                {gameData.data?.games?.map((game: Game, index: number) => (
+                  <GameCard key={game.id} game={game} index={index} />
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <ApiError />
+          )
         ) : (
-          <ApiError />
+          <></>
         )}
       </main>
     </>
