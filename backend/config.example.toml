@@ -37,6 +37,13 @@ max_size=1
 max_backups=3
 max_age=28
 
+["mail"]
+host="localhost"
+port=25
+username="dev"
+password="dev"
+recipient=""
+
 ["cors"]
 enabled=true
 allowed_origins=["http://localhost:3000"]

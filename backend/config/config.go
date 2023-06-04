@@ -58,6 +58,14 @@ type LogConfig struct {
 	Color      bool   `toml:"color" env:"LOG_COLOR" default:"false"`
 }
 
+type MailConfig struct {
+	Host      string `toml:"host" env:"MAIL_HOST" default:"localhost"`
+	Port      int    `toml:"port" env:"MAIL_PORT" default:"25"`
+	Username  string `toml:"username" env:"MAIL_USERNAME"`
+	Password  string `toml:"password" env:"MAIL_PASSWORD"`
+	Recipient string `toml:"recipient" env:"MAIL_RECIPIENT"`
+}
+
 type CorsConfig struct {
 	Enabled          bool     `toml:"enabled" env:"CORS_ENABLED" default:"false"`
 	AllowedOrigins   []string `toml:"allowed_origins" env:"CORS_ALLOWED_ORIGINS" default:"[\"http://localhost:3000\"]"`
@@ -74,6 +82,7 @@ type Config struct {
 	Auth       AuthConfig       `toml:"auth"`
 	AuthCookie AuthCookieConfig `toml:"auth_cookie"`
 	Log        LogConfig        `toml:"log"`
+	Mail       MailConfig       `toml:"mail"`
 	Cors       CorsConfig       `toml:"cors"`
 }
 
