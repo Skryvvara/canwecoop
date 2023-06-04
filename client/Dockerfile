@@ -6,11 +6,7 @@ RUN apk add --update --no-cache nodejs yarn libc6-compat
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then yarn global add npm && npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile --network-timeout 100000;
 
 # -------------------- Build Stage -------------------- #
 FROM alpine as builder
@@ -27,7 +23,7 @@ ENV NODE_ENV=production \
 # build the application and reinstall dependencies in "production mode"
 RUN yarn build && \
   rm -r node_modules && \
-  yarn install --frozen-lockfile
+  yarn install --frozen-lockfile --network-timeout 100000
 
 # -------------------- Copy Stage -------------------- #
 FROM alpine as copy
