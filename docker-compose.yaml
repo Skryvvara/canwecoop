@@ -17,4 +17,27 @@ services:
     - ./.temp/db:/var/lib/postgresql/data
     ports:
     - 5432:5432
+
+  cwcapi:
+    image: cwc-api
+    restart: unless-stopped
+    environment:
+      - SERVER_CONFIG_PATH=/config/config.toml
+    volumes:
+    - ./.temp/api:/config
+    - ./.temp/log:/log
+    networks:
+    - canwecoop
+    ports:
+    - 3010:3010
     
+  cwcclient:
+    image: cwc-test
+    restart: unless-stopped
+    volumes:
+    - ./.temp/client:/app/public/assets
+    networks:
+    - canwecoop
+    ports:
+    - 3000:3000
+
