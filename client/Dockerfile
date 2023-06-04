@@ -5,8 +5,7 @@ RUN apk add --update --no-cache nodejs yarn libc6-compat
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile --network-timeout 100000;
+RUN yarn --frozen-lockfile --network-timeout 100000;
 
 # -------------------- Build Stage -------------------- #
 FROM alpine as builder
