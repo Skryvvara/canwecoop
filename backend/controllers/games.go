@@ -72,9 +72,6 @@ func GetGameById(w http.ResponseWriter, r *http.Request) {
 func GetAllGames(w http.ResponseWriter, r *http.Request) {
 	var games []models.Game
 
-	var total int64
-	db.ORM.Select("id").Find(&games).Count(&total)
-
 	pagination := db.GetPaginationFromRequestQuery(r, 12, 84, 8)
 	stmt := db.ORM.Scopes(db.Paginate(pagination)).Model(&models.Game{}).Preload("Genres").Preload("Categories")
 	query := r.URL.Query()
@@ -112,7 +109,8 @@ func GetAllGames(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	if err := stmt.Find(&games).Error; err != nil {
+	var total int64
+	if err := stmt.Find(&games).Count(&total).Error; err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
