@@ -1,20 +1,5 @@
 @import 'mixins';
 
-.gameGrid {
-  display: grid;
-  gap: 15px;
-  list-style: none;
-  margin-bottom: 15px;
-
-  @include tablet {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @include desktop {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
 .searchMenu {
   display: flex;
   gap: 15px;
@@ -60,4 +45,10 @@
       margin: 5px 0;
     }
   }
+}
+
+.paginationMenu {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
 }

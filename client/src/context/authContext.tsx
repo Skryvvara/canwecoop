@@ -1,4 +1,4 @@
-import { ApiClient, getClientConfig } from "@/lib";
+import { ApiClient, getClientConfig } from "@/api";
 import { User } from "@/types";
 import { useRouter } from "next/router";
 import {

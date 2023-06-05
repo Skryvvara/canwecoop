@@ -1,4 +1,4 @@
-export { GameCard } from "./gameCard";
+export * from "./games";
 export { PageFooter } from "./pageFooter";
 export { PageHeader } from "./pageHeader";
 export { Layout } from "./layout";

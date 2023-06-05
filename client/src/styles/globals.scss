@@ -6,6 +6,7 @@
   --color-text-subtle: #c6c8ca;
   --color-button-inverted: #202224;
   --color-button-inverted-darker: #131415;
+  --color-brand-disabled: #3691dc;
 
   --color-background: #202224;
   --color-background-dark: #121314;
@@ -44,6 +45,15 @@ body {
     margin-left: 5px;
   }
 }
+.iconButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    width: 32px;
+  }
+}
 
 html,
 body,
@@ -74,7 +84,9 @@ main {
 }
 
 input[type="submit"], button, a[role="button"] {
-  background-color: var(--color-brand-primary);
+  --button-color: var(--color-brand-primary);
+
+  background-color: var(--button-color);
   color: var(--color-text);
   fill: var(--color-text);
   width: max-content;
@@ -82,21 +94,29 @@ input[type="submit"], button, a[role="button"] {
   appearance: none;
   padding: 0.5rem 1rem;
   border: var(--border);
+  border-color: var(--button-color);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 250ms ease-out;
+  transition-property: background-color, border-color;
+  transition-duration: 250ms;
+  transition-timing-function: ease-out;
 
   &:hover {
-    background-color: var(--color-brand-darker);
+    --button-color: var(--color-brand-darker);
+  }
+
+  &:disabled {
+    --button-color: var(--color-brand-disabled);
+    cursor: not-allowed;
   }
 
   &.inverted {
-    background-color: var(--color-button-inverted);
-
+    --button-color: var(--color-button-inverted);
+    
     &:hover {
-      background-color: var(--color-button-inverted-darker);
+      --button-color: var(--color-button-inverted-darker);
     }
   }
 }

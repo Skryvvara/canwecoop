@@ -1,28 +1,24 @@
 import Head from "next/head";
 import styles from "@/styles/Home.module.scss";
-import { useAuth } from "@/hooks";
+import { useAuth, useDebounce } from "@/hooks";
 import {
   NumberParam,
   StringParam,
   useQueryParams,
   withDefault,
 } from "use-query-params";
-import { ApiClient, CommaArrayParam, toggle } from "@/lib";
-import { Game, Tag } from "@/types";
-import { ApiError, GameCard } from "@/components";
-
+import { CommaArrayParam, toggle } from "@/lib";
+import { Game } from "@/types";
+import { ApiError, GameGrid } from "@/components";
 import { useQuery } from "react-query";
-import { useCallback, useState } from "react";
-
-interface SSProps {
-  categories: Tag[];
-  genres: Tag[];
-  total: number;
-  error: boolean;
-}
+import { useEffect, useState } from "react";
+import { ArrowLeft, ArrowRight } from "react-feather";
+import { getGames, GamesMetaData, getGamesMetaData } from "@/api";
 
 export default function Home() {
   const { user } = useAuth();
+  const [showFilter, setShowFilter] = useState(false);
+  const [games, setGames] = useState<Game[]>([]);
   const [query, setQuery] = useQueryParams({
     name: withDefault(StringParam, ""),
     page: withDefault(NumberParam, 1),
@@ -31,59 +27,29 @@ export default function Home() {
     genres: withDefault(CommaArrayParam, [] as string[]),
     friends: withDefault(CommaArrayParam, [] as string[]),
   });
-  const [showFilter, setShowFilter] = useState(false);
+  const debouncedNameQuery = useDebounce(query.name, 300);
 
   const gameData = useQuery({
-    queryKey: ["@games", query],
-    queryFn: async () => {
-      const baseUrl = "/games";
-      const queryString = new URLSearchParams(query as any).toString();
-      const res = await ApiClient?.get(baseUrl + "?" + queryString);
-      return { games: res?.data.data, meta: res?.data.meta };
-    },
+    queryKey: ["@games", query, debouncedNameQuery],
+    queryFn: async () => getGames(query, debouncedNameQuery),
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
   });
 
-  const metaData = useQuery<SSProps>({
+  const metaData = useQuery<GamesMetaData>({
     queryKey: ["@meta"],
-    queryFn: async () => {
-      try {
-        const res = await ApiClient?.get("/game-info");
-        return {
-          categories: res?.data["categories"],
-          genres: res?.data["genres"],
-          total: res?.data["total"],
-          error: false,
-        };
-      } catch (error) {
-        console.warn(error);
-        return {
-          categories: [],
-          genres: [],
-          total: 0,
-          error: true,
-        };
-      }
-    },
+    queryFn: async () => getGamesMetaData(),
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
   });
 
-  const toggleQueryParam = useCallback(
-    (target: "category" | "genre" | "friends", value: string) => {
-      if (target == "category") {
-        setQuery({
-          categories: toggle(query.categories, value),
-        });
-      } else if (target == "genre") {
-        setQuery({
-          genres: toggle(query.genres, value),
-        });
-      } else {
-        setQuery({
-          friends: toggle(query.friends, value),
-        });
+  useEffect(() => {
+    if (gameData.data && !gameData.isLoading) {
+      if (gameData.data.games && !gameData.isPreviousData) {
+        setGames(gameData.data.games);
       }
-    },
-    [query, setQuery]
-  );
+    }
+  }, [gameData.data, gameData.isPreviousData, gameData.isLoading]);
 
   return (
     <>
@@ -148,10 +114,12 @@ export default function Home() {
                                 category.description
                               )}
                               onChange={() =>
-                                toggleQueryParam(
-                                  "category",
-                                  category.description
-                                )
+                                setQuery({
+                                  categories: toggle(
+                                    query.categories,
+                                    category.description
+                                  ),
+                                })
                               }
                             />
                             {category.description}
@@ -173,7 +141,12 @@ export default function Home() {
                               name={genre.description}
                               checked={query.genres.includes(genre.description)}
                               onChange={() =>
-                                toggleQueryParam("genre", genre.description)
+                                setQuery({
+                                  genres: toggle(
+                                    query.categories,
+                                    genre.description
+                                  ),
+                                })
                               }
                             />
                             {genre.description}
@@ -196,7 +169,12 @@ export default function Home() {
                                 name={friend.displayName}
                                 checked={query.friends.includes(friend.id)}
                                 onChange={() =>
-                                  toggleQueryParam("friends", friend.id)
+                                  setQuery({
+                                    friends: toggle(
+                                      query.categories,
+                                      friend.id
+                                    ),
+                                  })
                                 }
                               />
                               {friend.displayName}
@@ -208,11 +186,26 @@ export default function Home() {
                   )}
                 </div>
               </section>
-              <ul className={styles.gameGrid}>
-                {gameData.data?.games?.map((game: Game, index: number) => (
-                  <GameCard key={game.id} game={game} index={index} />
-                ))}
-              </ul>
+
+              <GameGrid games={games} />
+
+              <nav className={styles.paginationMenu}>
+                <button
+                  className="iconButton"
+                  onClick={() => setQuery({ page: query.page - 1 })}
+                  disabled={query.page <= 0}
+                >
+                  <ArrowLeft />
+                </button>
+
+                <button
+                  className="iconButton"
+                  onClick={() => setQuery({ page: query.page + 1 })}
+                  disabled={query.page >= gameData.data?.meta.lastPage}
+                >
+                  <ArrowRight />
+                </button>
+              </nav>
             </div>
           ) : (
             <ApiError />

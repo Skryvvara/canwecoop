@@ -1,14 +1,6 @@
 import axios from "axios";
 
-async function getAxiosClient() {
-  if (typeof window === "undefined") return;
-  const { apiBaseUrl } = await getClientConfig();
-  return axios.create({
-    baseURL: apiBaseUrl,
-  });
-}
-
-interface IClientConfig {
+export interface IClientConfig {
   apiBaseUrl: string;
 }
 
@@ -19,5 +11,3 @@ export async function getClientConfig(): Promise<IClientConfig> {
     .then((res) => res.data);
   return { ...res };
 }
-
-export const ApiClient = await getAxiosClient();
