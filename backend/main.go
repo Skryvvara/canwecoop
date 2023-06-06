@@ -29,6 +29,6 @@ func main() {
 
 	utils.PrintStartupMessage()
 
-	address := fmt.Sprintf("0.0.0.0:%d", config.APP.Server.Port)
+	address := fmt.Sprintf(":%d", config.APP.Server.Port)
 	log.Fatal(http.ListenAndServe(address, r))
 }

@@ -36,7 +36,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	opId := steam.NewOpenId(r)
+	opId := steam.NewOpenId(r, config.APP.Server.Domain)
 	switch opId.Mode() {
 	case "":
 		http.Redirect(w, r, opId.AuthUrl(), http.StatusMovedPermanently)

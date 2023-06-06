@@ -10,7 +10,7 @@ require (
 	github.com/go-chi/cors v1.2.1
 	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/google/uuid v1.3.0
-	github.com/skryvvara/go-steam v1.1.0
+	github.com/skryvvara/go-steam v1.1.1
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 	gorm.io/driver/postgres v1.4.6
 	gorm.io/gorm v1.24.3
