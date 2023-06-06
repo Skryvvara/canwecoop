@@ -193,7 +193,7 @@ export default function Home() {
                 <button
                   className="iconButton"
                   onClick={() => setQuery({ page: query.page - 1 })}
-                  disabled={query.page <= 0}
+                  disabled={query.page <= 1}
                 >
                   <ArrowLeft />
                 </button>
