@@ -54,13 +54,12 @@
   .profileButton {
     padding: 0;
     border-radius: 100%;
-    box-shadow: none;
-    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
     img {
-      border: var(--border);
       border-radius: 100%;
-      box-shadow: var(--box-shadow);
     }
   }
 }
@@ -78,6 +77,7 @@
     @include menu;
     padding: 10px 0;
     position: absolute;
+    top: 5px;
     right: 5px;
     list-style: none;
     z-index: 20;

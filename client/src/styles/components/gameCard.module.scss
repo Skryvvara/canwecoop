@@ -25,7 +25,6 @@
     .description {
       color: var(--color-text-subtle);
       font-size: .85rem;
-      margin-top: auto;
 
       p {
         max-height: 4rem;
@@ -43,6 +42,7 @@
   }
 
   .cardFooter {
+    margin-top: auto;
     padding: 2.5px 5px 5px 5px;
   }
 }

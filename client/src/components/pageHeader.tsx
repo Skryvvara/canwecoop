@@ -39,6 +39,7 @@ export function PageHeader() {
                         alt={user.displayName}
                         width={50}
                         height={50}
+                        priority
                       />
                     </button>
                     <menu
@@ -65,9 +66,7 @@ export function PageHeader() {
                           <Link href={"/friends"}>Friends</Link>
                         </li>
                         <li>
-                          <button className="inverted" onClick={logout}>
-                            Logout
-                          </button>
+                          <button onClick={logout}>Logout</button>
                         </li>
                       </ul>
                     </menu>
