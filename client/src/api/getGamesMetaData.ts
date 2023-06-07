@@ -1,14 +1,14 @@
 import { Tag } from "@/types";
 import { ApiClient } from ".";
 
-export interface GamesMetaData {
+export interface IGamesMetaData {
   categories: Tag[];
   genres: Tag[];
   total: number;
   error: boolean;
 }
 
-export async function getGamesMetaData(): Promise<GamesMetaData> {
+export async function getGamesMetaData(): Promise<IGamesMetaData> {
   try {
     const res = await ApiClient?.get("/game-info");
 

@@ -30,20 +30,35 @@
     flex-direction: column;
   }
 
-  .gridBox {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+  section {
+    margin-bottom: 15px;
 
-    input[type="checkbox"] {
-      margin-right: 7.5px;
+    h2 {
+      margin-bottom: 10px;
     }
   }
 
-  section {
-    h2 {
-      margin: 5px 0;
+  .gridBox {
+    list-style: none;
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(5, 1fr);
+
+    @include tablet {
+      grid-template-columns: repeat(3, 1fr);
     }
+
+    @include phone {
+      grid-template-columns: 1fr;
+    }
+
+    label {
+      cursor: pointer;
+      input[type="checkbox"] {
+        margin-right: 7.5px;
+      }
+    }
+
   }
 }
 

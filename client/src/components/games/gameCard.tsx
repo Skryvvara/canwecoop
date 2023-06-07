@@ -19,7 +19,7 @@ export function GameCard(props: props) {
         alt="art"
         width={460}
         height={215}
-        priority={index > 11 ? false : true}
+        priority={index > 7 ? false : true}
       />
       <div className={styles.cardBody}>
         <h2>{game.name}</h2>

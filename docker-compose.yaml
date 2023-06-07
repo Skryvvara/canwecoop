@@ -32,7 +32,7 @@ services:
     - 3010:3010
     
   cwcclient:
-    image: cwc-test
+    image: cwc-client
     restart: unless-stopped
     volumes:
     - ./.temp/client:/app/public/assets

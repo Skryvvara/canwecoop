@@ -8,48 +8,48 @@ import {
   withDefault,
 } from "use-query-params";
 import { CommaArrayParam, toggle } from "@/lib";
-import { Game } from "@/types";
 import { ApiError, GameGrid } from "@/components";
-import { useQuery } from "react-query";
-import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight } from "react-feather";
-import { getGames, GamesMetaData, getGamesMetaData } from "@/api";
+import { UseQueryResult, useQuery } from "react-query";
+import { useState } from "react";
+import { ArrowLeft, ArrowRight, Filter } from "react-feather";
+import { getGames, getGamesMetaData, IGames, IGamesMetaData } from "@/api";
+
+export async function getServerSideProps() {
+  return { props: {} };
+}
 
 export default function Home() {
   const { user } = useAuth();
   const [showFilter, setShowFilter] = useState(false);
-  const [games, setGames] = useState<Game[]>([]);
-  const [query, setQuery] = useQueryParams({
-    name: withDefault(StringParam, ""),
-    page: withDefault(NumberParam, 1),
-    size: withDefault(NumberParam, 24),
-    categories: withDefault(CommaArrayParam, [] as string[]),
-    genres: withDefault(CommaArrayParam, [] as string[]),
-    friends: withDefault(CommaArrayParam, [] as string[]),
-  });
+  const [query, setQuery] = useQueryParams(
+    {
+      name: withDefault(StringParam, ""),
+      page: withDefault(NumberParam, 1),
+      size: withDefault(NumberParam, 24),
+      categories: CommaArrayParam,
+      genres: CommaArrayParam,
+      friends: CommaArrayParam,
+    },
+    {
+      removeDefaultsFromUrl: true,
+    }
+  );
   const debouncedNameQuery = useDebounce(query.name, 300);
 
-  const gameData = useQuery({
+  const gameData: UseQueryResult<IGames, unknown> = useQuery<IGames>({
     queryKey: ["@games", query, debouncedNameQuery],
-    queryFn: async () => getGames(query, debouncedNameQuery),
+    queryFn: async () =>
+      getGames(query, debouncedNameQuery, gameData.data ?? undefined),
     keepPreviousData: true,
     refetchOnWindowFocus: false,
   });
 
-  const metaData = useQuery<GamesMetaData>({
+  const metaData = useQuery<IGamesMetaData>({
     queryKey: ["@meta"],
     queryFn: async () => getGamesMetaData(),
     keepPreviousData: true,
     refetchOnWindowFocus: false,
   });
-
-  useEffect(() => {
-    if (gameData.data && !gameData.isLoading) {
-      if (gameData.data.games && !gameData.isPreviousData) {
-        setGames(gameData.data.games);
-      }
-    }
-  }, [gameData.data, gameData.isPreviousData, gameData.isLoading]);
 
   return (
     <>
@@ -74,8 +74,12 @@ export default function Home() {
                   className={styles.searchBar}
                   onChange={(e) => setQuery({ name: e.target.value, page: 1 })}
                 />
-                <button onClick={() => setShowFilter(!showFilter)}>
-                  Filter
+                <button
+                  className="icon-button"
+                  name="Show/hide filter menu"
+                  onClick={() => setShowFilter(!showFilter)}
+                >
+                  <Filter />
                 </button>
               </section>
 
@@ -96,7 +100,7 @@ export default function Home() {
                       max={48}
                       step={4}
                       onChange={(e) =>
-                        setQuery({ size: Number(e.target.value) })
+                        setQuery({ size: Number(e.target.value), page: 1 })
                       }
                     />
                   </section>
@@ -119,6 +123,7 @@ export default function Home() {
                                     query.categories,
                                     category.description
                                   ),
+                                  page: 1,
                                 })
                               }
                             />
@@ -146,6 +151,7 @@ export default function Home() {
                                     query.genres,
                                     genre.description
                                   ),
+                                  page: 1,
                                 })
                               }
                             />
@@ -174,6 +180,7 @@ export default function Home() {
                                       query.categories,
                                       friend.id
                                     ),
+                                    page: 1,
                                   })
                                 }
                               />
@@ -187,7 +194,7 @@ export default function Home() {
                 </div>
               </section>
 
-              <GameGrid games={games} />
+              <GameGrid games={gameData.data?.games ?? []} />
 
               <nav className={styles.paginationMenu}>
                 <button
@@ -203,7 +210,9 @@ export default function Home() {
                   className="iconButton"
                   name="Next page"
                   onClick={() => setQuery({ page: query.page + 1 })}
-                  disabled={query.page >= gameData.data?.meta.lastPage}
+                  disabled={
+                    !gameData.data || query.page >= gameData.data.meta.lastPage
+                  }
                 >
                   <ArrowRight />
                 </button>

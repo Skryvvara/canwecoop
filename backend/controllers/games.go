@@ -68,7 +68,7 @@ type PaginationMetaData struct {
 }
 
 type GamesResult struct {
-	Games    []models.Game      `json:"data"`
+	Games    []models.Game      `json:"games"`
 	MetaData PaginationMetaData `json:"meta"`
 }
 
