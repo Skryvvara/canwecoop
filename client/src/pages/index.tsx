@@ -76,7 +76,7 @@ export default function Home() {
                 />
                 <button
                   className="icon-button"
-                  name="Show/hide filter menu"
+                  title="Show/hide filter menu"
                   onClick={() => setShowFilter(!showFilter)}
                 >
                   <Filter />
@@ -199,7 +199,7 @@ export default function Home() {
               <nav className={styles.paginationMenu}>
                 <button
                   className="iconButton"
-                  name="Previous page"
+                  title="Previous page"
                   onClick={() => setQuery({ page: query.page - 1 })}
                   disabled={query.page <= 1}
                 >
@@ -208,7 +208,7 @@ export default function Home() {
 
                 <button
                   className="iconButton"
-                  name="Next page"
+                  title="Next page"
                   onClick={() => setQuery({ page: query.page + 1 })}
                   disabled={
                     !gameData.data || query.page >= gameData.data.meta.lastPage

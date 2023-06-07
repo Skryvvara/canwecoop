@@ -9,8 +9,11 @@
 .searchBar {
   @include menu;
   width: 100%;
-  padding: 7.5px 5px;
-  position: relative;
+  padding: 2.5px 5px;
+
+  &::placeholder {
+    color: var(--color-text-subtle);
+  }
 }
 
 .searchFilterContainer {
@@ -41,7 +44,7 @@
   .gridBox {
     list-style: none;
     display: grid;
-    gap: 15px;
+    gap: 10px;
     grid-template-columns: repeat(5, 1fr);
 
     @include tablet {
