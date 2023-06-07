@@ -1,11 +1,11 @@
 import styles from "@/styles/components/pageFooter.module.scss";
 import Link from "next/link";
-
 import { SyntheticEvent } from "react";
 import { ExternalLink } from "react-feather";
+
 export function PageFooter() {
-  const scrollToTop = (e: SyntheticEvent) => {
-    const body = document.querySelector("body");
+  const scrollToTop = () => {
+    const body = document.querySelector("#__next");
     if (!body) return;
 
     body.scrollTo(0, 0);
