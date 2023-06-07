@@ -51,13 +51,13 @@ export function PageFooter() {
             <h3>About</h3>
             <ul>
               <li>
-                <Link href="/">About</Link>
+                <Link href="/about">About</Link>
               </li>
               <li>
-                <Link href="/">Privacy</Link>
+                <Link href="/privacy">Privacy</Link>
               </li>
               <li>
-                <Link href="/">Contact</Link>
+                <Link href="/contact">Contact</Link>
               </li>
             </ul>
           </section>
