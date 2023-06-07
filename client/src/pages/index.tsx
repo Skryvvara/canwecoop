@@ -192,6 +192,7 @@ export default function Home() {
               <nav className={styles.paginationMenu}>
                 <button
                   className="iconButton"
+                  name="Previous page"
                   onClick={() => setQuery({ page: query.page - 1 })}
                   disabled={query.page <= 1}
                 >
@@ -200,6 +201,7 @@ export default function Home() {
 
                 <button
                   className="iconButton"
+                  name="Next page"
                   onClick={() => setQuery({ page: query.page + 1 })}
                   disabled={query.page >= gameData.data?.meta.lastPage}
                 >

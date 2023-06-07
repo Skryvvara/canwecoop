@@ -75,9 +75,7 @@ export function PageHeader() {
                 </>
               ) : (
                 <>
-                  <button className="inverted" onClick={login}>
-                    Login
-                  </button>
+                  <button onClick={login}>Login</button>
                 </>
               )
             ) : (
