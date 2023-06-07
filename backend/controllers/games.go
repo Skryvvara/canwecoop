@@ -110,7 +110,7 @@ func GetAllGames(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var total int64
-	if err := stmt.Count(&total).Scopes(db.Paginate(pagination)).Find(&games).Error; err != nil {
+	if err := stmt.Order("name asc").Count(&total).Scopes(db.Paginate(pagination)).Find(&games).Error; err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
