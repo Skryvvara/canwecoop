@@ -60,6 +60,18 @@ func GetGameById(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(game)
 }
 
+type PaginationMetaData struct {
+	Page     int   `json:"page"`
+	Size     int   `json:"size"`
+	Total    int64 `json:"total"`
+	LastPage int   `json:"lastPage"`
+}
+
+type GamesResult struct {
+	Games    []models.Game      `json:"data"`
+	MetaData PaginationMetaData `json:"meta"`
+}
+
 // GetAllGames returns all games matching the given filters. Filters can be applied using query parameters in the URL.
 // Supported filters include:
 // - name: a string used to filter games by name
@@ -70,9 +82,8 @@ func GetGameById(w http.ResponseWriter, r *http.Request) {
 //
 // It handles any errors that occur during the database query by logging them and returning an HTTP 500 error response
 func GetAllGames(w http.ResponseWriter, r *http.Request) {
-	var games []models.Game
+	var result GamesResult
 
-	pagination := db.GetPaginationFromRequestQuery(r, 12, 84, 8)
 	stmt := db.ORM.Model(&models.Game{}).Preload("Genres").Preload("Categories")
 	query := r.URL.Query()
 	log.Println(query)
@@ -109,21 +120,21 @@ func GetAllGames(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	var total int64
-	if err := stmt.Order("name asc").Count(&total).Scopes(db.Paginate(pagination)).Find(&games).Error; err != nil {
+	pagination := db.GetPaginationFromRequestQuery(r, 12, 84, 8)
+	if err := stmt.
+		Order("name asc").
+		Count(&result.MetaData.Total).
+		Scopes(db.Paginate(pagination)).
+		Find(&result.Games).Error; err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
-	result := map[string]interface{}{
-		"data": games,
-		"meta": map[string]interface{}{
-			"page":     pagination.Page,
-			"size":     pagination.Size,
-			"total":    total,
-			"lastPage": (int(total) / pagination.Size) + 1,
-		},
+	result.MetaData = PaginationMetaData{
+		Page:     pagination.Page,
+		Size:     pagination.Size,
+		LastPage: (int(result.MetaData.Total) / pagination.Size) + 1,
 	}
 
 	json.NewEncoder(w).Encode(&result)
