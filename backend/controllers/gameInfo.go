@@ -9,31 +9,38 @@ import (
 	"github.com/skryvvara/canwecoop/db/models"
 )
 
+type Result struct {
+	Categories []models.Category `json:"categories,omitempty"`
+	Genres     []models.Genre    `json:"genres,omitempty"`
+	Total      int64             `json:"total"`
+}
+
 func GetGameInfo(w http.ResponseWriter, r *http.Request) {
-	var categories []models.Category
-	if err := db.ORM.Find(&categories, "relevance > 0").Error; err != nil {
+	var result Result
+
+	if err := db.ORM.
+		Order("relevance desc, description").
+		Find(&result.Categories, "relevance > 0").Error; err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
-	var genres []models.Genre
-	if err := db.ORM.Where("relevance > 0").Find(&genres).Error; err != nil {
+	if err := db.ORM.
+		Order("relevance desc, description").
+		Find(&result.Genres, "relevance > 0").Error; err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
-	var total int64
-	if err := db.ORM.Find(&models.Game{}).Count(&total).Error; err != nil {
+	if err := db.ORM.
+		Find(&models.Game{}).
+		Count(&result.Total).Error; err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
-	json.NewEncoder(w).Encode(map[string]interface{}{
-		"categories": categories,
-		"genres":     genres,
-		"total":      total,
-	})
+	json.NewEncoder(w).Encode(result)
 }
