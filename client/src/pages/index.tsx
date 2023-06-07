@@ -143,7 +143,7 @@ export default function Home() {
                               onChange={() =>
                                 setQuery({
                                   genres: toggle(
-                                    query.categories,
+                                    query.genres,
                                     genre.description
                                   ),
                                 })
