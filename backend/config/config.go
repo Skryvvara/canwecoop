@@ -61,11 +61,14 @@ type LogConfig struct {
 }
 
 type MailConfig struct {
-	Host      string `toml:"host" env:"MAIL_HOST" default:"localhost"`
-	Port      int    `toml:"port" env:"MAIL_PORT" default:"25"`
-	Username  string `toml:"username" env:"MAIL_USERNAME"`
-	Password  string `toml:"password" env:"MAIL_PASSWORD"`
-	Recipient string `toml:"recipient" env:"MAIL_RECIPIENT"`
+	Host     string `toml:"host" env:"MAIL_HOST" default:"localhost"`
+	Port     int    `toml:"port" env:"MAIL_PORT" default:"25"`
+	Username string `toml:"username" env:"MAIL_USERNAME"`
+	Password string `toml:"password" env:"MAIL_PASSWORD"`
+	From     string `toml:"from" env:"MAIL_FROM" default:"canwecoop"`
+	To       string `toml:"to" env:"MAIL_TO"`
+	UseSSL   bool   `toml:"ssl" env:"MAIL_SSL" default:"false"`
+	UseTLS   bool   `toml:"tls" env:"MAIL_TLS" default:"false"`
 }
 
 type CorsConfig struct {

@@ -49,5 +49,9 @@ func RegisterRoutes(r *chi.Mux) {
 			r.Get("/", controllers.GetFriends)
 			r.Post("/", controllers.UpdateFriends)
 		})
+
+		r.Route("/mail", func(r chi.Router) {
+			r.Post("/", controllers.SendMail)
+		})
 	})
 }

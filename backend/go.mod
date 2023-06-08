@@ -11,6 +11,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/google/uuid v1.3.0
 	github.com/skryvvara/go-steam v1.1.1
+	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 	gorm.io/driver/postgres v1.4.6
 	gorm.io/gorm v1.24.3
@@ -24,5 +25,6 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	golang.org/x/crypto v0.4.0 // indirect
 	golang.org/x/text v0.5.0 // indirect
+	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
