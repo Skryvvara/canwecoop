@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getClientConfig } from ".";
+import { getClientConfig } from "./getClientConfig";
 
 async function getAxiosClient() {
   if (typeof window === "undefined") return;

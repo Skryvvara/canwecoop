@@ -9,11 +9,6 @@
 .searchBar {
   @include menu;
   width: 100%;
-  padding: 2.5px 5px;
-
-  &::placeholder {
-    color: var(--color-text-subtle);
-  }
 }
 
 .searchFilterContainer {
@@ -68,5 +63,4 @@
 .paginationMenu {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
 }

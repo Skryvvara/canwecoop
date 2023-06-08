@@ -1,0 +1,25 @@
+@import '../mixins';
+
+.form {
+  @include menu;
+  padding: 10px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  input, textarea {
+    margin-bottom: 10px;
+  }
+
+  textarea {
+    resize: none;
+  }
+}
+
+.bannerSuccess {
+  font-size: 0.85rem;
+  color: var(--color-success);
+  font-weight: bold;
+}

@@ -1,0 +1,48 @@
+.section {
+  h2 {
+    margin-bottom: 15px;
+  }
+}
+
+.sideBar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+
+  section {
+    padding: 5px;
+
+    h3 {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.socials {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+
+  svg {
+    height: 32px;
+    width: 32px;
+  }
+
+  .socialsMail {
+    a {
+      color: var(--color-brand-primary)
+    }
+  }
+
+  .socialsTwitter {
+    a {
+      color: #1DA1F2;
+    }
+  }
+
+  .socialsLinkedIn {
+    a {
+      color: #1293d2;
+    }
+  }
+}

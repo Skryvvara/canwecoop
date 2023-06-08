@@ -59,7 +59,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main} id="main">
+      <>
         {!metaData.isLoading ? (
           !metaData.data?.error ? (
             <div className="container">
@@ -224,7 +224,7 @@ export default function Home() {
         ) : (
           <></>
         )}
-      </main>
+      </>
     </>
   );
 }
