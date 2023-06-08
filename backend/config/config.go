@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"path"
@@ -16,7 +17,7 @@ type ServerConfig struct {
 	TimeZone    string `toml:"timezone" env:"SERVER_TIMEZONE" default:"Europe/Berlin"`
 	ConfigPath  string `env:"SERVER_CONFIG_PATH" default:"/app/config.toml"`
 	FrontendUrl string `toml:"frontend_url" env:"SERVER_FRONTEND_URL" default:"/"`
-	Domain      string `toml:"domain" env:"SERVER_DOMAIN" default:"http://localhost"`
+	Domain      string `toml:"domain" env:"SERVER_DOMAIN" default:"localhost"`
 }
 
 type SteamConfig struct {
@@ -127,6 +128,10 @@ func Initialize() {
 
 	if err := env.Parse(&APP); err != nil {
 		log.Panic(err)
+	}
+
+	if APP.Server.Domain == "localhost" {
+		APP.Server.Domain += ":" + fmt.Sprint(APP.Server.Port)
 	}
 
 	STEAM_API_CLIENT = steam.NewApiClient(APP.Steam.ApiKey)
