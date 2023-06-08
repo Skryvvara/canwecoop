@@ -67,6 +67,16 @@ max_size=1
 max_backups=3
 max_age=28
 
+["mail"]
+host="localhost"
+port=25
+username="noreply@localhost.com"
+password=""
+from="canwecoop"
+to=""
+ssl=false
+tls=false
+
 ["cors"]
 enabled=true
 allowed_origins=["http://localhost:3000"]
