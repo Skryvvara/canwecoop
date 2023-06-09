@@ -3,8 +3,11 @@ import { ContactForm } from "@/components";
 import Link from "next/link";
 import { Linkedin, Mail, Twitter } from "react-feather";
 import Head from "next/head";
+import { useClientConfig } from "@/hooks";
 
 export default function Contact() {
+  const { socials } = useClientConfig();
+
   return (
     <>
       <Head>
@@ -29,21 +32,37 @@ export default function Contact() {
               <section aria-labelledby="socials-title" className="card">
                 <h3 id="socials-title">Socials</h3>
                 <ul className={styles.socials}>
-                  <li className={styles.socialsMail}>
-                    <Link href="/" title="Mail">
-                      <Mail />
-                    </Link>
-                  </li>
-                  <li className={styles.socialsTwitter}>
-                    <Link href="/" title="Twitter">
-                      <Twitter />
-                    </Link>
-                  </li>
-                  <li className={styles.socialsLinkedIn}>
-                    <Link href="/" title="LinkedIn">
-                      <Linkedin />
-                    </Link>
-                  </li>
+                  {socials.mail && (
+                    <li className={styles.socialsMail}>
+                      <Link href={`mailto:${socials.mail}`} title="Mail">
+                        <Mail />
+                      </Link>
+                    </li>
+                  )}
+                  {socials.twitter && (
+                    <li className={styles.socialsTwitter}>
+                      <Link
+                        href={socials.twitter}
+                        target="_BLANK"
+                        rel="noreferrer"
+                        title="Twitter"
+                      >
+                        <Twitter />
+                      </Link>
+                    </li>
+                  )}
+                  {socials.linkedIn && (
+                    <li className={styles.socialsLinkedIn}>
+                      <Link
+                        href={socials.linkedIn}
+                        target="_BLANK"
+                        rel="noreferrer"
+                        title="LinkedIn"
+                      >
+                        <Linkedin />
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </section>
               <section aria-labelledby="imprint-title" className="card">
