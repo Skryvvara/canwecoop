@@ -7,4 +7,4 @@ yarn-error.log
 
 .next/
 node_modules/
-public/config.json
+./client/public/assets/config.json
