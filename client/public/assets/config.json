@@ -1,8 +1,0 @@
-{
-  "apiBaseUrl": "http://localhost:3010/api",
-  "socials": {
-    "mail": "dev@skryvvara.com",
-    "linkedIn": "https://www.linkedin.com/in/dimitri-kaiser/",
-    "twitter": "https://twitter.com/Skryvvara"
-  }
-}
