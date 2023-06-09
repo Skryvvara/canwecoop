@@ -11,8 +11,8 @@
   }
   
   input, textarea {
-    margin-bottom: 10px;
     &:not([type="submit"]) {
+      margin-bottom: 10px;
       background-color: var(--color-background-accented-darker);
     }
   }
@@ -23,6 +23,8 @@
 }
 
 .bannerSuccess {
+  display: block;
+  margin-top: 10px;
   font-size: 0.85rem;
   color: var(--color-success);
   font-weight: bold;
