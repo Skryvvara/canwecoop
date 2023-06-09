@@ -13,7 +13,9 @@ export function PageHeader() {
     <header className={styles.header}>
       <div className="container">
         <nav>
-          <div className={styles.logo}>CanWeCoop</div>
+          <div className={styles.logo}>
+            <Link href={"/"}>CanWeCoop</Link>
+          </div>
           <div className={styles.auth}>
             <ul className={styles.mainNavigation}>
               <li>
