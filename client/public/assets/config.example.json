@@ -1,0 +1,8 @@
+{
+  "apiBaseUrl": "http://localhost:3010/api",
+  "socials": {
+    "mail": "dev@dev.dev",
+    "linkedIn": "https://www.linkedin.com/in/dev/",
+    "twitter": "https://twitter.com/dev"
+  }
+}
