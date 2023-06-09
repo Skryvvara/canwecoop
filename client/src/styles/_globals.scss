@@ -78,6 +78,7 @@ a {
 
 input:not([type="submit"]), textarea {
   @include menu;
+  color: var(--color-text);
   padding: 5px;
 
   &::placeholder {
