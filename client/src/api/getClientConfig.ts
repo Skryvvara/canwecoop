@@ -11,3 +11,5 @@ export async function getClientConfig(): Promise<IClientConfig> {
     .then((res) => res.data);
   return { ...res };
 }
+
+export const ClientConfig = await getClientConfig();

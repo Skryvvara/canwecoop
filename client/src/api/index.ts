@@ -1,4 +1,5 @@
 export { ApiClient } from "./apiClient";
+export { ClientConfig } from "./getClientConfig";
 export { getClientConfig } from "./getClientConfig";
 export { getGamesMetaData } from "./getGamesMetaData";
 export { getGames } from "./getGames";

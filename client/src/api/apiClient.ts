@@ -1,9 +1,9 @@
 import axios from "axios";
-import { getClientConfig } from "./getClientConfig";
+import { ClientConfig } from "./getClientConfig";
 
 async function getAxiosClient() {
   if (typeof window === "undefined") return;
-  const { apiBaseUrl } = await getClientConfig();
+  const { apiBaseUrl } = ClientConfig;
   return axios.create({
     baseURL: apiBaseUrl,
   });
