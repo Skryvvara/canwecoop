@@ -25,6 +25,11 @@ export function ContactForm() {
     });
     setResult(res);
     setIsLoading(false);
+
+    setSender("");
+    setSubject("");
+    setHoney("");
+    setMessage("");
   };
 
   return (
