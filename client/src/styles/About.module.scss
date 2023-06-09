@@ -1,0 +1,26 @@
+.aboutSection {
+  margin-bottom: 15px;
+  
+  h2 {
+    font-size: 1.35rem;
+    margin-bottom: 5px;
+  }
+
+  p {
+    color: var(--color-text-subtle);
+  }
+}
+
+.detailsList {
+  list-style: none;
+  margin-top: 15px;
+
+  details {
+    margin-bottom: 10px;
+
+    summary {
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+}

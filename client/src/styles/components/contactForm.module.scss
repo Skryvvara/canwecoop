@@ -7,12 +7,16 @@
   label {
     display: flex;
     flex-direction: column;
+    cursor: pointer;
   }
   
   input, textarea {
     margin-bottom: 10px;
+    &:not([type="submit"]) {
+      background-color: var(--color-background-accented-darker);
+    }
   }
-
+  
   textarea {
     resize: none;
   }

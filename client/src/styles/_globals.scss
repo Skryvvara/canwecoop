@@ -64,11 +64,20 @@ main {
   }
 }
 
+a {
+  color: var(--color-brand-primary);
+}
+
 .card {
   @include menu;
 }
 
-input, textarea {
+.pd-5 {
+  padding: 5px;
+}
+
+input:not([type="submit"]), textarea {
+  @include menu;
   padding: 5px;
 
   &::placeholder {
