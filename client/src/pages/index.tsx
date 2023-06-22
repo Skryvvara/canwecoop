@@ -179,10 +179,7 @@ export default function Home() {
                                 checked={query.friends.includes(friend.id)}
                                 onChange={() =>
                                   setQuery({
-                                    friends: toggle(
-                                      query.categories,
-                                      friend.id
-                                    ),
+                                    friends: toggle(query.friends, friend.id),
                                     page: 1,
                                   })
                                 }
