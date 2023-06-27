@@ -19,9 +19,6 @@ export function PageHeader() {
           <div className={styles.auth}>
             <ul className={styles.mainNavigation}>
               <li>
-                <Link href="/">Home</Link>
-              </li>
-              <li>
                 <Link href="/about">About</Link>
               </li>
               <li>
