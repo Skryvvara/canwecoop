@@ -13,6 +13,7 @@ import { UseQueryResult, useQuery } from "react-query";
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, Filter } from "react-feather";
 import { getGames, getGamesMetaData, IGames, IGamesMetaData } from "@/api";
+import Link from "next/link";
 
 export async function getServerSideProps() {
   return { props: {} };
@@ -66,7 +67,13 @@ export default function Home() {
         {!metaData.isLoading ? (
           !metaData.data?.error ? (
             <div className="container">
-              <h1>We have a total of {metaData.data?.total} games!</h1>
+              <header className="main-header">
+                <h1>We have a total of {metaData.data?.total} games!</h1>
+                <p>
+                  If you need information on how CanWeCoop works, please read
+                  the <Link href={"/about"}>about page</Link>.
+                </p>
+              </header>
               <section aria-label="search" className={styles.searchMenu}>
                 <input
                   type="search"
