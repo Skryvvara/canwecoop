@@ -21,28 +21,28 @@
 .socials {
   list-style: none;
   display: flex;
-  gap: 10px;
+  gap: 15px;
 
   svg {
     height: 32px;
     width: 32px;
   }
 
-  .socialsMail {
-    a {
+  .socialsMail a {
       color: var(--color-brand-primary)
-    }
   }
 
-  .socialsTwitter {
-    a {
+  .socialsTwitter a {
       color: #1DA1F2;
-    }
   }
 
-  .socialsLinkedIn {
-    a {
+  .socialsLinkedIn a {
       color: #1293d2;
-    }
+  }
+}
+
+.imprint {
+  p {
+    margin-bottom: 5px;
   }
 }

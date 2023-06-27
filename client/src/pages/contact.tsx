@@ -17,7 +17,9 @@ export default function Contact() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="container">
-        <h1>Contact</h1>
+        <header className="main-header">
+          <h1>Contact</h1>
+        </header>
         <div className="half-grid">
           <section aria-labelledby="form-title" className={styles.section}>
             <h2 id="form-title">Send us a message!</h2>
@@ -65,7 +67,10 @@ export default function Contact() {
                   )}
                 </ul>
               </section>
-              <section aria-labelledby="imprint-title" className="card">
+              <section
+                aria-labelledby="imprint-title"
+                className={`${styles.imprint} card`}
+              >
                 <h3 id="imprint-title">Imprint</h3>
                 <p>Dimitri Kaiser</p>
                 <p>Schlesienstraße 11</p>

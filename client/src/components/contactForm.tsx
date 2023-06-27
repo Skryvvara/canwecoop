@@ -77,6 +77,7 @@ export function ContactForm() {
           id="message"
           name="Message"
           placeholder="Message"
+          rows={8}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
