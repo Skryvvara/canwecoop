@@ -15,8 +15,10 @@ export default function About() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="container">
-        <h1>About CanWeCoop</h1>
-        <section className="card pd-5">
+        <header className="main-header">
+          <h1>About CanWeCoop</h1>
+        </header>
+        <section className="card pd-10">
           <article className={styles.aboutSection}>
             <h2>What is CanWeCoop?</h2>
             <p>
@@ -31,6 +33,25 @@ export default function About() {
               request via the <Link href={"/contact"}>contact page</Link>.
             </p>
           </article>
+
+          <article className={styles.aboutSection}>
+            <h2>How does CanWeCoop work?</h2>
+            <p>
+              To avoid get rate limited by steams api and provide a continuous
+              service we have to cache the games so we do not fire too many
+              requests against steam&apos;s API. So once you login a entry in
+              the database is created containing your steam id, displayname and
+              the url to your steam profile picture (and some other data like
+              the date and time you logged in for the first time for example).
+              There is a service called the &quot;sync service&quot; which runs
+              in a defined interval to fetch the games of the users that have
+              logged in at least once. If your games do not show up yet please
+              wait for the sync service to run again. I am working on an
+              implementation to show people when the next sync will run and/or
+              allow them to start the sync manually.
+            </p>
+          </article>
+
           <article className={styles.aboutSection}>
             <h2>Can CanWeCoop access my steam credentials?</h2>
             <p>
@@ -38,6 +59,7 @@ export default function About() {
               have access to your steam credentials at any point.
             </p>
           </article>
+
           <article className={styles.aboutSection}>
             <h2>What data does CanWeCoop collect about me?</h2>
             <p>
@@ -80,12 +102,18 @@ export default function About() {
               </li>
             </ul>
           </article>
+
           <article className={styles.aboutSection}>
             <h2>How can I request the deletion of my data?</h2>
             <p>
               To request the deletion of your data simply navigation to our{" "}
               <Link href={"/contact"}>contact page</Link> and send us a message
               via one of the provided channels of communication.
+            </p>
+            <p>
+              I am working on a way so you can delete your data yourself without
+              having to contact me, while this feature is in development please
+              use the contact form as stated above.
             </p>
           </article>
         </section>
