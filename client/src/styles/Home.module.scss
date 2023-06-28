@@ -31,7 +31,24 @@
   section {
     margin-bottom: 15px;
 
-    h2 {
+    summary {
+      width: fit-content;
+      margin-bottom: 10px;
+      display: list-item;
+      align-items: center;
+      cursor: pointer;
+
+      h2 {
+        display: inline-block;
+      }
+    }
+
+    details {
+      width: 100%;
+      display: block;
+    }
+
+    > h2 {
       margin-bottom: 10px;
     }
   }
@@ -58,6 +75,11 @@
     }
 
   }
+}
+
+.pageSizeSlider {
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .paginationMenu {

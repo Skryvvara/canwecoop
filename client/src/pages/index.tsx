@@ -2,6 +2,7 @@ import Head from "next/head";
 import styles from "@/styles/Home.module.scss";
 import { useAuth, useDebounce } from "@/hooks";
 import {
+  BooleanParam,
   NumberParam,
   StringParam,
   useQueryParams,
@@ -26,10 +27,12 @@ export default function Home() {
     {
       name: withDefault(StringParam, ""),
       page: withDefault(NumberParam, 1),
-      size: withDefault(NumberParam, 24),
+      size: withDefault(NumberParam, 20),
       categories: CommaArrayParam,
       genres: CommaArrayParam,
       friends: CommaArrayParam,
+      isFree: withDefault(BooleanParam, false),
+      ignoreDefaultCategories: withDefault(BooleanParam, false),
     },
     {
       removeDefaultsFromUrl: true,
@@ -68,11 +71,12 @@ export default function Home() {
           !metaData.data?.error ? (
             <div className="container">
               <header className="main-header">
-                <h1>We have a total of {metaData.data?.total} games!</h1>
+                <h1>Welcome to CanWeCoop!</h1>
                 <p>
                   If you need information on how CanWeCoop works, please read
                   the <Link href={"/about"}>about page</Link>.
                 </p>
+                <p>Found a total of {gameData.data?.meta.total} games</p>
               </header>
               <section aria-label="search" className={styles.searchMenu}>
                 <input
@@ -99,21 +103,6 @@ export default function Home() {
                 }`}
               >
                 <div>
-                  <section aria-label="filter-pagesize">
-                    <h2 id="filter-pagesize">Page size</h2>
-                    <input
-                      type="range"
-                      name="size"
-                      id="size"
-                      value={query.size}
-                      min={12}
-                      max={48}
-                      step={4}
-                      onChange={(e) =>
-                        setQuery({ size: Number(e.target.value), page: 1 })
-                      }
-                    />
-                  </section>
                   <section aria-labelledby="filter-categories">
                     <h2 id="filter-categories">Categories</h2>
                     <ul className={styles.gridBox}>
@@ -141,6 +130,20 @@ export default function Home() {
                           </label>
                         </li>
                       ))}
+                      <li>
+                        <label htmlFor="is-free">
+                          <input
+                            type="checkbox"
+                            name="Is free"
+                            id="is-free"
+                            checked={query.isFree}
+                            onChange={() =>
+                              setQuery({ isFree: !query.isFree, page: 1 })
+                            }
+                          />
+                          Free
+                        </label>
+                      </li>
                     </ul>
                   </section>
 
@@ -198,6 +201,49 @@ export default function Home() {
                       </ul>
                     </section>
                   )}
+
+                  <section aria-labelledby="advanced-settings">
+                    <details>
+                      <summary>
+                        <h2 id="advanced-settings">Advanced Settings</h2>
+                      </summary>
+                      <ul className={styles.gridBox}>
+                        <label htmlFor="size" className={styles.pageSizeSlider}>
+                          <input
+                            type="range"
+                            name="Page size"
+                            id="size"
+                            value={query.size}
+                            min={12}
+                            max={48}
+                            step={4}
+                            onChange={(e) =>
+                              setQuery({
+                                size: Number(e.target.value),
+                                page: 1,
+                              })
+                            }
+                          />
+                          Page Size ({query.size})
+                        </label>
+                        <label htmlFor="ignore-default-categories">
+                          <input
+                            type="checkbox"
+                            name="Ignore default categories"
+                            id="ignore-default-categories"
+                            checked={query.ignoreDefaultCategories}
+                            onChange={(e) =>
+                              setQuery({
+                                ignoreDefaultCategories: e.target.checked,
+                                page: 1,
+                              })
+                            }
+                          />
+                          Ignore default categories
+                        </label>
+                      </ul>
+                    </details>
+                  </section>
                 </div>
               </section>
 

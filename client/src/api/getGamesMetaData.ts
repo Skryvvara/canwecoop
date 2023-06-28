@@ -4,7 +4,6 @@ import { ApiClient } from ".";
 export interface IGamesMetaData {
   categories: Tag[];
   genres: Tag[];
-  total: number;
   error: boolean;
 }
 
@@ -14,8 +13,7 @@ export async function getGamesMetaData(): Promise<IGamesMetaData> {
 
     if (!res) throw "response object is null";
 
-    if (!res.data.categories || !res.data.genres || !res.data.total)
-      throw "result is invalid";
+    if (!res.data.categories || !res.data.genres) throw "result is invalid";
 
     return {
       ...res.data,
@@ -26,7 +24,6 @@ export async function getGamesMetaData(): Promise<IGamesMetaData> {
     return {
       categories: [],
       genres: [],
-      total: 0,
       error: true,
     };
   }

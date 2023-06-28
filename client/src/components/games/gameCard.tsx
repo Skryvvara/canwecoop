@@ -16,10 +16,10 @@ export function GameCard(props: props) {
     <li className={styles.card}>
       <Image
         src={game.headerImageUrl}
-        alt="art"
+        alt={game.name}
         width={460}
         height={215}
-        priority={index > 7 ? false : true}
+        priority={index && index <= 12 ? true : false}
       />
       <div className={styles.cardBody}>
         <h2>{game.name}</h2>
