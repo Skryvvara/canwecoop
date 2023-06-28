@@ -12,7 +12,7 @@ export async function updateFriends(): Promise<IUpdatedFriendsResponse> {
     .then(() => {
       return {
         success: true,
-        message: "successfully updated friends list",
+        message: "Successfully updated friends list!",
       };
     })
     .catch((err: AxiosError) => {
@@ -20,12 +20,12 @@ export async function updateFriends(): Promise<IUpdatedFriendsResponse> {
         return {
           success: false,
           message:
-            "Too many requests, please wait before sending another request",
+            "Too many requests, please wait before sending another request!",
         };
       } else {
         return {
           success: false,
-          message: err.response?.statusText ?? "Unknown error",
+          message: err.response?.statusText ?? "Unknown error.",
         };
       }
     });
