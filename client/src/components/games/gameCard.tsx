@@ -22,7 +22,9 @@ export function GameCard(props: props) {
         priority={index && index <= 12 ? true : false}
       />
       <div className={styles.cardBody}>
-        <h2>{game.name}</h2>
+        <Link href={"/g/" + game.id}>
+          <h2>{game.name}</h2>
+        </Link>
         <div className={styles.description}>
           <p>{game.shortDescription}</p>
           {game.isFree && <span>FREE</span>}

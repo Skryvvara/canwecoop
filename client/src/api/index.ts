@@ -3,6 +3,7 @@ export { ClientConfig } from "./getClientConfig";
 export { getClientConfig } from "./getClientConfig";
 export { getGamesMetaData } from "./getGamesMetaData";
 export { getGames } from "./getGames";
+export { getGameById } from "./getGameById";
 export { getFriends } from "./getFriends";
 export { updateFriends } from "./updateFriends";
 export { sendMail } from "./sendMail";
