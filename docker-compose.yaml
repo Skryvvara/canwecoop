@@ -19,7 +19,9 @@ services:
     - 5432:5432
 
   cwcapi:
-    image: cwc-api
+    build:
+      context: ./backend/
+      dockerfile: ./Dockerfile
     restart: unless-stopped
     environment:
       - SERVER_CONFIG_PATH=/config/config.toml
@@ -32,7 +34,9 @@ services:
     - 3010:3010
     
   cwcclient:
-    image: cwc-client
+    build:
+      context: ./client/
+      dockerfile: ./Dockerfile
     restart: unless-stopped
     volumes:
     - ./.temp/client:/app/public/assets
