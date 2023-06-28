@@ -54,7 +54,7 @@ func GetGameById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var game models.Game
-	if err := db.ORM.First(&game, "id = ?", gameID).Error; err != nil {
+	if err := db.ORM.Preload("Categories").Preload("Genres").First(&game, "id = ?", gameID).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 			return
