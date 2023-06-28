@@ -245,7 +245,7 @@ export default function Home() {
 
               <GameGrid games={gameData.data?.games ?? []} />
 
-              <nav className={styles.paginationMenu}>
+              <nav className="paginationMenu">
                 <button
                   className="iconButton"
                   title="Previous page"

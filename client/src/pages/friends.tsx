@@ -101,7 +101,7 @@ export default function Friends() {
           friendsData.data && <FriendGrid friends={friendsData.data.friends} />
         )}
 
-        <nav className={"paginationMenu"}>
+        <nav className="paginationMenu">
           <button
             className="iconButton"
             title="Previous page"
