@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/skryvvara/canwecoop/config"
 	"github.com/skryvvara/canwecoop/db"
 	"github.com/skryvvara/canwecoop/db/models"
 	"gorm.io/gorm"
@@ -21,15 +22,26 @@ import (
 // column: a string representing the name of the column to filter on.
 // m2m_column: a string representing the name of the many-to-many relationship table column.
 // values: a slice of strings representing the distinct values to filter on.
+// strict: a boolean parameter which defines whether a game has to match every given value or at least one of them
 //
 // Returns: a pointer to a gorm.DB instance with the query added.
-func addDistinctNameQuery(stmt *gorm.DB, column, m2m_column string, values []string) *gorm.DB {
+func addDistinctNameQuery(stmt *gorm.DB, column, m2m_column string, values []string, defaultValues []string) *gorm.DB {
+	amount := len(values)
+
 	stmt.Table("games").
 		Joins(fmt.Sprintf("JOIN game_%s ON games.id = game_%s.game_id", m2m_column, m2m_column)).
-		Joins(fmt.Sprintf("JOIN %s ON %s.id = game_%s.%s_id", column, column, m2m_column, m2m_column)).
-		Where(fmt.Sprintf("%s.description IN (?)", column), values).
+		Joins(fmt.Sprintf("JOIN %s ON %s.id = game_%s.%s_id", column, column, m2m_column, m2m_column))
+
+	if len(defaultValues) > 0 {
+		amount += 1
+		stmt.Where(fmt.Sprintf("%s.description IN (?) OR %s.description in (?)", column, column), values, config.APP.Steam.DefaultCategories)
+	} else {
+		stmt.Where(fmt.Sprintf("%s.description IN (?)", column), values)
+	}
+
+	stmt.
 		Group("games.id").
-		Having(fmt.Sprintf("COUNT(DISTINCT %s.description) = ?", column), len(values))
+		Having(fmt.Sprintf("COUNT(DISTINCT %s.description) = ?", column), amount)
 
 	return stmt
 }
@@ -86,7 +98,8 @@ func GetAllGames(w http.ResponseWriter, r *http.Request) {
 
 	stmt := db.ORM.Model(&models.Game{}).Preload("Genres").Preload("Categories")
 	query := r.URL.Query()
-	log.Println(query)
+	usingCustomCategoryFilter := false
+
 	for key, value := range query {
 		queryValue := value[len(value)-1]
 		switch key {
@@ -94,19 +107,20 @@ func GetAllGames(w http.ResponseWriter, r *http.Request) {
 			if len(queryValue) > 0 {
 				stmt.Where("Lower(name) LIKE lower(?)", "%"+queryValue+"%")
 			}
-		case "is_free":
-			if queryValue == "0" || queryValue == "1" {
+		case "isFree":
+			if queryValue == "true" {
 				stmt.Where("is_free = ?", queryValue)
 			}
 		case "categories":
 			if len(queryValue) > 0 {
+				usingCustomCategoryFilter = true
 				categories := strings.Split(queryValue, ",")
-				stmt = addDistinctNameQuery(stmt, "categories", "category", categories)
+				stmt = addDistinctNameQuery(stmt, "categories", "category", categories, config.APP.Steam.DefaultCategories)
 			}
 		case "genres":
 			if len(queryValue) > 0 {
 				genres := strings.Split(queryValue, ",")
-				stmt = addDistinctNameQuery(stmt, "genres", "genre", genres)
+				stmt = addDistinctNameQuery(stmt, "genres", "genre", genres, []string{})
 			}
 		case "friends":
 			if len(queryValue) > 0 {
@@ -117,7 +131,20 @@ func GetAllGames(w http.ResponseWriter, r *http.Request) {
 					Group("games.id").
 					Having("COUNT(DISTINCT user_game.user_id) = ?", len(friends))
 			}
+		case "ignoreDefaultCategories":
+			if queryValue == "true" {
+				usingCustomCategoryFilter = true
+			}
 		}
+	}
+
+	if !usingCustomCategoryFilter {
+		stmt.Table("games").
+			Joins("JOIN game_category ON games.id = game_category.game_id").
+			Joins("JOIN categories ON categories.id = game_category.category_id").
+			Where("categories.description IN (?)", config.APP.Steam.DefaultCategories).
+			Group("games.id").
+			Having("COUNT(DISTINCT categories.description) >= ?", 1)
 	}
 
 	pagination := db.GetPaginationFromRequestQuery(r, 12, 84, 8)
@@ -134,6 +161,7 @@ func GetAllGames(w http.ResponseWriter, r *http.Request) {
 	result.MetaData = PaginationMetaData{
 		Page:     pagination.Page,
 		Size:     pagination.Size,
+		Total:    result.MetaData.Total,
 		LastPage: (int(result.MetaData.Total) / pagination.Size) + 1,
 	}
 

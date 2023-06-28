@@ -21,11 +21,12 @@ type ServerConfig struct {
 }
 
 type SteamConfig struct {
-	ApiKey        string `toml:"api_key" env:"STEAM_API_KEY"`
-	SyncInterval  int    `toml:"sync_interval_seconds" env:"STEAM_SYNC_INTERVAL_SECONDS" default:"3600"`
-	SyncCooldown  int    `toml:"sync_cooldown_seconds" env:"STEAM_COOLDOWN_SECONDS" default:"300"`
-	SyncRole      string `toml:"sync_role" env:"STEAM_SYNC_ROLE" default:"sync_role"`
-	SyncChunkSize int    `toml:"sync_chunk_size" env:"STEAM_SYNC_CHUNK_SIZE" default:"195"`
+	ApiKey            string   `toml:"api_key" env:"STEAM_API_KEY"`
+	SyncInterval      int      `toml:"sync_interval_seconds" env:"STEAM_SYNC_INTERVAL_SECONDS" default:"3600"`
+	SyncCooldown      int      `toml:"sync_cooldown_seconds" env:"STEAM_COOLDOWN_SECONDS" default:"300"`
+	SyncRole          string   `toml:"sync_role" env:"STEAM_SYNC_ROLE" default:"sync_role"`
+	SyncChunkSize     int      `toml:"sync_chunk_size" env:"STEAM_SYNC_CHUNK_SIZE" default:"195"`
+	DefaultCategories []string `toml:"default_categories" env:"STEAM_DEFAULT_CATEGORIES" default:"[\"Co-op\", \"LAN Co-op\", \"Multi-player\"]"`
 }
 
 type DatabaseConfig struct {
