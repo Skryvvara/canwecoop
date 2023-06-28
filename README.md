@@ -105,7 +105,7 @@ Each configuration can also be set via environment variables. The value for `nam
 - [ ] Add admin panel
 - [ ] Maybe add google analytics?
 - [ ] Rewrite auth to not use cookies.
-- [ ] Add details page for games
+- [x] Add details page for games
 - [x] Add friends page
 - [ ] Add functionality do delete your data
 - [ ] Add loading skeletons
