@@ -4,7 +4,7 @@ const nextConfig = {
   poweredByHeader: false,
   output: 'standalone',
   images: {
-    domains: ['steamcdn-a.akamaihd.net', 'cdn.akamai.steamstatic.com', 'avatars.akamai.steamstatic.com', 'darkyne.com'],
+    domains: ['steamcdn-a.akamaihd.net', 'cdn.akamai.steamstatic.com', 'avatars.akamai.steamstatic.com', 'avatars.steamstatic.com', 'darkyne.com'],
   },
   webpack: (config) => {
     // this will override the experiments

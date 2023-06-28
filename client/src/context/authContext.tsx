@@ -35,7 +35,11 @@ export function AuthContextProvider(props: PropsWithChildren) {
       .then((res: any) => {
         if (res.status != 200) return;
 
-        setUser(res.data);
+        if (!res.data.data) {
+          return;
+        }
+
+        setUser(res.data.data);
       })
       .finally(() => {
         setIsLoading(false);
