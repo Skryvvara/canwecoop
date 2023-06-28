@@ -75,10 +75,7 @@ export default function Friends() {
               });
             }}
           />
-          <button
-            title="Update Friends (Not Implemented)"
-            onClick={() => onUpdateFriends()}
-          >
+          <button title="Update Friends" onClick={() => onUpdateFriends()}>
             {isLoading ? <LoadingSpinner /> : <RefreshCw />}
           </button>
         </SearchMenu>
