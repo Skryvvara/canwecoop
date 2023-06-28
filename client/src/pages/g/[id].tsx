@@ -39,6 +39,10 @@ export default function Game() {
       <Head>
         <title>{game.name} | CanWeCoop</title>
         <meta name="description" content={game.shortDescription} />
+        <meta name="og:site_name" content="CanWeCoop" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={game.name} />
+        <meta property="og:description" content={game.shortDescription} />
         <meta property="og:image" content={game.headerImageUrl} />
       </Head>
       <section
