@@ -10,6 +10,7 @@ sync_interval_seconds=60
 sync_cooldown_seconds=300
 sync_role="sync_user"
 chunk_size=195
+default_categories=["Co-op", "LAN Co-op", "Online Co-op", "PvP", "Online PvP", "Shared/Split Screen", "Shared/Split Screen PvP", "Shared/Split Screen Co-op", "Cross-Platform Multiplayer", "Multi-player"]
 
 ["database"]
 host="localhost"
