@@ -19,24 +19,18 @@ func GetGameInfo(w http.ResponseWriter, r *http.Request) {
 	var result Result
 
 	if err := db.ORM.
-		Order("relevance desc, description").
-		Find(&result.Categories, "relevance > 0").Error; err != nil {
+		Table("(SELECT DISTINCT ON (description) * FROM categories WHERE relevance > 0) AS query").
+		Order("relevance DESC, description").
+		Find(&result.Categories).Error; err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
 	if err := db.ORM.
-		Order("relevance desc, description").
-		Find(&result.Genres, "relevance > 0").Error; err != nil {
-		log.Println(err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	if err := db.ORM.
-		Find(&models.Game{}).
-		Count(&result.Total).Error; err != nil {
+		Table("(SELECT DISTINCT ON (description) * FROM genres WHERE relevance > 0) AS query").
+		Order("relevance DESC, description").
+		Find(&result.Genres).Error; err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
