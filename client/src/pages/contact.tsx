@@ -31,42 +31,44 @@ export default function Contact() {
           >
             <h2 id="alternatives-title">Socials & Imprint</h2>
             <div className={styles.sideBar}>
-              <section aria-labelledby="socials-title" className="card">
-                <h3 id="socials-title">Socials</h3>
-                <ul className={styles.socials}>
-                  {socials.mail && (
-                    <li className={styles.socialsMail}>
-                      <Link href={`mailto:${socials.mail}`} title="Mail">
-                        <Mail />
-                      </Link>
-                    </li>
-                  )}
-                  {socials.twitter && (
-                    <li className={styles.socialsTwitter}>
-                      <Link
-                        href={socials.twitter}
-                        target="_BLANK"
-                        rel="noreferrer"
-                        title="Twitter"
-                      >
-                        <Twitter />
-                      </Link>
-                    </li>
-                  )}
-                  {socials.linkedIn && (
-                    <li className={styles.socialsLinkedIn}>
-                      <Link
-                        href={socials.linkedIn}
-                        target="_BLANK"
-                        rel="noreferrer"
-                        title="LinkedIn"
-                      >
-                        <Linkedin />
-                      </Link>
-                    </li>
-                  )}
-                </ul>
-              </section>
+              {socials && (
+                <section aria-labelledby="socials-title" className="card">
+                  <h3 id="socials-title">Socials</h3>
+                  <ul className={styles.socials}>
+                    {socials.mail && (
+                      <li className={styles.socialsMail}>
+                        <Link href={`mailto:${socials.mail}`} title="Mail">
+                          <Mail />
+                        </Link>
+                      </li>
+                    )}
+                    {socials.twitter && (
+                      <li className={styles.socialsTwitter}>
+                        <Link
+                          href={socials.twitter}
+                          target="_BLANK"
+                          rel="noreferrer"
+                          title="Twitter"
+                        >
+                          <Twitter />
+                        </Link>
+                      </li>
+                    )}
+                    {socials.linkedIn && (
+                      <li className={styles.socialsLinkedIn}>
+                        <Link
+                          href={socials.linkedIn}
+                          target="_BLANK"
+                          rel="noreferrer"
+                          title="LinkedIn"
+                        >
+                          <Linkedin />
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
+                </section>
+              )}
               <section
                 aria-labelledby="imprint-title"
                 className={`${styles.imprint} card`}
