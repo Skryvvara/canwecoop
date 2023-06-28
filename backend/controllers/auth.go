@@ -2,23 +2,63 @@ package controllers
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
 	"time"
 
 	"github.com/skryvvara/canwecoop/config"
-	"github.com/skryvvara/canwecoop/middleware"
+	"github.com/skryvvara/canwecoop/db"
+	"github.com/skryvvara/canwecoop/db/models"
+	"github.com/skryvvara/canwecoop/utils"
+	"gorm.io/gorm"
 )
 
 func GetAuth(w http.ResponseWriter, r *http.Request) {
-	user, err := middleware.GetUserFromContext(r)
+	cookie, err := r.Cookie(config.APP.AuthCookie.Name)
+	if err != nil {
+		if errors.Is(err, http.ErrNoCookie) {
+			json.NewEncoder(w).Encode(map[string]interface{}{
+				"data":    nil,
+				"success": false,
+			})
+			return
+		}
+
+		log.Println(err)
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	issuer, err := utils.ParseJWT(cookie.Value)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 		return
 	}
 
-	json.NewEncoder(w).Encode(user)
+	var user models.User
+	if err := db.ORM.Preload("Friends").Preload("Roles").First(&user, "id = ?", issuer).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			log.Println(err)
+			http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
+			return
+		}
+		log.Println(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	if err != nil {
+		log.Println(err)
+		http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
+		return
+	}
+
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"data":    user,
+		"success": false,
+	})
 }
 
 func DeleteAuth(w http.ResponseWriter, r *http.Request) {

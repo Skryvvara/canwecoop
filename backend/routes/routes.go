@@ -13,10 +13,10 @@ func RegisterRoutes(r *chi.Mux) {
 
 		r.Route("/auth", func(r chi.Router) {
 			r.Get("/login", controllers.GetLogin)
+			r.Get("/", controllers.GetAuth)
 
 			r.Group(func(r chi.Router) {
 				r.Use(middleware.WithAuth)
-				r.Get("/", controllers.GetAuth)
 				r.Delete("/", controllers.DeleteAuth)
 			})
 		})
