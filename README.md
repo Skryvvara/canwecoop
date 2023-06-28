@@ -100,14 +100,15 @@ Each configuration can also be set via environment variables. The value for `nam
 - [x] Create About Section & Imprint
 - [ ] Create RoadMap
 - [ ] Create Privacy Page
-- [ ] Add functionality to manually sync friends
+- [x] Add functionality to manually sync friends
 - [ ] Add functionality to manually sync games
 - [ ] Add admin panel
 - [ ] Maybe add google analytics?
 - [ ] Rewrite auth to not use cookies.
 - [ ] Add details page for games
-- [ ] Add friends page
+- [x] Add friends page
 - [ ] Add functionality do delete your data
+- [ ] Add loading skeletons
 
 ## Special Thanks
 
