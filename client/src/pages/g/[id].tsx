@@ -5,31 +5,27 @@ import { Game } from "@/types";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ExternalLink } from "react-feather";
+import { useQuery } from "react-query";
+
+export async function getServerSideProps() {
+  return { props: {} };
+}
 
 export default function Game() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [game, setGame] = useState<Game>();
   const router = useRouter();
 
-  const getGame = useCallback(async () => {
-    setIsLoading(true);
-    const { id } = router.query;
-    if (id) {
-      const game = await getGameById(String(id));
-      setGame(game);
-      setIsLoading(false);
-    }
-  }, [router]);
+  const gameData = useQuery({
+    queryKey: "@game/" + router.query["id"],
+    queryFn: async () => getGameById(String(router.query["id"])),
+    refetchOnWindowFocus: false,
+  });
+  const game = useMemo(() => gameData.data, [gameData]);
 
-  useEffect(() => {
-    getGame();
-  }, [getGame]);
-
-  if (isLoading) return <LoadingSpinner />;
-  if (!game || !game.id) {
+  if (gameData.isLoading) return <LoadingSpinner />;
+  if (!game) {
     router.push("/404");
     return;
   }
