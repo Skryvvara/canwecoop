@@ -26,7 +26,7 @@ type SteamConfig struct {
 	SyncCooldown      int      `toml:"sync_cooldown_seconds" env:"STEAM_COOLDOWN_SECONDS" default:"300"`
 	SyncRole          string   `toml:"sync_role" env:"STEAM_SYNC_ROLE" default:"sync_role"`
 	SyncChunkSize     int      `toml:"sync_chunk_size" env:"STEAM_SYNC_CHUNK_SIZE" default:"195"`
-	DefaultCategories []string `toml:"default_categories" env:"STEAM_DEFAULT_CATEGORIES" default:"[\"Co-op\", \"LAN Co-op\", \"Multi-player\"]"`
+	DefaultCategories []string `toml:"default_categories" env:"STEAM_DEFAULT_CATEGORIES" default:"[\"Co-op\", \"LAN Co-op\", \"Online Co-op\", \"PvP\", \"Online PvP\", \"Shared/Split Screen\", \"Shared/Split Screen PvP\", \"Shared/Split Screen Co-op\", \"Cross-Platform Multiplayer\", \"Multi-player\"]"`
 }
 
 type DatabaseConfig struct {
