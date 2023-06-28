@@ -34,7 +34,7 @@ type DatabaseConfig struct {
 	Password string `toml:"password" env:"DB_PASS"`
 	Name     string `toml:"name" env:"DB_NAME" default:"canwecoop"`
 	Port     int    `toml:"port" env:"DB_PORT" default:"5432"`
-	SSLMode  string `string:"ssl_mode" env:"DB_SSL_MODE" default:"disable"`
+	SSLMode  string `toml:"ssl_mode" env:"DB_SSL_MODE" default:"disable"`
 }
 
 type AuthConfig struct {
