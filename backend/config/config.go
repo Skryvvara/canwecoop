@@ -24,7 +24,6 @@ type SteamConfig struct {
 	ApiKey            string   `toml:"api_key" env:"STEAM_API_KEY"`
 	SyncInterval      int      `toml:"sync_interval_seconds" env:"STEAM_SYNC_INTERVAL_SECONDS" default:"3600"`
 	SyncCooldown      int      `toml:"sync_cooldown_seconds" env:"STEAM_COOLDOWN_SECONDS" default:"300"`
-	SyncRole          string   `toml:"sync_role" env:"STEAM_SYNC_ROLE" default:"sync_role"`
 	SyncChunkSize     int      `toml:"sync_chunk_size" env:"STEAM_SYNC_CHUNK_SIZE" default:"195"`
 	DefaultCategories []string `toml:"default_categories" env:"STEAM_DEFAULT_CATEGORIES" default:"[\"Co-op\", \"LAN Co-op\", \"Online Co-op\", \"PvP\", \"Online PvP\", \"Shared/Split Screen\", \"Shared/Split Screen PvP\", \"Shared/Split Screen Co-op\", \"Cross-Platform Multiplayer\", \"Multi-player\"]"`
 }
@@ -81,6 +80,16 @@ type CorsConfig struct {
 	ExposedHeaders   []string `toml:"exposed_headers" env:"CORS_EXPOSED_HEADERS" default:"[\"Link\"]" `
 }
 
+type RolesConfig struct {
+	Admin            string `toml:"admin" env:"ROLES_ADMIN" default:"admin"`
+	SyncGames        string `toml:"sync_games" env:"ROLES_SYNC_GAMES" default:"sync_role"`
+	ManageCategories string `toml:"manage_categories" env:"ROLES_MANAGE_CATEGORIES" default:"manage_categories"`
+	ManageGenres     string `toml:"manage_genres" env:"ROLES_MANAGE_GENRES" default:"manage_genres"`
+	ManageGames      string `toml:"manage_games" env:"ROLES_MANAGE_GAMES" default:"manage_games"`
+	ManageBadGames   string `toml:"manage_bad_games" env:"ROLES_BAD_GAMES" default:"manage_bad_games"`
+	ManageUsers      string `toml:"manage_users" env:"ROLES_MANAGE_USERS" default:"manage_users"`
+}
+
 type Config struct {
 	Server     ServerConfig     `toml:"server"`
 	Steam      SteamConfig      `toml:"steam"`
@@ -90,6 +99,7 @@ type Config struct {
 	Log        LogConfig        `toml:"log"`
 	Mail       MailConfig       `toml:"mail"`
 	Cors       CorsConfig       `toml:"cors"`
+	Roles      RolesConfig      `toml:"roles"`
 }
 
 var APP Config

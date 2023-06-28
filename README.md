@@ -37,7 +37,6 @@ domain="localhost"
 api_key="YOUR_STEAM_API_KEY"
 sync_interval_seconds=60
 sync_cooldown_seconds=300
-sync_role="sync_user"
 chunk_size=195
 default_categories=["Co-op", "LAN Co-op", "Online Co-op", "PvP", "Online PvP", "Shared/Split Screen", "Shared/Split Screen PvP", "Shared/Split Screen Co-op", "Cross-Platform Multiplayer", "Multi-player"]
 
@@ -85,6 +84,15 @@ allowed_methods=["GET","POST","PATCH","PUT","DELETE","OPTIONS"]
 allowed_headers=["Accept","Authorization","Content-Type","X-CSRF-Token"]
 exposed_headers=["Link"]
 allowed_credentials=true
+
+["roles"]
+admin="admin"
+sync_games="sync_role"
+manage_categories="manage_categories"
+manage_genres="manage_genres"
+manage_games="manage_games"
+manage_bad_games="manage_bad_games"
+manage_users="manage_users"
 ```
 
 ### Environment Variables

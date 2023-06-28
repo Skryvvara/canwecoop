@@ -35,15 +35,15 @@ func RegisterRoutes(r *chi.Mux) {
 			r.Get("/", controllers.GetAllBadGames)
 			r.Group(func(r chi.Router) {
 				r.Use(middleware.WithAuth)
-				r.With(middleware.WithRole("manage-bad-games")).Post("/", controllers.CreateBadGame)
-				r.With(middleware.WithRole("manage-bad-games")).Delete("/{id}", controllers.DeleteBadGameByID)
+				r.With(middleware.WithRole(config.APP.Roles.ManageBadGames)).Post("/", controllers.CreateBadGame)
+				r.With(middleware.WithRole(config.APP.Roles.ManageBadGames)).Delete("/{id}", controllers.DeleteBadGameByID)
 			})
 		})
 
 		r.Route("/sync", func(r chi.Router) {
 			r.Group(func(r chi.Router) {
 				r.Use(middleware.WithAuth)
-				r.With(middleware.WithRole(config.APP.Steam.SyncRole)).Post("/", controllers.StartSync)
+				r.With(middleware.WithRole(config.APP.Roles.SyncGames)).Post("/", controllers.StartSync)
 			})
 		})
 
