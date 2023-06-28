@@ -1,7 +1,10 @@
 package routes
 
 import (
+	"time"
+
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/httprate"
 	"github.com/skryvvara/canwecoop/config"
 	"github.com/skryvvara/canwecoop/controllers"
 	"github.com/skryvvara/canwecoop/middleware"
@@ -47,7 +50,7 @@ func RegisterRoutes(r *chi.Mux) {
 		r.Route("/friends", func(r chi.Router) {
 			r.Use(middleware.WithAuth)
 			r.Get("/", controllers.GetFriends)
-			r.Post("/", controllers.UpdateFriends)
+			r.With(httprate.LimitByIP(5, 10*time.Minute)).Post("/", controllers.UpdateFriends)
 		})
 
 		r.Route("/mail", func(r chi.Router) {

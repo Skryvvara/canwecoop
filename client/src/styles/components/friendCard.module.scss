@@ -1,0 +1,43 @@
+@import '../mixins';
+
+.card {
+  @include menu;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .cardHeader {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    img {
+      width: 50%;
+      height: auto;
+      border-radius: 100%;
+      border: var(--border);
+    }
+  }
+  
+  .cardBody {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2.5px 5px;
+
+    h2 {
+      font-size: 1.2rem;
+      text-align: center;
+      margin: 2.5px 0 5px 0;
+    }
+  }
+
+  .cardFooter {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    margin-bottom: 5px;
+    padding: 2.5px 5px 5px 5px;
+  }
+}

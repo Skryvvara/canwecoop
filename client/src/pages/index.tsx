@@ -9,7 +9,7 @@ import {
   withDefault,
 } from "use-query-params";
 import { CommaArrayParam, toggle } from "@/lib";
-import { ApiError, GameGrid } from "@/components";
+import { ApiError, GameGrid, SearchBar, SearchMenu } from "@/components";
 import { UseQueryResult, useQuery } from "react-query";
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, Filter } from "react-feather";
@@ -78,15 +78,11 @@ export default function Home() {
                 </p>
                 <p>Found a total of {gameData.data?.meta.total} games</p>
               </header>
-              <section aria-label="search" className={styles.searchMenu}>
-                <input
-                  type="search"
-                  defaultValue={query.name}
-                  id="search"
-                  name="search"
-                  placeholder="Search"
-                  className={styles.searchBar}
-                  onChange={(e) => setQuery({ name: e.target.value, page: 1 })}
+              <SearchMenu>
+                <SearchBar
+                  onChangeFn={(e) =>
+                    setQuery({ name: e.target.value, page: 1 })
+                  }
                 />
                 <button
                   className="icon-button"
@@ -95,7 +91,7 @@ export default function Home() {
                 >
                   <Filter />
                 </button>
-              </section>
+              </SearchMenu>
 
               <section
                 className={`${styles.searchFilterContainer} ${

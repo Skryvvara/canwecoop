@@ -119,6 +119,10 @@ button, input[type="submit"], a[role="button"] {
   transition-duration: 250ms;
   transition-timing-function: ease-out;
 
+  &.iconLink, &.iconButton {
+    display: flex;
+  }
+
   &:hover {
     --button-color: var(--color-brand-darker);
   }
@@ -156,3 +160,9 @@ button, input[type="submit"], a[role="button"] {
     width: 32px;
   }
 }
+
+.paginationMenu {
+  display: flex;
+  justify-content: space-between;
+}
+

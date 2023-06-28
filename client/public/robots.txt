@@ -1,0 +1,7 @@
+# Block all crawlers for /friends
+User-agent: *
+Disallow: /friends
+
+# Allow all crawlers
+User-agent: *
+Allow: /

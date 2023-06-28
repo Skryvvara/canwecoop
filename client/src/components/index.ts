@@ -1,4 +1,7 @@
 export * from "./games";
+export * from "./friends";
+export * from "./search";
+export { Protected } from "./protected";
 export { PageFooter } from "./pageFooter";
 export { PageHeader } from "./pageHeader";
 export { Layout } from "./layout";

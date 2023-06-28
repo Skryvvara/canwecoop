@@ -91,6 +91,7 @@ type GamesResult struct {
 // - categories: a comma-separated list of categories used to filter games by category name
 // - genres: a comma-separated list of genres used to filter games by genre name
 // - users: a comma-separated list of users used to filter games by user id
+// - ignoreDefaultCategories: a boolean parameter to ignore the default categories
 //
 // It handles any errors that occur during the database query by logging them and returning an HTTP 500 error response
 func GetAllGames(w http.ResponseWriter, r *http.Request) {

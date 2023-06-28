@@ -1,16 +1,5 @@
 @import 'mixins';
 
-.searchMenu {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 15px;
-}
-
-.searchBar {
-  @include menu;
-  width: 100%;
-}
-
 .searchFilterContainer {
   position: relative;
   display: none;
@@ -80,9 +69,4 @@
 .pageSizeSlider {
   display: flex;
   flex-direction: column-reverse;
-}
-
-.paginationMenu {
-  display: flex;
-  justify-content: space-between;
 }
