@@ -1,5 +1,4 @@
 import styles from "@/styles/Game.module.scss";
-import { getServerSideClientConfig } from "@/api";
 import { Game } from "@/types";
 import Head from "next/head";
 import Image from "next/image";
@@ -7,14 +6,15 @@ import Link from "next/link";
 import { ExternalLink } from "react-feather";
 import axios from "axios";
 import { GetServerSidePropsContext } from "next";
+import { getServerSideClientConfig } from "@/server/getServerSideClientConfig";
 
 interface IGameProps {
   game: Game;
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const config = await getServerSideClientConfig();
   const { id } = ctx.query;
-  const config = await getServerSideClientConfig(ctx);
 
   const res = await axios
     .get(config.apiBaseUrl + "/games/" + id)
@@ -51,7 +51,7 @@ export default function GamePage(props: IGameProps) {
   return (
     <>
       <Head>
-        <title>{game.name} | CanWeCoop</title>
+        <title>{`${game.name} | CanWeCoop`}</title>
         <meta name="description" content={game.shortDescription} />
         <meta name="og:site_name" content="CanWeCoop" />
         <meta property="og:type" content="website" />

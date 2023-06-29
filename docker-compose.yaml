@@ -40,6 +40,7 @@ services:
     restart: unless-stopped
     volumes:
     - ./.temp/client:/app/public/assets
+    - ./.temp/client-server:/app/config
     networks:
     - canwecoop
     ports:

@@ -1,7 +1,6 @@
 export { ApiClient } from "./apiClient";
 export { ClientConfig } from "./getClientConfig";
 export { getClientConfig } from "./getClientConfig";
-export { getServerSideClientConfig } from "./getServerSideClientConfig";
 export { getGamesMetaData } from "./getGamesMetaData";
 export { getGames } from "./getGames";
 export { getGameById } from "./getGameById";

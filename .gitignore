@@ -8,3 +8,4 @@ yarn-error.log
 .next/
 node_modules/
 client/public/assets/config.json
+client/config/
