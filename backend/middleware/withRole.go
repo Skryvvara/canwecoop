@@ -3,6 +3,8 @@ package middleware
 import (
 	"log"
 	"net/http"
+
+	"github.com/skryvvara/canwecoop/config"
 )
 
 func WithRole(roleName string) func(next http.Handler) http.Handler {
@@ -17,7 +19,7 @@ func WithRole(roleName string) func(next http.Handler) http.Handler {
 
 			ok := false
 			for _, role := range user.Roles {
-				if roleName == role.Name || roleName == "admin" {
+				if role.Name == roleName || role.Name == config.APP.Roles.Admin {
 					ok = true
 					break
 				}

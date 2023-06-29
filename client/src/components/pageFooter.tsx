@@ -39,7 +39,12 @@ export function PageFooter() {
                 </Link>
               </li>
               <li>
-                <Link className="iconLink" href="/">
+                <Link
+                  className="iconLink"
+                  href="https://discord.gg/ryNbcmPrg4"
+                  rel="noreferrer"
+                  target="_BLANK"
+                >
                   Discord
                   <ExternalLink />
                 </Link>

@@ -31,6 +31,22 @@ func RegisterRoutes(r *chi.Mux) {
 
 		r.Get("/game-info", controllers.GetGameInfo)
 
+		r.Route("/categories", func(r chi.Router) {
+			r.Get("/", controllers.GetCategories)
+			r.Group(func(r chi.Router) {
+				r.Use(middleware.WithAuth)
+				r.With(middleware.WithRole(config.APP.Roles.ManageCategories)).Put("/", controllers.UpdateCategory)
+			})
+		})
+
+		r.Route("/genres", func(r chi.Router) {
+			r.Get("/", controllers.GetGenres)
+			r.Group(func(r chi.Router) {
+				r.Use(middleware.WithAuth)
+				r.With(middleware.WithRole(config.APP.Roles.ManageGenres)).Put("/", controllers.UpdateGenre)
+			})
+		})
+
 		r.Route("/bad-games", func(r chi.Router) {
 			r.Get("/", controllers.GetAllBadGames)
 			r.Group(func(r chi.Router) {

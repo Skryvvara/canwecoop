@@ -1,34 +1,52 @@
 import styles from "@/styles/Game.module.scss";
-import { getGameById } from "@/api";
-import { LoadingSpinner } from "@/components";
+import { getServerSideClientConfig } from "@/api";
 import { Game } from "@/types";
 import Head from "next/head";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ExternalLink } from "react-feather";
-import { useQuery } from "react-query";
+import axios from "axios";
+import { GetServerSidePropsContext } from "next";
 
-export async function getServerSideProps() {
-  return { props: {} };
+interface IGameProps {
+  game: Game;
 }
 
-export default function Game() {
-  const router = useRouter();
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const { id } = ctx.query;
+  const config = await getServerSideClientConfig(ctx);
 
-  const gameData = useQuery({
-    queryKey: "@game/" + router.query["id"],
-    queryFn: async () => getGameById(String(router.query["id"])),
-    refetchOnWindowFocus: false,
-  });
-  const game = useMemo(() => gameData.data, [gameData]);
+  const res = await axios
+    .get(config.apiBaseUrl + "/games/" + id)
+    .then((res) => {
+      return {
+        success: true,
+        data: res.data,
+      };
+    })
+    .catch((err) => {
+      console.error(err);
+      return {
+        success: false,
+        data: null,
+      };
+    });
 
-  if (gameData.isLoading) return <LoadingSpinner />;
-  if (!game) {
-    router.push("/404");
-    return;
+  if (!res.success) {
+    return {
+      notFound: true,
+    };
   }
+
+  return {
+    props: {
+      game: res.data,
+    },
+  };
+}
+
+export default function GamePage(props: IGameProps) {
+  const { game } = props;
 
   return (
     <>

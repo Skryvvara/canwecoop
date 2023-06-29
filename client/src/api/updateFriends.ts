@@ -1,14 +1,10 @@
 import { AxiosError } from "axios";
 import { ApiClient } from "./apiClient";
+import { IApiResponse } from "@/types";
 
-export interface IUpdatedFriendsResponse {
-  message: string;
-  success: boolean;
-}
-
-export async function updateFriends(): Promise<IUpdatedFriendsResponse> {
+export async function updateFriends(): Promise<IApiResponse> {
   const res = await ApiClient!
-    .post<IUpdatedFriendsResponse>("/friends", {}, { withCredentials: true })
+    .post<IApiResponse>("/friends", {}, { withCredentials: true })
     .then(() => {
       return {
         success: true,

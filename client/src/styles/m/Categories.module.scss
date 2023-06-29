@@ -1,0 +1,15 @@
+.tagList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  li {
+    display: flex;
+    gap: 15px;
+
+    input:first-child {
+      width: 100%;
+    }
+  }
+}

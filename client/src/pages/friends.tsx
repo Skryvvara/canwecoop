@@ -82,9 +82,7 @@ export default function Friends() {
 
         {!isLoading && response.message && (
           <span
-            className={`${styles.banner} ${
-              response.success ? styles.success : styles.failure
-            }`}
+            className={`"banner" ${response.success ? "success" : "failure"}`}
           >
             {response.message}
             <button

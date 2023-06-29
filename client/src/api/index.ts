@@ -1,13 +1,17 @@
 export { ApiClient } from "./apiClient";
 export { ClientConfig } from "./getClientConfig";
 export { getClientConfig } from "./getClientConfig";
+export { getServerSideClientConfig } from "./getServerSideClientConfig";
 export { getGamesMetaData } from "./getGamesMetaData";
 export { getGames } from "./getGames";
 export { getGameById } from "./getGameById";
 export { getFriends } from "./getFriends";
 export { updateFriends } from "./updateFriends";
+export { getCategories } from "./getCategories";
+export { updateCategory } from "./updateCategory";
 export { sendMail } from "./sendMail";
 export type { IGamesMetaData } from "./getGamesMetaData";
 export type { ISendMailResponse } from "./sendMail";
 export type { IGames } from "./getGames";
 export type { IFriends } from "./getFriends";
+export type { IClientConfig } from "./getClientConfig";

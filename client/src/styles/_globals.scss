@@ -132,6 +132,11 @@ button, input[type="submit"], a[role="button"] {
     cursor: not-allowed;
   }
 
+  &.danger {
+    --button-color: var(--color-failure);
+    color: var(--color-text)
+  }
+
   &.inverted {
     --button-color: var(--color-button-inverted);
     
@@ -165,4 +170,22 @@ button, input[type="submit"], a[role="button"] {
   display: flex;
   justify-content: space-between;
 }
+
+.banner {
+  @include menu;
+  padding: 5px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &.success {
+    color: var(--color-success)
+  }
+
+  &.failure {
+    color: var(--color-failure)
+  }
+}
+
 
