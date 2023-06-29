@@ -1,5 +1,6 @@
 import { Game } from "@/types";
 import { ApiClient } from "./apiClient";
+import { sharedGetGames } from "@/shared/getGames";
 
 export interface IGames {
   games: Game[];
@@ -16,34 +17,11 @@ export async function getGames(
   searchString: string,
   previousData?: IGames
 ): Promise<IGames> {
-  const empty = {
-    games: [],
-    meta: {
-      page: 0,
-      size: 0,
-      lastPage: 0,
-      total: 0,
-    },
-  };
-  if (query.name !== searchString) {
-    if (previousData) return previousData;
-    return empty;
-  }
-
-  const baseUrl = "/games";
-  const queryString = new URLSearchParams(query as any).toString();
-  try {
-    const res = await ApiClient?.get<IGames>(baseUrl + "?" + queryString);
-    if (!res) throw "response object is null";
-
-    if (!res.data.games || !res.data.meta) throw "result is invalid";
-
-    return {
-      games: res.data.games,
-      meta: res.data.meta,
-    };
-  } catch (error: any) {
-    console.warn(error);
-    return empty;
-  }
+  return sharedGetGames(
+    ApiClient!,
+    "/games",
+    query,
+    searchString,
+    previousData
+  );
 }

@@ -4,33 +4,17 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink } from "react-feather";
-import axios from "axios";
 import { GetServerSidePropsContext } from "next";
-import { getServerSideClientConfig } from "@/server/getServerSideClientConfig";
+import { serverGetGame } from "@/server/api/getGame";
 
 interface IGameProps {
   game: Game;
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const config = await getServerSideClientConfig();
   const { id } = ctx.query;
 
-  const res = await axios
-    .get(config.apiBaseUrl + "/games/" + id)
-    .then((res) => {
-      return {
-        success: true,
-        data: res.data,
-      };
-    })
-    .catch((err) => {
-      console.error(err);
-      return {
-        success: false,
-        data: null,
-      };
-    });
+  const res = await serverGetGame(String(id));
 
   if (!res.success) {
     return {
@@ -74,7 +58,7 @@ export default function GamePage(props: IGameProps) {
               src={game.headerImageUrl}
               alt={game.name}
               width={460}
-              height={215}
+              height={259}
               priority={true}
             />
             <span className={styles.headerText}>

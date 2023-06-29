@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from "fs";
+import { readFileSync } from "fs";
 
 interface IServerConfig {
   apiBaseUrl: string;
@@ -11,3 +11,5 @@ export async function getServerSideClientConfig(): Promise<IServerConfig> {
 
   return serverConfig;
 }
+
+export const serverConfig: IServerConfig = await getServerSideClientConfig();

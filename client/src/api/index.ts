@@ -1,9 +1,9 @@
 export { ApiClient } from "./apiClient";
 export { ClientConfig } from "./getClientConfig";
 export { getClientConfig } from "./getClientConfig";
-export { getGamesMetaData } from "./getGamesMetaData";
+export { getGame } from "./getGame";
 export { getGames } from "./getGames";
-export { getGameById } from "./getGameById";
+export { getGamesMetaData } from "./getGamesMetaData";
 export { getFriends } from "./getFriends";
 export { updateFriends } from "./updateFriends";
 export { getCategories } from "./getCategories";

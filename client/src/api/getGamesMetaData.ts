@@ -1,5 +1,6 @@
 import { Tag } from "@/types";
 import { ApiClient } from ".";
+import { sharedGetGamesMetaData } from "@/shared/getGamesMetaData";
 
 export interface IGamesMetaData {
   categories: Tag[];
@@ -8,23 +9,5 @@ export interface IGamesMetaData {
 }
 
 export async function getGamesMetaData(): Promise<IGamesMetaData> {
-  try {
-    const res = await ApiClient?.get("/game-info");
-
-    if (!res) throw "response object is null";
-
-    if (!res.data.categories || !res.data.genres) throw "result is invalid";
-
-    return {
-      ...res.data,
-      error: false,
-    };
-  } catch (error) {
-    console.warn(error);
-    return {
-      categories: [],
-      genres: [],
-      error: true,
-    };
-  }
+  return sharedGetGamesMetaData(ApiClient!, "/game-info");
 }

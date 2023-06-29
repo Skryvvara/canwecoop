@@ -12,25 +12,12 @@
   flex-direction: column;
   gap: 15px;
 
-  @include phone {
-    img {
-      width: 100%;
-    }
-  }
-
-  @include tablet {
-    flex-direction: row;
-
-    img {
-      width: 50%;
-    }
-  }
-
   @include desktop {
     flex-direction: row;
   }
 
   img {
+    width: 100%;
     height: auto;
     aspect-ratio: 16 / 9;
     border: var(--border);
